@@ -1,8 +1,8 @@
-# After Effects—p‚ÌƒXƒNƒŠƒvƒg
+ï»¿# After Effectsç”¨ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 
 # Dependency
 Visual studio 2017 C#  
-After Effects CS6ˆÈ~  
+After Effects CS6ä»¥é™  
 
 
 # License
