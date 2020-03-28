@@ -11,6 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptCode", "ScriptCode", 
 		ScriptCode\addShape.jsx = ScriptCode\addShape.jsx
 		ScriptCode\aeclip.exe = ScriptCode\aeclip.exe
 		ScriptCode\bryScriptLib.jsxinc = ScriptCode\bryScriptLib.jsxinc
+		ScriptCode\Calc.jsx = ScriptCode\Calc.jsx
 		ScriptCode\json2.jsxinc = ScriptCode\json2.jsxinc
 		ScriptCode\ShapeAssist.jsx = ScriptCode\ShapeAssist.jsx
 		ScriptCode\shapeExpression.jsx = ScriptCode\shapeExpression.jsx
