@@ -1,0 +1,110 @@
+﻿bryful.stringList = function()
+{
+	this.errMes = "";
+	var _items = new Array;
+	//改行コードの定義
+	var CR;
+	if ( system.osName.indexOf("Windows")>=0 )
+	{
+		CR = "\r\n";
+	}else{
+		CR = "\r";
+	}
+	
+	//----------------------------------------
+	function trim(s)
+	{
+		if ( s == "" ) return "";
+		return s.replace(/[\r\n]+$|^\s+|\s+$/g, "");
+	}
+	
+	//----------------------------------------
+	this.push = function(s)
+	{
+		if ( typeof(s) =="string"){
+			_items.push(s);
+		}else if ( typeof(s) == "number") {
+			_items.push(s + "");
+		}
+	}
+	//----------------------------------------
+	this.add = function(s)
+	{
+		this.push(s);
+	}
+	//----------------------------------------
+	this.pop = function()
+	{
+		return _items.pop();
+	}
+	//----------------------------------------
+	this.remove = function(idx)
+	{
+		if ( (idx<0)||(idx>=_items.length) ) {
+			this.errMes += "stringList.remove: index error\n";
+			return;
+		}
+		
+		return _items.splice(idx,1);
+	}
+	//----------------------------------------
+	this.getItems = function(idx)
+	{
+		if ( (idx<0)||(idx>=_items.length) ) {
+			this.errMes += "stringList.getItems: index error\n";
+			return null;
+		}
+		return _items[idx];
+	}
+	//----------------------------------------
+	this.setItems = function(idx,s)
+	{
+		if ( (idx<0)||(idx>=_items.length) ) {
+			this.errMes += "stringList.setItems: index error\n";
+			return null;
+		}
+		if ( s instanceof String){
+			_items[idx] = s;
+			return _items[idx];
+		}else if ( s instanceof Number) {
+			_items[idx] = s + "";
+			return _items[idx];
+		}else{
+			this.errMes += "stringList.setItems: instanceof error\n";
+			return s;
+		}
+	}
+	//----------------------------------------
+	this.count = function()
+	{
+		return _items.length;
+	}
+	//----------------------------------------
+	this.setText = function(s)
+	{
+		_items = new Array;
+		if ( s == "" ) return;
+		
+		var sa = s.replace(/\r\n?/g,"\r").split("\r");
+		for ( var i=0; i<sa.length; i++)
+		{
+			_items.push(sa[i]);
+		}
+	}
+	//----------------------------------------
+	this.getText = function()
+	{
+		var ret = "";
+		var cnt = _items.length;
+		if ( cnt<=0 ) return ret;
+		for ( var i=0; i<cnt; i++){
+			ret += _items[i];
+			if ( i < (cnt-1) ) ret += CR;
+		}
+		return ret;
+	}
+	//----------------------------------------
+	this.toString = function() { return _items.toString();}
+	//----------------------------------------
+}
+write(" stringList.");

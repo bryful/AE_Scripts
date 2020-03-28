@@ -1,0 +1,48 @@
+﻿bryful.console = new function(thisObj)
+{
+	var con = null;
+	function console(thisObj)
+	{
+		var pal = (thisObj instanceof Panel) ? thisObj : new Window("palette", "console", undefined, {resizeable: true});
+		
+
+		if (pal != null)
+		{
+			var res = 
+			"group { \
+				orientation:'column', alignment:['fill','fill'], \
+				hierarchy: EditText { properties:{multiline: true}, alignment:['fill','fill'] }, \
+				createBtn: Button { text:'"aaa"', alignment:['center','bottom'] } \
+			}";
+			pal.margins = [10,10,10,10];
+			pal.grp = pal.add(res);
+			
+			pal.grp.hierarchy.preferredSize = [150,150];
+			
+			pal.layout.layout(true);
+			pal.layout.resize();
+			pal.onResizing = pal.onResize = function () {this.layout.resize();}
+		}
+
+
+		function layout()
+		{
+			var b = winObj.bounds;
+			edCon.bounds = {x: 13, y: 13, width: b.width - 26, height: b.height - 43 };
+			btnClose.location = {x: b.width - 100, y: b.height - 26 };
+		}
+
+		//------------------------------------------
+		winObj.onResize = layout;
+		//------------------------------------------
+		this.show = function()
+		{
+			layout();
+			winObj.center(); 
+			winObj.show();
+		}
+	}
+	con = new console();
+	con.show();
+	//------------------------------------------
+}(this);

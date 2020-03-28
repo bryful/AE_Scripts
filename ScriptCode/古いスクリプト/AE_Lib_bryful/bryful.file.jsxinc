@@ -1,0 +1,98 @@
+﻿bryful.file = new function()
+{
+	this.errMes = "";
+	
+	//var宣言なら外部から遮蔽される
+	var pushDTable = new Array;
+	
+	//----------------------------------------
+	this.pushD = function()
+	{
+		pushDTable.push(Folder.current);
+		if (pushDTable.length>=50)
+		{
+			pushDTable.shift();
+		}
+	}
+	//----------------------------------------
+	this.popD = function()
+	{
+		if ( pushDTable.length>0){
+			Folder.current =  pushDTable.pop();
+		}
+	}
+	//----------------------------------------
+	//----------------------------------------
+	this.saveToTextFile = function()	// (保存する文字列, ファイルパス)
+	{
+		if ( arguments.length <2) {
+			this.errMes += "file.saveToTextFile: none arguments\n";
+			return false;
+		}
+		var str = arguments[0];
+		var path = arguments[1];
+		
+		if ( (path == null)||( path == "" )) {
+			this.errMes += "file.saveToTextFile: path error\n";
+			return false;
+		}
+		
+		var fileObj = new File(path);
+		try{
+			//fileObj.encoding = "UTF8";
+			fileObj.open("w");
+			fileObj.write(str);
+			fileObj.close();
+			fileObj = null;
+			return true;
+		}catch(e){
+			if (fileObj != null) fileObj.close();
+			this.errMes += "file.saveToTextFile: "+ e.toString() + "\n";
+			return false;
+		}
+		
+	}
+	//----------------------------------------
+	this.loadFromTextFile = function()
+	{
+		if ( arguments.length <1) {
+			this.errMes += "file.loadFromTextFile: none arguments\n";
+			return null;
+		}
+		var path = arguments[0];
+		
+		if ( (path == null)||( path == "" )) {
+			this.errMes += "file.loadFromTextFile: path error\n";
+			return null;
+		}
+		
+		try{
+			var fileObj = new File(path);
+			
+			if ( fileObj.exists == false){
+				this.errMes += "file.loadFromTextFile: exists is false\n";
+				return null;
+			}
+			fileObj.open("r");
+			
+			var str = fileObj.read();
+			fileObj.close();
+			fileObj = null;
+			return str;
+		}catch(e){
+			if (fileObj != null) fileObj.close();
+			this.errMes += "file.loadFromTextFile: "+ e.toString() + "\n";
+			return null;
+		}
+		
+	}
+	//----------------------------------------
+}();
+
+//----------------------------------------
+Project.prototype.pushD = function() { bryful.file.pushD();}
+Project.prototype.popD = function() { bryful.file.popD();}
+//----------------------------------------
+String.prototype.saveToTextFile = function(path){ return bryful.file.saveToTextFile(this,path);}
+
+writeLn("bryful's Lib file installed.");

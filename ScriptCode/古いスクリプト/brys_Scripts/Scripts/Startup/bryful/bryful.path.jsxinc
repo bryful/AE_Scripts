@@ -1,0 +1,231 @@
+﻿bryful.path = new function()
+{
+	this.errMes = "";
+	
+	var pathSepa = "";
+	//----------------------------------------
+	this.trim = function(s)
+	{
+		if ( s == "" ) return "";
+		return s.replace(/[\r\n]+$|^\s+|\s+$/g, "");
+	}
+	//------------------------------------------
+	//文字列から拡張子を取り出す
+	this.getExt = function(s)
+	{
+		var ss = this.trim(s);
+		if ( ss == "" ) return "";
+		var idx = ss.lastIndexOf(".");
+		if (idx <0){
+			return "";
+		}else{
+			return ss.substr(idx);
+		}
+	}
+	//------------------------------------------
+	this.deleteLastSepa = function(s)
+	{
+		pathSepa = "";
+		var ret = "";
+		var ss = this.trim(s);
+		
+		if ( ss == "" ) return ret;
+		//末尾のセパレータを削除
+		var c = ss[ss.length-1];
+		if ( (c=="\\")||(c=="/")) {
+			pathSepa = c;
+			ss = ss.substr(0,ss.length-1);
+		}
+		return ss;
+	}
+	//------------------------------------------
+	this.lastSepaIndexOf = function(s)
+	{
+		//セパレータを探す
+		pathSepa = "";
+		var idx = -1;
+		idx = s.lastIndexOf("\\");
+		if (idx>=0) {
+			pathSepa = "\\";
+		}else{
+			idx = s.lastIndexOf("/");
+			if ( idx<0) pathSepa = "/";
+		}
+		return idx;
+	}
+	//------------------------------------------
+	//文字列から親フォルダのパスを取り出す。
+	this.getParent = function(s)
+	{
+		var ret = "";
+		var ss = this.trim(s);
+		if ( ss == "" ) return ret;
+		//末尾のセパレータを削除
+		ss = this.deleteLastSepa(ss);
+		
+		//セパレータを探す
+		var idx = this.lastSepaIndexOf(ss);
+		if ( idx>0){
+			ret = ss.substr(0,idx);
+		}
+		return ret;
+	}
+	//------------------------------------------
+	this.getFileName = function(s)
+	{
+		var ret = "";
+		var ss = this.trim(s);
+		if ( ss == "" ) return ret;
+		//末尾のセパレータを削除
+		ss = this.deleteLastSepa(ss);
+		
+		//セパレータを探す
+		var idx = this.lastSepaIndexOf(ss);
+		if ( idx<0){
+			ret = ss;
+		} else if ( idx>=0){
+			ret = ss.substr(idx+1);
+		}
+		return ret;
+	}
+	//------------------------------------------
+	this.getFileNameWithoutExt = function(s)
+	{
+		var ss =  this.getFileName(s);
+		if ( ss == "" ) return "";
+		var idx = ss.lastIndexOf(".");
+		
+		if ( idx < 0 ){
+			return ss;
+		} else if ( idx == 0 ){
+			return "";
+		} else if ( idx>0){
+			return ss.substr(0,idx);
+		}
+	}
+	//------------------------------------------
+	this.getFrameNmber = function(s)
+	{
+		var ss =  this.getFileNameWithoutExt(s);
+		if ( ss == "" ) return "";
+		var idx = -1;
+		for (var i = ss.length -1; i>=0; i--)
+		{
+			var c = ss[i];
+			if ( (c>="0")&&(c<="9") ){
+				continue;
+			}else{
+				idx = i;
+				break;
+			}
+		}
+		if ( idx<0 ) {
+			return ss;
+		} else {
+			return ss.substr(idx+1);
+		} 
+	}
+	//------------------------------------------
+	this.splitCutName = function(s)
+	{
+		var ret = new Object;
+		ret.node ="";
+		ret.frameSepa="";
+		ret.frame="";
+		ret.frameStart="";
+		ret.frameEnd="";
+		ret.ext	="";
+
+		var inS = "";
+		if (s instanceof FootageItem){
+			inS =s.name;
+		}else if (s instanceof CompItem){
+			inS =s.name;
+		}else if (s instanceof Folder){
+			inS =s.name;
+		}else if (s instanceof File){
+			inS =s.name;
+		}else if (typeof(s)=="string") {
+			inS = this.getFileName(s);
+		}else{
+			return ret;
+		}
+
+		if (inS.match(/(.*?)?(_|-)?(\[(.*)?\])(\.(.+)?)/)){
+			//aa-[0001-0010].tga
+			ret.node = RegExp.$1;// aa
+			ret.frameSepa = RegExp.$2//-
+			ret.frame = RegExp.$3;//[0001-0010]
+			ret.ext=RegExp.$5; //.tga
+			
+			if ( ret.frame != ""){
+				if ( ret.frame.match(/\[(.*)?-(.*)?\]/)){
+					ret.frameStart= RegExp.$1;
+					ret.frameEnd= RegExp.$2;
+				}
+			}
+		}else if (inS.match(/(.*?)(_|-)?(\d*)(\.(.+)?)/)){
+			//aa-0001.tga
+			ret.node = RegExp.$1;//a
+			ret.frameSepa = RegExp.$2//-
+			ret.frame = RegExp.$3;//0001
+			ret.ext=RegExp.$4; //.tga
+		}else if (inS.match(/(\d*)(\.(.+)?)/)){
+			//0001.tga
+			ret.frame=RegExp.$1; //0001
+			ret.ext=RegExp.$2; //.tga
+		}else{
+			//想定したファイル名じゃない
+			ret.node =inS;
+			return ret;
+		}
+		return ret;
+
+		
+	}
+}();
+//------------------------------------------
+//prototype宣言
+String.prototype.getExt = function() { return bryful.path.getExt(this); }
+String.prototype.getDirectory = function() { return bryful.path.getDirectory(this); }
+String.prototype.getFileName = function() { return bryful.path.getFileName(this); }
+String.prototype.getFileNameWithoutExt = function() { return bryful.path.getFileNameWithoutExt(this); }
+String.prototype.getFrameNmber = function() { return bryful.path.getFrameNmber(this); }
+String.prototype.splitCutName = function() { return bryful.path.splitCutName(this); }
+
+
+FootageItem.prototype.splitCutName = function() { return bryful.path.splitCutName(this.name); }
+CompItem.prototype.splitCutName = function() { return bryful.path.splitCutName(this.name); }
+FolderItem.prototype.splitCutName = function() { return bryful.path.splitCutName(this.name); }
+
+
+Folder.prototype.getExt = function() { return bryful.path.getExt(this.name); }
+Folder.prototype.getParent = function() { return bryful.path.getParent(this.getRelativeURI("/")); }
+Folder.prototype.getFileName = function() { return bryful.path.getFileName(this.name); }
+Folder.prototype.getFileNameWithoutExt = function() { return bryful.path.getFileNameWithoutExt(this.name); }
+Folder.prototype.splitCutName = function() { return bryful.path.splitCutName(this.name); }
+
+File.prototype.getExt = function() { return bryful.path.getExt(this.name); }
+File.prototype.getParent = function() { return bryful.path.getParent(this.getRelativeURI("/")); }
+File.prototype.getFileName = function() { return bryful.path.getFileName(this.name); }
+File.prototype.getFileNameWithoutExt = function() { return bryful.path.getFileNameWithoutExt(this.name); }
+File.prototype.getFrameNmber = function() { return bryful.path.getFrameNmber(this.name); }
+File.prototype.splitCutName = function() { return bryful.path.splitCutName(this.name); }
+
+
+write(" path.");
+
+//var s = "AA23_123A-T2_003.png";
+/*
+var s = "";
+var o = app.project.activeItem.splitCutName();
+
+alert(
+	"node = "+ o.node +"\n"+
+	"frameSepa = "+ o.frameSepa+"\n"+
+	"frame = "+ o.frame+"\n"+
+	"frameStart = "+ o.frameStart+"\n"+
+	"frameEnd = "+ o.frameEnd+"\n"+
+	"ext = "+ o.ext+"\n"
+	);
+*/

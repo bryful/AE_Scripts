@@ -1,0 +1,322 @@
+﻿bryful.iterate = function()
+{
+	this.activeComp = null;
+	this.targets = new Array;
+	this.count = 0;
+	this.targetFolderItem = null;
+	
+	this.func = null;
+	this.errMes = "";
+	
+	//---------------------------------------
+	this.init = function()
+	{
+		this.targets = new Array;
+		this.count = 0;
+		this.targetFolderItem = null;
+		if ( app.project.activeItem instanceof CompItem){
+			this.activeComp =  app.project.activeItem;
+		}else{
+			this.activeComp = null;
+		}
+	}
+	
+	//---------------------------------------
+	this.getActiveComp = function()
+	{
+		this.init();
+		if ( this.activeComp != null){
+			this.targets.push(this.activeComp);
+			this.count = this.targets.length;
+			return this.activeComp;
+		}else{
+			this.errMes += "iterate.getActiveComp: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.getActiveFootage = function()
+	{
+		this.init();
+		if ( app.project.activeItem instanceof FootageItem){
+			this.targets.push(app.project.activeItem);
+			this.count = this.targets.length;
+			
+			return app.project.activeItem;
+		}else{
+			this.errMes += "iterate.getActiveFootage: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.getActiveFolder = function()
+	{
+		this.init();
+		if ( app.project.activeItem instanceof FolderItem){
+			this.targets.push(app.project.activeItem);
+			this.count = this.targets.length;
+			return app.project.activeItem;
+		}else{
+			this.errMes += "iterate.getActiveFolder: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.getSelectedLayers = function()
+	{
+		this.init();
+		if ( this.activeComp != null){
+			var sl = this.activeComp.selectedLayers;
+			if ((sl != null)&&(sl != undefined)&&(sl.length > 0)) {
+				for (var i = 0; i < sl.length; i++) {
+					this.targets.push(sl[i]);
+				}
+			}
+			this.count = this.targets.length;
+			return this.targets;
+		}else{
+			this.errMes += "iterate.getSelectedLayers: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.getSelectedProperties = function()
+	{
+		this.init();
+		if ( this.activeComp != null){
+			var sp = this.activeComp.selectedProperties;
+			if ((sp != null)&&(sp != undefined)&&(sp.length > 0)) {
+				for (var i = 0; i < sp.length; i++) {
+					this.targets.push(sp[i]);
+				}
+			}
+			this.count = this.targets.length;
+			return this.targets;
+		}else{
+			this.errMes += "iterate.getSelectedProperties: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	//引数を判別してマッチパターンの値をreturnする
+	//おまけでFolderItemならthis.targetFolderItemに設定
+	this.getArgObj = function(o)
+	{
+		var ret = 0;
+		var tp = typeof(o);
+		//数字ならそのまま
+		if ( tp == "number"){
+			ret = o & ItemType_all;
+		}else if ( tp == "string"){
+			//文字列でも数値に直せるものなら採用
+			if ( isNaN(o)==false){
+				ret = (o * 1) & ItemType_all;
+			}else{
+				//文字列なら適当に判別
+				var cmd = o.toLowerCase();
+				if (cmd.indexOf("all")>=0) { 
+					ret = ItemType_all;
+				}else{
+					//値はorする。
+					if (cmd.indexOf("mov")>=0) { ret |= ItemType_movie;}
+					if (cmd.indexOf("sequ")>=0) { ret |= ItemType_sequence;}
+					if (cmd.indexOf("stil")>=0) { ret |= ItemType_still;}
+					if (cmd.indexOf("foot")>=0) { ret |= ItemType_footageAll;}
+					if (cmd.indexOf("comp")>=0) { ret |= ItemType_comp;}
+					if (cmd.indexOf("fold")>=0) { ret |= ItemType_folder;}
+					if (cmd.indexOf("soun")>=0) { ret |= ItemType_sound;}
+					
+					ret &= ItemType_all; //桁あふれ対策
+				}
+			}
+		
+		}else if ( o instanceof FolderItem){
+			if (this.targetFolderItem == null)
+				this.targetFolderItem = o;
+		}
+		return ret;
+	}
+	//---------------------------------------
+	this.getArg = function(arg)
+	{
+		var ret = 0;
+		if (arguments.length<=0) return ret;
+		for ( var i=0; i<arg.length; i++){
+			ret =  (ret | this.getArgObj(arg[i])) & ItemType_all;
+		}
+		
+		if (ret == 0) ret = ItemType_all; //何も指定されてなかったら全部。
+		return ret;
+	}
+	//---------------------------------------
+	this.getItems = function()
+	{
+		this.init();
+
+		var mp = this.getArg(arguments);
+		
+		//FolderItemが指定されてなかったら、app.projectを指定しておく。
+		if (this.targetFolderItem == null) this.targetFolderItem = app.project;
+		
+		if ( this.targetFolderItem.numItems>0){
+			for (var i=1; i<=this.targetFolderItem.numItems; i++){
+				var oo = this.targetFolderItem.item(i);
+				if ( (bryful.items.getType(oo) & mp) !=0) {
+					this.targets.push(oo);
+				}
+			}
+			this.count = this.targets.length;
+			return this.targets;
+		}else{
+			this.errMes += "iterate.getItems: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.getItemsRecursionSub = function()
+	{
+		var fld = null;
+		var mtp = -1;
+		
+		if ( arguments.length>0){
+			for (var i = 0; i < arguments.length; i++) {
+				if ( arguments[i] instanceof FolderItem){
+					if ( fld == null) fld = arguments[i];
+				}else if (typeof(arguments[i]) == "number") {
+					if ( mtp == -1) mtp = arguments[i];
+				}
+			}
+		}
+		if ( mtp == -1) mtp = ItemType_all;
+		if ( fld == null) return;
+		if ( fld.numItems<=0) return;
+		
+		var fldAry = new Array;
+		for (var i=1; i<=fld.numItems; i++){
+			var oo = fld.item(i);
+			if ( (bryful.items.getType(oo) & mtp) !=0) {
+				this.targets.push(oo);
+			}
+			//個別にFolderItemを集める
+			if ( oo instanceof FolderItem){
+				fldAry.push(oo);
+			}
+		}
+		if ( fldAry.length>0){
+			for (var i = 0; i < fldAry.length; i++) {
+				this.getItemsRecursionSub(fldAry[i],mtp);
+			}
+		}
+	}
+	//---------------------------------------
+	this.getItemsRecursion = function()
+	{
+		this.init();
+
+		var mp = this.getArg(arguments);
+		
+		//FolderItemが指定されてなかったら、app.projectを指定しておく。
+		if (this.targetFolderItem == null) this.targetFolderItem = app.project;
+		
+		this.getItemsRecursionSub(this.targetFolderItem,mp);
+		
+		this.count = this.targets.length;
+		
+		if ( this.count>0){
+			return this.targets;
+		}else{
+			this.errMes += "iterate.getItemsRecursion: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.getSelectedItems = function()
+	{
+		this.init();
+
+		var mp = this.getArg(arguments);
+		
+		if ( app.project.selection.length>0){
+			for (var i=0; i<app.project.selection.length; i++){
+				var oo = app.project.selection[i];
+				if ( (bryful.items.getType(oo) & mp) !=0) {
+					this.targets.push(oo);
+				}
+			}
+			this.count = this.targets.length;
+			return this.targets;
+		}else{
+			this.errMes += "iterate.getSelectedItems: no target\n";
+			return null;
+		}
+	}
+	//---------------------------------------
+	this.run = function()
+	{
+		this.errMes = "";
+		if ( arguments.length>0){
+			if (arguments[0] instanceof Function){
+				this.func = arguments[0];
+			}
+		}
+		
+		
+		if ( (this.func == null)||(this.func == undefined)) {
+			this.errMes += "iterate.run: none func!\n";
+			return false;
+		}
+		if ((this.targets == null)||(this.targets == undefined)|| ! (this.targets instanceof Array)) {
+			this.errMes += "iterate.run: targets error!\n";
+			return false;
+		}
+		var cnt = this.targets.length;
+		if ( cnt<=0){
+			this.errMes += "iterate.run: no targets!\n";
+			return false;
+		}
+		try{
+			for (var i = 0; i < cnt; i++) {
+				if ( this.func(this.targets[i],i,cnt) == false){
+					this.errMes += "iterate.run: func error!\n";
+					return false;
+				}
+			}
+			return true;
+		}catch(e){
+			this.errMes += "iterate.run: error!\n";
+			return false;
+		}
+	}
+	//---------------------------------------------------------------------
+}
+
+writeLn("bryful's Lib iterate installed.");
+
+/*
+var test01 = new bryful.iterate;
+
+var result = "";
+test01.func = function()
+{
+	try{
+		if (arguments.length>0){
+			result += arguments[0].name+"\n";
+		}
+		return true;
+	}catch(e){
+		this.errMes +="error in func\n";
+		return false;
+	}
+}
+
+test01.getItems("footage");
+if (test01.count>0){
+	test01.run();
+	if ( test01.errMes != ""){
+		alert("ERROR!\n"+ test01.errMes);
+	}else{
+		alert(result);
+	}
+	
+}
+*/

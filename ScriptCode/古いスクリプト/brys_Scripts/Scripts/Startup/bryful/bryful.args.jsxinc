@@ -1,0 +1,89 @@
+﻿bryful.args = function (p)
+{
+	this.items = new Array;
+	this.count = 0;
+	
+	this.stringAry =  new Array;
+	this.numberAry =  new Array;
+	this.booleanAry =  new Array;
+
+	this.compAry =  new Array;
+	this.footageAry =  new Array;
+	this.folderItemAry =  new Array;
+	
+	this.fileAry =  new Array;
+	this.folderAry =  new Array;
+	
+	this.layerAry =  new Array;
+
+	this.propertyAry =  new Array;
+	this.propertyGAry =  new Array;
+
+	this.objAry =  new Array;
+	
+	//----------------------------------------
+	this.splitParams= function(t)
+	{
+		if ( (t==null)||(t==undefined) ){
+			//何もしない
+		} else if (typeof(t) == "number"){
+			this.numberAry.push(t);
+		} else if (typeof(t) == "string"){
+			this.stringAry.push(t);
+		} else if (typeof(t) == "boolean"){
+			this.booleanAry.push(t);
+		} else if (t instanceof CompItem){
+			this.compAry.push(t);
+		} else if (t instanceof FootageItem){
+			if (t.hasVideo == true) {
+				this.footageAry.push(t);
+			}
+		} else if (t instanceof FolderItem){
+			this.folderItemAry.push(t);
+		} else if (t instanceof File){
+			this.fileAry.push(t);
+		} else if (t instanceof Folder){
+			this.folderAry.push(t);
+		} else if (t instanceof AVLayer){
+			this.layerAry.push(t);
+		} else if (t instanceof Property){
+			this.propertyAry.push(t);
+		} else if (t instanceof PropertyGroup){
+			this.propertyGAry.push(t);
+		} else if (t instanceof LayerCollection){
+			if ( t.length>0){
+				for (var i = 1; i <= t.length; i++) {
+					this.splitParams(t[i]);
+				}
+			}
+		} else if (t instanceof ItemCollection){
+			if ( t.length>0){
+				for (var i = 1; i <= t.length; i++) {
+					this.splitParams(t[i]);
+				}
+			}
+		} else if (t instanceof Array){
+			if ( t.length>0){
+				for (var i = 0; i < t.length; i++) {
+					this.splitParams(t[i]);
+				}
+			}
+		}else{
+			//その他のObject
+			this.objAry.push(t);
+		}
+	}
+	
+	//----------------------------------------
+	if ( (p!=null)&&(p!=undefined) ) {
+	
+		if ( p.length>0){
+			this.count = p.length;
+			for ( var i=0; i<p.length; i++){
+				this.items.push(p[i]);
+				this.splitParams(p[i]);
+			}
+		}
+	}
+}
+write(" args.");

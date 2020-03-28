@@ -1,0 +1,290 @@
+﻿bryful.items = new function()
+{
+	this.errMes = "";
+
+	//----------------------------------------
+	this.getType = function(t)
+	{
+		if ( t instanceof CompItem)
+		{
+			return ItemType_comp;
+		}
+		else if ( t instanceof FolderItem )
+		{
+			return ItemType_folder;
+		}
+		else if ( t instanceof FootageItem)
+		{
+			if (t.file == null)
+			{
+				ret = ItemType_solid;
+			}
+			else if ( (t.hasVideo == false)&&(t.hasAudio == true) )
+			{
+				ret = ItemType_sound;
+			}
+			else if (t.mainSource.isStill == true)
+			{
+				ret = ItemType_still;
+			}else{
+				var cf = t.mainSource.conformFrameRate;
+				t.mainSource.conformFrameRate = 0;
+				if ( t.mainSource.conformFrameRate == 0){
+					ret = ItemType.movie;
+				}else{
+					ret = ItemType_sequence;
+				}
+				t.mainSource.conformFrameRate = cf;
+			}
+			return ret;
+		}else{
+			this.errMes += "items.getType: unknownType\n";
+			return ItemType_unknown;
+		}
+	}
+	//----------------------------------------
+	this.getTypeName = function(t)
+	{
+		this.errMes = "";
+		var s = "";
+		switch(this.getType(t))
+		{
+			case ItemType_movie:    s = "movie"; break;
+			case ItemType_sequence: s = "sequence"; break;
+			case ItemType_footage:  s = "footage"; break;
+			case ItemType_still:    s = "still"; break;
+			case ItemType_solid:    s = "solid"; break;
+			case ItemType_comp:     s = "comp"; break;
+			case ItemType_folder:   s =  "folder"; break;
+			default:
+				s = "ItemType_unknown";
+				this.errMes += "items.getTypeName: unknownType\n";
+				 break;
+		}
+		return s;
+	}
+	//----------------------------------------
+	this.isMove = function()
+	{
+		if ( arguments.length<1) {
+			this.errMes += "items.isMove: none arguments\n";
+			return false;
+		}
+		
+		return ( this.getType(arguments[0]) != ItemType_movie);
+	}
+	//----------------------------------------
+	this.isSequence = function()
+	{
+		if ( arguments.length<1) {
+			this.errMes += "items.isSequence: none arguments\n";
+			return false;
+		}
+		return ( this.getType(arguments[0]) != ItemType_sequence);
+	}
+	//----------------------------------------
+	this.isType = function()
+	{
+		if ( arguments.length<2) {
+			this.errMes += "items.isType: arguments\n";
+			return false;
+		}
+		
+		return(this.getType(arguments[0]) == arguments[1]);
+	}
+	//----------------------------------------
+	/*
+		第一引数は、アイテムオブジェクト
+		第二引数は、ImageType
+		
+		ImageType_movie | ImageType_sequence | ImageType_comp
+		
+		といった感じに or させて渡す。
+	*/
+	this.matchType = function()
+	{
+		var ret = new Array;
+		if ( arguments.length<2) {
+			this.errMes += "items.matchType: arguments\n";
+			return ret;
+		}
+		var st = 0;
+		var lt = 0;
+		if ( arguments[0] instanceof ItemCollection){
+			st = 1;
+			lt = arguments[0].length;
+		} else if ( arguments[0] instanceof Array){
+			st = 0;
+			lt = arguments[0].length -1;
+		} else{
+			this.errMes += "items.matchType: none suport Object\n";
+			return ret;
+		}
+		
+		var cp = arguments[1];
+		for ( var i=st; i<=lt; i++){
+			var tar = this.getType(arguments[0][i]);
+			if ( (tar & cp) != 0 ){
+				ret.push(arguments[0][i]);
+			}
+		}
+		return ret;
+	}
+	//----------------------------------------
+	this.activeItem = function()
+	{
+		return app.project.activeItem;
+	}
+	//----------------------------------------
+	this.activeComp = function()
+	{
+		if (app.project.activeItem instanceof CompItem){
+			return app.project.activeItem;
+		}else{
+			this.errMes += "items.activeComp: none Target\n";
+			return null;
+		}
+	}
+	//----------------------------------------
+	this.activeFootage = function()
+	{
+		if (app.project.activeItem instanceof FootageItem ){
+			return app.project.activeItem;
+		}else{
+			this.errMes += "items.activeFootage: none Target\n";
+			return null;
+		}
+	}
+	//----------------------------------------
+	this.activeFolder = function()
+	{
+		if (app.project.activeItem instanceof FolderItem ){
+			return app.project.activeItem;
+		}else if (app.project.activeItem instanceof CompItem ){
+			return app.project.activeItem.parentFolder;
+		}else if (app.project.activeItem instanceof FootageItem ){
+			return app.project.activeItem.parentFolder;
+		}else{
+			return app.project.rootFolder;
+		}
+	}
+	//----------------------------------------
+	this.activeMovie = function()
+	{
+		if ( bryful.items.getType(app.project.activeItem)== ItemType_movie) 
+		{
+			return app.project.activeItem;
+		}else{
+			this.errMes += "items.activeMovie: none Target\n";
+			return null;
+		}
+	}
+	//----------------------------------------
+	this.activeSequence = function()
+	{
+		if ( bryful.items.getType(app.project.activeItem)== ItemType_sequence) 
+		{
+			return app.project.activeItem;
+		}else{
+			this.errMes += "items.activeSequence: none Target\n";
+			return null;
+		}
+	}
+	//----------------------------------------
+	this.activeMvSeq = function()
+	{
+		if ( (bryful.items.getType(app.project.activeItem) & (ItemType_sequence | ItemType_movie)) != 0 ) 
+		{
+			return app.project.activeItem;
+		}else{
+			this.errMes += "items.activeMvSeq: none Target\n";
+			return null;
+		}
+	}
+	//----------------------------------------
+	this.activeStill = function()
+	{
+		if ( bryful.items.getType(app.project.activeItem)== ItemType_still) 
+		{
+			return app.project.activeItem;
+		}else{
+			this.errMes += "items.activeStill: none Target\n";
+			return null;
+		}
+	}
+}();
+//****************************************************************************
+
+//----------------------------------------
+//prototype宣言
+
+FootageItem.prototype.getType = function() {return bryful.items.getType(this);}
+FolderItem.prototype.getType = function() {return bryful.items.getType(this);}
+CompItem.prototype.getType = function() {return bryful.items.getType(this);}
+
+FootageItem.prototype.getTypeName = function() {return bryful.items.getTypeName(this);}
+FolderItem.prototype.getTypeName = function() {return bryful.items.getTypeName(this);}
+CompItem.prototype.getTypeName = function() {return bryful.items.getTypeName(this);}
+
+
+FootageItem.prototype.isMovie =  function() {return  bryful.items.isMovie(this);}
+FootageItem.prototype.isSequence =  function() {return  bryful.items.isSequence(this);}
+
+Array.prototype.matchType = function(tp) {return bryful.items.matchType(this,tp);}
+ItemCollection.prototype.matchType = function(tp) {return bryful.items.matchType(this,tp);}
+
+Project.prototype.findFromPathArray = function() { return bryful.items.findFromPathArray();}
+
+Project.prototype.activeComp = function() { return bryful.items.activeComp();}
+Project.prototype.activeFootage = function() { return bryful.items.activeFootage();}
+Project.prototype.activeFolder = function() { return bryful.items.activeFolder();}
+Project.prototype.activeMovie = function() { return bryful.items.activeMovie();}
+Project.prototype.activeSequence = function() { return bryful.items.activeSequence();}
+Project.prototype.activeMvSeq = function() { return bryful.items.activeMvSeq();}
+Project.prototype.activeMovieAnsSequence = function() { return bryful.items.activeMvSeq();}
+Project.prototype.activeStill = function() { return bryful.items.activeStill();}
+
+writeLn("bryful's Lib items installed.");
+
+//デバッグ用のコード
+/*
+var a = app.project.items.matchType(ItemType_footage);
+
+var mes = "";
+if ( a.length>0){
+	for (var i=0; i< a.length; i++)
+	{
+		mes += a[i].name + " "+ a[i].getTypeName() +"\n";
+	}
+}else{
+	mes = "なし";
+}
+alert(mes);
+
+var test01 = new bryful.iterate;
+
+var result = "";
+test01.func = function()
+{
+	try{
+		if (arguments.length>0){
+			result += arguments[0].name+"\n";
+		}
+		return true;
+	}catch(e){
+		this.errMes +="error in func\n";
+		return false;
+	}
+}
+
+test01.getItems("footage");
+if (test01.count>0){
+	test01.run();
+	if ( test01.errMes != ""){
+		alert("ERROR!\n"+ test01.errMes);
+	}else{
+		alert(result);
+	}
+	
+}
+*/

@@ -1,0 +1,196 @@
+<h3>リマップ編集スクリプト。AEスクリプトでのイベント処理</h3>
+今回は「リマップ編集.jsx」の紹介と解説です。
+本当は「１行スクリプト」にしようと思ってましたが、偶然キーイベントの獲得方法が判明しいろいろやってたら「リマップ編集.jsx」になってしまいました^^;
+
+<h3>リマップ編集スクリプト。</h3>
+「リマップ編集.jsx」は、文字通りレイヤのtimeRemapを編集するパレットを実現するスクリプトです。
+アニメの撮影ではセルのコマ打ちをtimeRemapで行う事が多く、同じ目的のソフトが多く有ります。
+
+<ul>
+<li>りまぴん。ねこまたや。</li>
+<li>STS</li>
+<li>AEIOU</li>
+<li> T-Sheet</li>
+<li>AE_Remap Exceed</li>
+<li>RemapEditor</li>
+</ul>
+
+スクリプトで実装できるUIがかなり不幸なので、ほとんどが別アプリでコピー＆ペーストやスクリプトを使って、timeRemapを編集しています。
+
+今回キーイベントの処理がわかったので、ちょっと作ってみたのが「リマップ編集.jsx」です。AEP Projectで発表したRemapEditorをスクリプトで作り直した。
+
+ダウンロード以下から行えます。
+
+動作環境はWindows版After EffectsCS4で動作確認しています。CS3以前ではキーイベントが獲得できないので動きません。Mac版では後で説明しますが、動作に制限が有ります。
+
+
+<h3>リマップ編集スクリプトの使い方</h3>
+リマップ編集.jsxは、"Scripts/ScriptUI Panels"フォルダに入れておけばフローティングパレットとして動作します。
+
+ただし、Mac版では、フローティングパレットではキーイベントの発生と同時に何故か他のパレットへフォーカスが移動してしまうのでほとんど実用になりません。「スクリプトファイルの実行...」から実行して通常のパレットとして動かしてください。
+
+デフォルトでは24fps72frameの状態で起動します。
+
+下のリストボックスの適当なフレームを選択（Shiftでづく数選択可能）し、数字キーを押すとリストボックスの上に押された数値が追加されていきます。
+
+エンターキーで入力した数値をリストボックスの選択した位置へ入力します。
+
+
+prefボタンで、フレームレートの変更・フレームの削除追加・総フレーム数の設定が出来ます。
+
+GETボタンで、選択したレイヤのtimeRemapの値を獲得し、セル番号としてリストに表示します。
+SETボタンで、入力したセル番号を選択したレイヤに適応させます。
+その際の空セルの実装方法はprefで設定したものになります。
+
+Navボタンで操作を全てマウスで行う為のパレットが表示されます。
+Inpボタンでリピート対応の自動セル番号入力ダイアログが表示されます。
+
+Navパレットがアクティブ(フォーカス)な状態でもキー入力で操作できます（ただし、Macではかなり不安定です）
+
+copy/cut/pasteボタンでカット＆ペーストが可能です。ただしクリップボードへのコピー・貼り付けは出来ません。
+
+操作方法は自作のAE_Remap Exceedとほぼ同じにしています。
+当たり前ですが、スクリプトを修正することでキーバインドを変えたり機能を追加したり出来ます。
+
+簡易的にキーボードショートカットにも対応させています。
+
+<h3>イベントとは</h3>
+イベントと簡単に言ってますが、GUIを実現する為に考え出された方法でイベント駆動型プログラミングと呼ばれるものです。
+
+AEスクリプトは、フロー駆動型プログラミングが基本的となりますが、さすがにダイアログ等を作成する為に簡単なイベントが実装されています（ボタン等のコントロールのonClickイベント等）
+
+イベントに関しては細かく説明していくと本が何冊も出来てしまう分量になるので、ここでは簡単な説明と重要なことのみにします。
+
+<h3>イベントの簡単な説明</h3>
+基本となるイベントループ（メインループ）があり、何もイベントが起きていない状態をアイドル(idle)と呼び、イベントの発生を待ちます。イベントの主なものはキーイベント・マウスイベントの二つ。
+
+例えば、何かのキーが押された場合イベントループ内のキー検出ファンクションがメッセージを発生させます。そのメッセージ内容を判別し、それに応じたイベントハンドラが実行されます。
+
+なんだかよくわかりませんね^^;
+
+Windows/McOSXだとObject志向プログラミングによって多少わかりやすい感じになります。（というかイベント駆動型プログラミングを可能にする為にObject志向プログラミングが考え出されたってイメージです）
+
+アイドル状態って、まぁたいていの場合アプリを起動してユーサーの入力待ちになった状態であまり意識することはないです。
+
+キーイベントによりメッセージが発生って、ボタン押したらそのボタンのonCkickが実行されたって事です。メッセージ発生とは基本的に関数呼び出しのことです。
+
+イベントループ・アイドル(idle)イベント・メッセージ・イベントハンドラって単語をgoogleで調べてもらった方が理解が早いと思います。
+
+JavaScriptはイベント関係を簡単に使えるようにかなり遮蔽化してるので、JavaScriptではなく他の言語のイベントの解説を調べるのがいいです（C#がイベント関係がかなりわかりやすいです）
+
+正直に言うと僕はあまりイベントの事が良くわかってないです。概念はなんとなくわかるんですが、それ以上はわかりません。まぁObject志向プログラムのおかげでわからなくても何とかなっています。いい時代です。
+
+
+<h3>addEventListenerとイベントの獲得</h3>
+AEスクリプトでイベント処理を行うときはonで始まる名称の組み込み済みのイベントハンドラを使うのが基本です。しかし、標準状態ではかなり貧弱でイベント発生時のパラメータの獲得が出来ません。
+
+そのためイベントの追加拡張が必至です。
+具体的にはUI関係のオブジェクトのメソッドであるaddEventListenerを使いイベントの追加を行います。
+
+addEventListener()
+controlObj.addEventListener (eventName, handler[, capturePhase]);
+windowObj.addEventListener (eventName, handler[, capturePhase]);
+
+"JavaScript Tools Guide"のP.112とP.136に具体的な説明が有ります。
+このメソッドでコントロールやウィンドウObjectにイベントを追加できます。
+
+第1引数で追加できるイベントは以下のものです。
+<table border="1">
+<tr><th>イベント名</th><th>解説</th></tr>
+<tr><td>changing</td><td>値が変化中に発生。スライダバー等</td></tr>
+<tr><td>change</td><td>値が変わった</td></tr>
+<tr><td>moving</td><td>objectの位置が変化中に発生。ウィンドウ等</td></tr>
+<tr><td>move</td><td>objectの位置が変わった。</td></tr>
+<tr><td>resizing</td><td>objectの大きさが変化中</td></tr>
+<tr><td>resize</td><td>objectの大きさが変わった</td></tr>
+<tr><td>show</td><td>objectが表示された</td></tr>
+<tr><td>enterKey</td><td>objectのデフォルトキーを押した？</td></tr>
+<tr><td>focus</td><td>objectがフォーカスを獲得した</td></tr>
+<tr><td>blur</td><td>objectがフォーカスを開放した</td></tr>
+<tr><td>mousedown</td><td>マウスボタンを押した</td></tr>
+<tr><td>mouseup</td><td>マウスボタンを離した</td></tr>
+<tr><td>mousemove</td><td>マウスカーソルが移動した</td></tr>
+<tr><td>mouseover</td><td>objectの上にマウスカーソルが入った</td></tr>
+<tr><td>mouseout</td><td>objectの上からマウスカーソルが出た</td></tr>
+<tr><td>keyup</td><td>キーが押された</td></tr>
+<tr><td>keydown</td>キーが離れた<td></td></tr>
+<tr><td>click</td><td>マウスボタンをクリックした</td></tr>
+</table>
+
+第2引数はイベント発生時に実行されるイベントハンドラ(function object)を指定します。
+呼び出されるfunction（関数)の引数には、KeyboardEvent object/MouseEvent objectが渡されます（これがミソ)
+
+引数のKeyboardEvent object/MouseEvent objectのプロパティを参照することで押されたキーやマウスの位置を獲得できます。
+この仕組みを使い「リマップ編集」スクリプトはキーの獲得を実装しています。
+
+
+addEventListener()は、イベントハンドラを上書きでなく追加していきます。
+イベントの発生順はaddEventListener()での登録順となります。
+
+
+
+<h3>KeyboardEvent objectのプロパティ</h3>
+KeyboardEvent objectのプロパティのプロパティは以下のものが有ります。
+<table border ="1">
+<tr><th>プロパティ名</th><th>Object</th><th>説明</th></tr>
+
+<tr><td>type</td><td>Strig</td><td>イベントの種類。keyup or keydown</td><tr>
+<tr><td>keyName</td><td>String</td><td>押されたキーの文字</td><tr>
+<tr><td>keyIdentifier</td><td>String</td><td>キーコード</td><tr>
+<tr><td>altKey</td><td>Boolean</td><td>altKeyが押されていたらtrue</td></tr>
+<tr><td>ctrlKey</td><td>Boolean</td><td>ctrlKeyが押されていたらtrue</td></tr>
+<tr><td>metaKey</td><td>Boolean</td><td>metaKey(command/windows)が押されていたらtrue</td></tr>
+<tr><td>shiftKey</td><td>Boolean</td><td>shiftKeyが押されていたらtrue</td></tr>
+<tr><td>keyLocation</td><td>Number</td><td>押されたキーの位置</td><tr>
+</table>
+
+詳しくはJavaScript Tools Guideを(P.145)参照してください。
+
+<h3>MouseEvent objectのプロパティ</h3>
+<table border ="1">
+<tr><td>type</td><td>Strig</td><td>イベントの種類。mousedown/mouseup/mousemove/mouseover/mouseout/click</td><tr>
+<tr><td>detail</td><td>Number</td><td>clickイベント時の動作 1:シングルクリック 2: ダブルクリック</td><tr>
+<tr><td>button</td><td>Number</td><td>押されたマウスボタンの位置0:左 1:真ん中 2:右</td><tr>
+<tr><td>clientX<br>clientY</td><td>Number</td><td>親コントロール基準のポインタの位置</td><tr>
+<tr><td>screenX<br>screenY</td><td>Number</td><td>スクリーン基準のポインタの位置</td><tr>
+
+<tr><td>altKey<br>ctrlKey<br>metaKey<br>shiftKey</td><td>Boolean</td><td>KeyboardEventと同じ</td><tr>
+
+<tr><td>relatedTarget</td><td>Object</td><td>
+For a mouseover event, the UI element the pointer is leaving, if any.<br>
+For a mouseout event, the UI element the pointer is entering, if any.<br>
+Otherwise undefined.</td><tr>
+</table>
+
+<h3>イベントの流れ</h3>
+AEスクリプトのイベントは発生したコントロールだけでなくその親コントロールにも連鎖的に発生していきます。
+
+例えばWindow上にパネルがありそのパネルにボタンがあった場合、まずボタンにイベントが発生し、パネル・ウィンドウと言った順にイベントが発生していきます。
+
+キーボードイベントの場合、フォーカスの問題があるのでWindow objectでイベントを獲得するのが確実です。
+
+
+発生したメッセージが、大本のイベントかどうかは。UIEvent object(KeyboardEvent/MouseEventの根底object)のプロパティから識別できます。
+
+targetプロパティでイベントが発生したコントロールを、currentTargetプロパティで現在のコントロールが獲得でき、それを比較することで識別できます。
+
+
+イベントの流れを実感する為のスクリプトを作成してみました。
+
+debugConsole.jsxとeventTest.jsxを実行して、色々キーを押したりマウスでクリックしてみてください。
+
+<h3>AEのバージョン。Windows/Macでの挙動</h3>
+イベントの獲得は残念な事にCS3以前のバージョンでは行えません。
+
+またMac版の場合、
+
+<h3>リマップ編集での実装</h3>
+
+<h3>Tip. try文</h3>
+<h3>Tip. update()</h3>
+<h3>Tip. jsonを使った設定の保存</h3>
+<h3>Tip. listboxの書き換え</h3>
+<h3>Tip. panelのりサイズ処理</h3>
+resizeイベントの拡張。
+<h3>Tip. リマップ時の空セルの処理</h3>
+<h3>終わりに</h3>

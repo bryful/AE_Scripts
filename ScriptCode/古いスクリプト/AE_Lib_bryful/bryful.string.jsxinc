@@ -1,0 +1,16 @@
+﻿bryful.string = new function()
+{
+	this.errMes = "";
+	//----------------------------------------
+	this.trim = function(s)
+	{
+		if ( s == "" ) return "";
+		return s.replace(/[\r\n]+$|^\s+|\s+$/g, "");
+	}
+	
+	//----------------------------------------
+}();
+//prototype宣言
+String.prototype.trim = function() { return bryful.trim(this); }
+
+writeLn("bryful's Lib string installed.");

@@ -1,0 +1,240 @@
+﻿bryful.comp = new function()
+{
+	this.errMes = "";
+	
+	var defWidth = 1280;
+	var defHeight = 720;
+	var defPixelAspect = 1.0;
+	var defDuration = 3.0;
+	var defFrameRate = 24;
+	//-------------------------------------------------------
+	this.setDefSize = function()
+	{
+		var prms = new Array;
+		if ( arguments.length>0){
+			for (i = 0; i < arguments.length; i++) {
+				if ( typeof(arguments[i]) == "number"){
+					prms.push(arguments[i]);
+				}
+			}
+		}
+		if (prms.length<2){
+			this.errMes += "comp.setDefSize: arguments error\n";
+			return;
+		}
+		
+		switch(prms.length)
+		{
+			case 5: defFrameRate = prms[4];
+			case 4: defDuration = prms[3];
+			case 3: defPixelAspect = prms[2];
+			case 2: defHeight = Math.round(prms[1]);
+			case 1: defWidth = Math.round(prms[0]);
+		}
+		
+	}
+	//-------------------------------------------------------
+	this.setDefDuration = function()
+	{
+		if ( arguments.length<=0){
+			this.errMes += "comp.setDefDuration: arguments error\n";
+			return;
+		}
+		if (typeof(arguments[0]) != "number") {
+			this.errMes += "comp.setDefDuration: none Number error\n";
+			return;
+		}
+		if (arguments[0] <=0) {
+			this.errMes += "comp.setDefDuration: 0 under error\n";
+			return;
+		}
+		
+		defDuration = arguments[0];
+	}
+	//-------------------------------------------------------
+	this.addComp = function()
+	{
+		if ( arguments.length<=0){
+			this.errMes += "comp.addComp: arguments error\n";
+			return null;
+		}
+
+		var cName = "";
+		var w = defWidth;
+		var h = defHeight;
+		var a = defPixelAspect;
+		var d = defDuration;
+		var f = defFrameRate;
+		
+		var fi = null; //FolderItem
+		var insertItem = null; // Target Item
+
+		var arg = new bryful.args(arguments);
+		
+		if ( arg.footageAry.length>0){
+			insertItem = arg.footageAry[0];
+		}else if ( arg.compAry.length>0){
+			insertItem = arg.compAry[0];
+		}
+		if ( insertItem != null){
+			w = insertItem.width;
+			h = insertItem.height;
+			a = insertItem.pixelAspect;
+			if ((insertItem instanceof FootageItem)&&((insertItem.file == null)||(insertItem.mainSource.isStill == true)))
+			{
+				//何もしない
+			}else{
+				d = insertItem.duration;
+				f = insertItem.frameRate;
+			}
+		}
+		switch ( arg.numberAry.length)
+		{
+			case 1:
+				d = arg.numberAry[0];
+				break;
+			case 2:
+				w = Math.round(arg.numberAry[0]);
+				h = Math.round(arg.numberAry[1]);
+				break;
+			case 3:
+			case 4:
+				w = Math.round(arg.numberAry[0]);
+				h = Math.round(arg.numberAry[1]);
+				d = arg.numberAry[2];
+				break;
+			case 5:
+				w = Math.round(arg.numberAry[0]);
+				h = Math.round(arg.numberAry[1]);
+				a = arg.numberAry[2];
+				d = arg.numberAry[3];
+				f = arg.numberAry[4];
+		}
+		if ( arg.stringAry.length>0){
+			cName = arg.stringAry[0];
+		}else{
+			if ( insertItem == null) {
+				this.errMes += "comp.addComp: name error\n";
+				return null;
+			}else{
+				cName = insertItem.name;
+				if (cName.match(/(.*?)?(_|-)?(\[(.*)?\])(\.(.+)?)/)){
+					cName = RegExp.$1;
+				}
+				//同じnameなら少し変える
+				if ( cName == insertItem.name){
+					cName = cName + "_cmp";
+				}
+			}
+			
+		}
+		if ( arg.folderItemAry.length>0){
+			fi = arg.folderItemAry[0];
+		}else if (insertItem != null) {
+			fi = insertItem.parentFolder;
+		}else{
+			fi = app.project.rootFolder;
+		}
+		var cmp = fi.items.addComp(cName, w, h, a, d, f);
+		cmp.duration = d;
+		
+		if ( arg.footageAry.length>0){
+			for ( var i=0; i<arg.footageAry.length; i++){
+				cmp.layers.add(arg.footageAry[i]);
+			}
+		}
+		if ( arg.compAry.length>0){
+			for ( var i=0; i<arg.compAry.length; i++){
+				cmp.layers.add(arg.compAry[i]);
+			}
+		}
+		return cmp;
+	}
+	//-------------------------------------------------------
+	this.setFrame = function()
+	{
+		if ( arguments.length<2){
+			this.errMes += "comp.setFrame: arguments error\n";
+			return null;
+		}
+		var cmp = null;
+		var fr = 0;
+		for (i = 0; i < arguments.length; i++) {
+			if ( arguments[i] instanceof CompItem){
+				if (cmp == null) {
+					cmp = arguments[i];
+				}
+			}else if (typeof(arguments[i]) == "number") {
+				if ((fr == 0)&&(arguments[i] > 0)){
+					fr = Math.round(arguments[i]);
+				}
+			}
+			if ((cmp != null)&&(fr != 0)) break;
+		}
+		if (cmp == null){
+			this.errMes += "comp.setFrame: none Target Comb error\n";
+			return null;
+		}
+		if (fr == 0){
+			this.errMes += "comp.setFrame: frame error\n";
+			return null;
+		}
+		cmp.duration = fr / cmp.frameRate;
+		return cmp.duration;
+	}
+	//-------------------------------------------------------
+	this.getFrame = function()
+	{
+		if ( arguments.length<1){
+			this.errMes += "comp.getFrame: arguments error\n";
+			return 0;
+		}
+		var cmp = null;
+		for (i = 0; i < arguments.length; i++) {
+			if ( arguments[i] instanceof CompItem){
+				if (cmp == null) {
+					cmp = arguments[i];
+					break;
+				}
+			}
+		}
+		if (cmp == null){
+			this.errMes += "comp.getFrame: none Target Comb error\n";
+			return 0;
+		}
+		return cmp.duration * cmp.frameRate;
+	}
+
+}();
+
+//----------------------------------------
+//prototype宣言
+//
+Project.prototype.addComp = function(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC)
+	{ bryful.comp.addComp(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC);}
+FolderItem.prototype.addComp = function(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC)
+	{ bryful.comp.addComp(this,p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC);}
+FootageItem.prototype.addComp = function(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC)
+	{ bryful.comp.addComp(this,p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC);}
+CompItem.prototype.addComp = function(p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC)
+	{ bryful.comp.addComp(this,p0,p1,p2,p3,p4,p5,p6,p7,p8,p9,pA,pB,pC);}
+
+
+CompItem.prototype.setFrame = function(fr) { return bryful.comp.setFrame(this, fr); }
+CompItem.prototype.getFrame = function() { return bryful.comp.getFrame(this); }
+
+write(" comp.");
+
+/*	
+app.beginUndoGroup("aa");
+app.project.addComp("def");
+app.project.addComp("def1",640,480,1,5,24);
+app.project.addComp("def2",640,480);
+//
+app.project.addComp(app.project.activeItem);//CompItem or FootageItemを選択
+app.project.addComp(app.project.activeItem,"def4");
+app.project.activeItem.addComp("def5"); //Folderを選択
+app.endUndoGroup();
+*/
+//app.project.activeItem.setFrame(72);
+//alert( app.project.activeItem.getFrame() );

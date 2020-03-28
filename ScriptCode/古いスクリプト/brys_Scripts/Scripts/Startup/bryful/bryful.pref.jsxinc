@@ -1,0 +1,42 @@
+﻿bryful.pref = new function()
+{
+	this.errMes = "";
+	//---------------------------------
+	this.LevelsOfUndo = function()
+	{
+		return app.preferences.getPrefAsLong("General Section","Levels of Undo");
+		
+	}
+	//---------------------------------
+	//---------------------------------
+}();
+
+write(" pref.");
+
+
+/*
+preferences
+deletePref(string sectionName,string sectionKey) returns boolean
+
+getPrefAsBool(string sectionName,string sectionKey) returns boolean
+
+getPrefAsFloat(string sectionName,string sectionKey)returns float
+
+getPrefAsLong(string sectionName,string sectionKey) returns long
+
+getPrefAsString(string sectionName,string sectionKey) returns string
+
+havePref(string sectionName,string sectionKey) returns boolean
+
+reload() no return
+
+savePrefAsBool(string sectionName,string sectionKey,boolean value) no return
+
+savePrefAsFloat(string sectionName,string sectionKey,float value)no return
+
+savePrefAsLong(string sectionName,string sectionKey,long value)no return
+
+savePrefAsString(string sectionName,string sectionKey,string value) no return
+
+saveToDisk() no return
+*/

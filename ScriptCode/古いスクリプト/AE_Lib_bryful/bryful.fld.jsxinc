@@ -1,0 +1,303 @@
+﻿bryful.fld = new function()
+{
+	this.errMes = "";
+
+	
+	//----------------------------------------
+	function getType(tItem)
+	{
+		//typeNameだと英語と日本語の処理がめんどくさい
+		//数値は bryful.itemsで定義されているものと同じ
+		if ( tItem instanceof FootageItem){
+			return 31;
+		} else if ( tItem instanceof CompItem){
+			return 32;
+		} else if ( tItem instanceof FolderItem){
+			return 64;
+		}else{
+			return 256;
+		}
+	}
+	//----------------------------------------
+	/*
+		対象アイテムの位置を文字列配列で得る
+	*/
+	this.getPathArray = function(tItem)
+	{
+		var ret = new Array;
+		var rId = app.project.rootFolder.id;
+		
+		if ( arguments.length<=0){
+			this.errMes += "fld.getPathArray: arguments erroe\n";
+			return ret;
+		}
+		if (((arguments[0] instanceof FootageItem)==false) ||
+			((arguments[0] instanceof FolderItem)==false) ||
+			((arguments[0] instanceof CompItem)==false) )
+		{
+			this.errMes += "fld.getPathArray: none Target Object\n";
+			return ret;
+		}
+		
+		ret.push(arguments[0].name);
+		
+		var pfld = arguments[0].parentFolder;
+		while( rId != pfld.id)
+		{
+			ret.unshift(pfld.name);
+			pfld = pfld.parentFolder;
+			if ( ( pfld == null)||( rId == pfld.id)) break;
+		}
+		return ret;
+	}
+	//----------------------------------------
+	this.findFromFolderItem = function()
+	{
+		var ret = new Array;
+		if ( arguments.length<2) {
+			this.errMes += "fld.findFromFolderItem: arguments error\n";
+			return ret;
+		}
+		if ((arguments[0] instanceof FolderItem) == false) {
+			this.errMes += "fld.findFromFolderItem: none FolderItem \n";
+			return ret;
+		}else{
+			if ( arguments[0].numItems<=0){
+				this.errMes += "fld.findFromFolderItem: numItems == 0 \n";
+				return ret;
+			}
+		}
+		
+		
+		var targetName = "";
+		if ( typeof( arguments[1] ) == "string"){
+			targetName = arguments[1];
+		}else if ((arguments[1]instanceof FootageItem)||(arguments[1]instanceof CompItem)||(arguments[1]instanceof FolderItem)) {
+			targetName = arguments[1].name;
+		}else{
+			this.errMes += "fld.findFromFolderItem: target error\n";
+			return ret;
+		}
+		if (targetName == "") {
+			this.errMes += "fld.findFromFolderItem: target is empty error\n";
+			return ret;
+		}else{
+			targetName = targetName.toLowerCase();
+		}
+
+		var matchType = 0;
+		if (  arguments.length>=3){
+			if (typeof(arguments[2]) == "string") {
+				//文字にゆとり世代
+				var ss = arguments[2].toLowerCase();
+				if ( ss.indexOf("foot")>=0 ) { matchType |= 31; }
+				if ( ss.indexOf("comp")>=0 ) { matchType |= 32; }
+				if ( ss.indexOf("fold")>=0 ) { matchType |= 64; }
+			} else if (typeof(arguments[2]) == "number") {
+				matchType = arguments[2];
+			}
+		}
+		if (matchType == 0) matchType = 255;
+
+		
+		for ( var i=1; i<=arguments[0].numItems; i++)
+		{
+			var itm = arguments[0].item(i);
+			if (itm.name.toLowerCase() == targetName) {
+				if ((getType(itm) & matchType) != 0){
+					ret.push(arguments[0].item(i));
+				}
+			}
+		}
+		return ret;
+	}
+	//----------------------------------------
+	/*
+		文字列配列で指定したアイテムを探し出す。
+		同じ名まえが存在する可能性があるので、返り値も配列になる。
+	*/
+	this.findFromPathArray = function()
+	{
+		var ret = new Array;
+		if ( arguments.length<=0) {
+			this.errMes += "fld.findFromPathArray: arguments error\n";
+			return ret;
+		}
+		if ( app.project.numItems<=0) {
+			this.errMes += "fld.findFromPathArray: none Items\n";
+			return ret;
+		}
+		//配列だったらそのまま
+		//文字列だったら適当に配列にする
+		if ( arguments[0] instanceof Array){
+			var pathArray = arguments[0];
+		}else{
+			var pathArray = arguments[0].split("/");
+		}
+		//末尾の空白を削除
+		if ( pathArray.length>0) {
+			for ( var i=pathArray.length-1; i>=0; i--){
+				if (pathArray[i] == ""){
+					pathArray.pop();
+				}else{
+					break;
+				}
+			}
+		}
+		
+		if (pathArray.length<=0) {
+			this.errMes += "fld.findFromPathArray: pathArray error\n";
+			return ret;
+		}
+		for ( var i=1; i<=app.project.numItems; i++){
+			var tar = bryful.items.getPathArray(app.project.item(i));
+			if (tar.length == pathArray.length) {
+				var b = true;
+				for ( var j=0; j<tar.length;j++){
+					if ( tar[j] != pathArray[j]){
+						b = false;
+						break;
+					}
+				}
+				if ( b==true) ret.push(app.project.item(i));
+ 			}
+		}
+		return ret;
+	}
+	//----------------------------------------
+	/*
+		文字列配列からフォルダを作成。
+		第二引数にtrueを渡すと、同パス名フォルダがあったらそれを返す。
+		falseなら新たに作成。省略時はtrue
+	*/
+	this.addFolderFromPathArray = function()
+	{
+		var ret = null;
+		if (arguments.length <= 0){
+			this.errMes += "fld.createFolderFromPathArray: arguments error\n";
+			return null;
+		}
+		//第一引数が配列じゃないとエラー
+		if ( !( arguments[0] instanceof Array)){
+			this.errMes += "fld.createFolderFromPathArray: Array error\n";
+			return ret;
+		}else{
+			//文字列配列以外は全部エラー
+			if ( arguments[0].length <=0) return null;
+			for (var i = 0; i < arguments[0].length; i++) {
+				if ( typeof(arguments[0][i]) != "string"){
+					this.errMes += "fld.createFolderFromPathArray: Array String error\n";
+					return null
+				}
+			}
+		}
+		//第二引数の処理
+		var usedFlag = true;
+		if (arguments.length > 1)
+			if ( typeof(arguments[1]) == "boolean")
+				if ( arguments[1] == false)
+					usedFlag = false;
+		
+		var fd = app.project.rootFolder;
+		if ( usedFlag == true){
+			for (var i = 0; i < arguments[0].length; i++){
+				var ary = this.findFromFolderItem(fd,arguments[0][i],"folder");
+				if ( ary.length>0){
+					fd = ary[0];
+				}else{
+					fd = fd.items.addFolder(arguments[0][i]);
+				}
+			}
+		}else{
+			for (var i = 0; i < arguments[0].length; i++){
+				fd = fd.items.addFolder( arguments[0][i]);
+			}
+		}
+		return fd;
+	}
+
+	//----------------------------------------
+	this.addFolder = function()
+	{
+		if ( arguments<=0) {
+			this.errMes += "fld.addFolder: arguments error\n";
+			return null;
+		}
+		var fi = null;
+		var name = "";
+		for( var i=0; i<arguments.length; i++)
+		{
+			if (typeof(arguments[i]) == "string"){
+				if ( name == ""){
+					if (arguments[i] != ""){
+						name = arguments[i];
+					}
+				}
+			}else if (arguments[i] instanceof FolderItem ){
+				if ( fi == null)
+				{
+					fi = arguments[i];
+				}
+			}else if (arguments[i] instanceof Array ){
+				//文字列配列だったら、それでフォルダ作成
+				if (arguments[i].length>0){
+					var b = true;
+					for ( p=0; p<arguments[i].length; p++){
+						if (typeof(arguments[i][p])=="string"){
+							//
+						} else{
+							b = false;
+							break;
+						}
+					}
+					if (b == true) {
+						return this.addFolderFromPathArray(arguments[i]);
+					}
+				}
+			}
+			if ((name != "")&&(fi != null)) break;
+		}
+		if ( name == "") {
+			this.errMes += "fld.addFolder: none name\n";
+			return null;
+		}
+		if (fi == null) fi = app.project.rootFolder;
+		try{
+			return fi.items.addFolder(name);
+		}catch(e){
+			this.errMes += "fld.addFolder: " + e.toString() + "\n";
+			return null;
+		}
+	}
+}
+
+//----------------------------------------
+//prototype宣言
+FootageItem.prototype.getPathArray = function() {return  bryful.fld.getPathArray(this);}
+FolderItem.prototype.getPathArray = function() {return  bryful.fld.getPathArray(this);}
+CompItem.prototype.getPathArray = function() {return  bryful.fld.getPathArray(this);}
+
+FolderItem.prototype.find = function(name,mp) { return bryful.fld.findFromFolderItem(this,name,mp);}
+
+Project.prototype.findFromPathArray = function(ary) { return bryful.fld.findFromPathArray(ary); }
+
+Project.prototype.addFolderFromPathArray = function(ary,isC) { return bryful.fld.addFolderFromPathArray(ary,isC); }
+
+Project.prototype.addFolder = function(p0,p1,p2,p3) { return bryful.fld.addFolder(p0,p1,p2,p3); }
+
+writeLn("bryful's Lib fld installed.");
+
+
+/*
+//var ac = app.project.activeItem;
+//alert(ac.typeName);
+
+app.project.addFolderFromPathArray(new Array("AA","AA","CSC"));
+
+var ff = app.project.addFolderFromPathArray(new Array("AA","AA","CSC"));
+app.project.addFolder("BBB");
+app.project.addFolder(ff,"J-J");
+app.project.addFolder("J_J",ff);
+app.project.addFolder(new Array("アダルト","実写","金髪"));
+*/
+

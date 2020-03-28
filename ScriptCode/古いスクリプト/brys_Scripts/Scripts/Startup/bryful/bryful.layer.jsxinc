@@ -1,0 +1,10 @@
+﻿bryful.layer = new function()
+{
+	this.errMes = "";
+
+	//----------------------------------------
+
+}();
+
+write(" layer.");
+
