@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.1062
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AE_Scripts", "AE_Scripts\AE_Scripts.csproj", "{00E56DBB-EBA8-40FF-8393-C5CCD523EDF0}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "aeclip", "..\AE_utils\aeclip\aeclip.csproj", "{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Scripts", "Scripts\Scripts.csproj", "{C25E3EC2-2C59-4663-9DB6-CB748EA9E217}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +13,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{00E56DBB-EBA8-40FF-8393-C5CCD523EDF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00E56DBB-EBA8-40FF-8393-C5CCD523EDF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00E56DBB-EBA8-40FF-8393-C5CCD523EDF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00E56DBB-EBA8-40FF-8393-C5CCD523EDF0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C25E3EC2-2C59-4663-9DB6-CB748EA9E217}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C25E3EC2-2C59-4663-9DB6-CB748EA9E217}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C25E3EC2-2C59-4663-9DB6-CB748EA9E217}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C25E3EC2-2C59-4663-9DB6-CB748EA9E217}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

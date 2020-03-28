@@ -1,0 +1,182 @@
+﻿	//prototype登録
+	String.prototype.trim = function(){
+		if (this=="" ) return ""
+		else return this.replace(/[\r\n]+$|^\s+|\s+$/g, "");
+	}
+	String.prototype.getParent = function(){
+		var r=this;var i=this.lastIndexOf("/");if(i>=0) r=this.substring(0,i);
+		return r;
+	}
+	//ファイル名のみ取り出す（拡張子付き）
+	String.prototype.getName = function(){
+		var r=this;var i=this.lastIndexOf("/");if(i>=0) r=this.substring(i+1);
+		return r;
+	}
+	//拡張子のみを取り出す。
+	String.prototype.getExt = function(){
+		var r="";var i=this.lastIndexOf(".");if (i>=0) r=this.substring(i);
+		return r;
+	}
+	//指定した書拡張子に変更（dotを必ず入れること）空文字を入れれば拡張子の消去。
+	String.prototype.changeExt=function(s){
+		var i=this.lastIndexOf(".");
+		if(i>=0){return this.substring(0,i)+s;}else{return this; }
+	}
+	//文字の置換。（全ての一致した部分を置換）
+	String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
+
+	FootageItem.prototype.nameTrue = function(){ var b=this.name;this.name=""; var ret=this.name;this.name=b;return ret;}
+	
+		String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
+	// *
+	Property.prototype.getTree =
+	PropertyGroup.prototype.getTree =
+	PropertyBase.prototype.getTree = function()
+	{
+		var ret = [];
+		var a = this;
+		do
+		{
+			ret.push(a.name);
+			a = a.parentProperty;
+		}while(a!=null);
+		ret = ret.reverse();
+		
+		return ret;
+	}
+	Property.prototype.getTreeM =
+	PropertyGroup.prototype.getTreeM =
+	PropertyBase.prototype.getTreeM = function()
+	{
+		var ret = [];
+		var a = this;
+		do
+		{
+			ret.push(a.matchName);
+			a = a.parentProperty;
+		}while(a!=null);
+		ret = ret.reverse();
+		
+		return ret;
+	}
+	// *
+	Property.prototype.findContent =
+	PropertyGroup.prototype.findContent =
+	PropertyBase.prototype.findContent = function(){
+		var ret = null;
+		var pp =this;
+		do{
+			if ((pp.matchName=="ADBE Root Vectors Group")||(pp.matchName=="ADBE Vector Group")){
+				ret = pp;
+				break;
+			}
+			pp = pp.parentProperty;
+		}while(pp!=null);
+			
+		return ret;	
+	}
+	Property.prototype.layer =
+	PropertyGroup.prototype.layer =
+	PropertyBase.prototype.layer = function(){
+		return this.propertyGroup(this.propertyDepth);	
+	}
+
+	// ********************************************************************************
+	/*
+		アクティブなコンポジションを獲得
+	*/
+	// ********************************************************************************
+	var getActiveComp = function()
+	{
+		var ret = null;
+		ret = app.project.activeItem;
+		
+		if ( (ret instanceof CompItem)===false)
+		{
+			ret = null;
+			alert("コンポをアクティブにしてください！");
+		}
+		return ret;
+	}
+	// ********************************************************************************
+	// ********************************************************************************
+	var getActiveLayer = function(cmp)
+	{
+		var ret = null;
+		var lyrs = cmp.selectedLayers;
+		if(lyrs.length!==1){
+			alert("レイヤを1個だけ選んでください");
+			return ret;
+		}
+		ret = lyrs[0];
+		return ret;
+	}
+	// ********************************************************************************
+	var getPropertyBase = function(lyr)
+	{
+		var ret = null;
+		if (lyr instanceof CompItem) {
+			var a = lyr.selectedLayers;
+			if(a.length>=1){
+				lyr = a[0];
+			}else{
+				alert("レイヤを1個だけ選んでください");
+				return;
+			}
+		}
+		var props = lyr.selectedProperties;
+		var pg = null;
+		if(props.length<=0){
+			pg = lyr.property("ADBE Root Vectors Group");
+        }else{
+			for ( var i=0; i<props.length; i++){
+				if ( props[i] instanceof PropertyGroup){
+					pg = props[i];
+					break;
+				}
+			}
+		}
+		if(pg==null){
+			alert("グループかコンテンツを選んでください");
+		}else{
+			ret = pg;
+		}
+		return ret;
+	}
+	// ********************************************************************************
+	var getPropertyGroup = function(lyr)
+	{
+		var ret = null;
+		if (lyr instanceof CompItem) {
+			var a = lyr.selectedLayers;
+			if(a.length>=1){
+				lyr = a[0];
+			}else{
+				alert("レイヤを1個だけ選んでください");
+				return;
+			}
+		}
+		var props = lyr.selectedProperties;
+		var pg = null;
+		if(props.length<=0){
+			pg = lyr.property("ADBE Root Vectors Group");
+        }else{
+			for ( var i=0; i<props.length; i++){
+				var a = props[i].findContent();
+				if (a !=null){
+					pg = a;
+					break;
+				}
+			}
+		}
+		if(pg==null){
+			alert("グループかコンテンツを選んでください");
+		}else{
+			ret = pg;
+		}
+		return ret;
+	}
+	// ********************************************************************************
+	
+	// ********************************************************************************
+	// ********************************************************************************
