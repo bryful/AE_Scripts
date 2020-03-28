@@ -1,4 +1,7 @@
 ﻿# After Effects用のスクリプト
+After Effects用に書いたスクリプトコードをGitに保存したくて作ったものです。  
+  
+未整理な所がかなりありますが、いずれまとめて整理します。
 
 # Dependency
 Visual studio 2017 C#  
