@@ -25,10 +25,10 @@
 	//文字の置換。（全ての一致した部分を置換）
 	String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
 
-	FootageItem.prototype.nameTrue = function(){ var b=this.name;this.name=""; var ret=this.name;this.name=b;return ret;}
+	//FootageItem.prototype.nameTrue = function(){ var b=this.name;this.name=""; var ret=this.name;this.name=b;return ret;}
 	
 		String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
-	// *
+
 	Property.prototype.getTree =
 	PropertyGroup.prototype.getTree =
 	PropertyBase.prototype.getTree = function()
@@ -147,6 +147,7 @@
 	var getPropertyGroup = function(lyr)
 	{
 		var ret = null;
+		if (lyr==null) return;
 		if (lyr instanceof CompItem) {
 			var a = lyr.selectedLayers;
 			if(a.length>=1){
@@ -158,7 +159,7 @@
 		}
 		var props = lyr.selectedProperties;
 		var pg = null;
-		if(props.length<=0){
+		if((props==null)||(props.length<=0)){
 			pg = lyr.property("ADBE Root Vectors Group");
         }else{
 			for ( var i=0; i<props.length; i++){

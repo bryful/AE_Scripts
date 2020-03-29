@@ -22,14 +22,14 @@
 			return;
 		}
 		try{
+	        undoList.push(line);
+	        if (undoList.length > 40) undoList.shift();
+	        undoIndex = 0;
 			var s = eval(line);
 		}catch(e){
 			tbLine.text = "errer!";
 			return;
 		}
-        undoList.push(line);
-        if (undoList.length > 40) undoList.shift();
-        undoIndex = 0;
 
 		tbLine.text = s +"";
     }

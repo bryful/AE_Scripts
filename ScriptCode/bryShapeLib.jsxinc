@@ -29,7 +29,7 @@ FsShapeLib.err ="";
                 try{
 					p.setValue(obj.value);
 				}catch(e){
-					FsShapeLib.err += e.toString(); +"\r\n";
+					FsShapeLib.err += e.toString() +"\r\n";
 				}
                 break;
             case PropertyValueType.SHAPE:
@@ -43,7 +43,7 @@ FsShapeLib.err ="";
 						p.setValue(myShape);
 					}
 				}catch(e){
-					FsShapeLib.err += e.toString(); +"\r\n";
+					FsShapeLib.err += e.toString() +"\r\n";
 				}
                 break;
             //case PropertyValueType.CUSTOM_VALUE:	
@@ -72,7 +72,7 @@ FsShapeLib.err ="";
                 try{
 					p.setValuesAtTimes(obj.times, obj.values);
 				}catch(e){
-					FsShapeLib.err += e.toString(); +"\r\n";
+					FsShapeLib.err += e.toString() +"\r\n";
 				}
                 break;
             case PropertyValueType.SHAPE:
@@ -90,7 +90,7 @@ FsShapeLib.err ="";
 					}
 					p.setValuesAtTimes(obj.times, vv);
 				}catch(e){
-					FsShapeLib.err += e.toString(); +"\r\n";
+					FsShapeLib.err += e.toString() +"\r\n";
 				}
                 break;
             //case PropertyValueType.CUSTOM_VALUE:	
@@ -133,7 +133,7 @@ FsShapeLib.err ="";
 						try{
 							setObjectValue(obj.items[i], p.property(obj.items[i].propertyIndex));
 						}catch(e){
-							FsShapeLib.err += e.toString(); +"\r\n";
+							FsShapeLib.err += e.toString() +"\r\n";
 						}
                     }
                 }
@@ -158,7 +158,7 @@ FsShapeLib.err ="";
 					}
 				}
 			}catch(e){
-				FsShapeLib.err += e.toString(); +"\r\n";
+				//FsShapeLib.err += e.toString() +"\r\n";
 			}
         }
         return ret;
@@ -172,7 +172,7 @@ FsShapeLib.err ="";
             	try{
                 	createObject(obj[i], pg);
                 }catch(e){
-					FsShapeLib.err += e.toString(); +"\r\n";
+					FsShapeLib.err += e.toString() +"\r\n";
 				}
             }
             ret = true;
@@ -204,7 +204,7 @@ FsShapeLib.err ="";
 	
 	        }
 	     }catch(e){
-			FsShapeLib.err += e.toString(); +"\r\n";
+			FsShapeLib.err += e.toString() +"\r\n";
 		}
         return ret;
 
