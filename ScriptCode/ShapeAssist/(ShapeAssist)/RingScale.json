@@ -357,7 +357,90 @@
              "active": true,
              "enabled": true,
              "numProperties": 6,
-             "isPropertyGroup": true
+             "isPropertyGroup": true,
+             "items": [
+              {
+               "name": "アンカーポイント",
+               "matchName": "ADBE Vector Repeater Anchor",
+               "propertyType": 6212,
+               "propertyIndex": 1,
+               "propertyValueType": 6415,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                0,
+                0
+               ]
+              },
+              {
+               "name": "位置",
+               "matchName": "ADBE Vector Repeater Position",
+               "propertyType": 6212,
+               "propertyIndex": 2,
+               "propertyValueType": 6415,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                0,
+                0
+               ]
+              },
+              {
+               "name": "スケール",
+               "matchName": "ADBE Vector Repeater Scale",
+               "propertyType": 6212,
+               "propertyIndex": 3,
+               "propertyValueType": 6416,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                100,
+                100
+               ]
+              },
+              {
+               "name": "回転",
+               "matchName": "ADBE Vector Repeater Rotation",
+               "propertyType": 6212,
+               "propertyIndex": 4,
+               "propertyValueType": 6417,
+               "isModified": true,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 45
+              },
+              {
+               "name": "開始点の不透明度",
+               "matchName": "ADBE Vector Repeater Opacity 1",
+               "propertyType": 6212,
+               "propertyIndex": 5,
+               "propertyValueType": 6417,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 100
+              },
+              {
+               "name": "終了点の不透明度",
+               "matchName": "ADBE Vector Repeater Opacity 2",
+               "propertyType": 6212,
+               "propertyIndex": 6,
+               "propertyValueType": 6417,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 100
+              }
+             ]
             }
            ]
           }
@@ -629,7 +712,90 @@
              "active": true,
              "enabled": true,
              "numProperties": 6,
-             "isPropertyGroup": true
+             "isPropertyGroup": true,
+             "items": [
+              {
+               "name": "アンカーポイント",
+               "matchName": "ADBE Vector Repeater Anchor",
+               "propertyType": 6212,
+               "propertyIndex": 1,
+               "propertyValueType": 6415,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                0,
+                0
+               ]
+              },
+              {
+               "name": "位置",
+               "matchName": "ADBE Vector Repeater Position",
+               "propertyType": 6212,
+               "propertyIndex": 2,
+               "propertyValueType": 6415,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                0,
+                0
+               ]
+              },
+              {
+               "name": "スケール",
+               "matchName": "ADBE Vector Repeater Scale",
+               "propertyType": 6212,
+               "propertyIndex": 3,
+               "propertyValueType": 6416,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                100,
+                100
+               ]
+              },
+              {
+               "name": "回転",
+               "matchName": "ADBE Vector Repeater Rotation",
+               "propertyType": 6212,
+               "propertyIndex": 4,
+               "propertyValueType": 6417,
+               "isModified": true,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 15
+              },
+              {
+               "name": "開始点の不透明度",
+               "matchName": "ADBE Vector Repeater Opacity 1",
+               "propertyType": 6212,
+               "propertyIndex": 5,
+               "propertyValueType": 6417,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 100
+              },
+              {
+               "name": "終了点の不透明度",
+               "matchName": "ADBE Vector Repeater Opacity 2",
+               "propertyType": 6212,
+               "propertyIndex": 6,
+               "propertyValueType": 6417,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 100
+              }
+             ]
             }
            ]
           }
@@ -901,7 +1067,90 @@
              "active": true,
              "enabled": true,
              "numProperties": 6,
-             "isPropertyGroup": true
+             "isPropertyGroup": true,
+             "items": [
+              {
+               "name": "アンカーポイント",
+               "matchName": "ADBE Vector Repeater Anchor",
+               "propertyType": 6212,
+               "propertyIndex": 1,
+               "propertyValueType": 6415,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                0,
+                0
+               ]
+              },
+              {
+               "name": "位置",
+               "matchName": "ADBE Vector Repeater Position",
+               "propertyType": 6212,
+               "propertyIndex": 2,
+               "propertyValueType": 6415,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                0,
+                0
+               ]
+              },
+              {
+               "name": "スケール",
+               "matchName": "ADBE Vector Repeater Scale",
+               "propertyType": 6212,
+               "propertyIndex": 3,
+               "propertyValueType": 6416,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": [
+                100,
+                100
+               ]
+              },
+              {
+               "name": "回転",
+               "matchName": "ADBE Vector Repeater Rotation",
+               "propertyType": 6212,
+               "propertyIndex": 4,
+               "propertyValueType": 6417,
+               "isModified": true,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 2.5
+              },
+              {
+               "name": "開始点の不透明度",
+               "matchName": "ADBE Vector Repeater Opacity 1",
+               "propertyType": 6212,
+               "propertyIndex": 5,
+               "propertyValueType": 6417,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 100
+              },
+              {
+               "name": "終了点の不透明度",
+               "matchName": "ADBE Vector Repeater Opacity 2",
+               "propertyType": 6212,
+               "propertyIndex": 6,
+               "propertyValueType": 6417,
+               "isModified": false,
+               "active": true,
+               "enabled": true,
+               "isPropertyGroup": false,
+               "value": 100
+              }
+             ]
             }
            ]
           }
@@ -1415,7 +1664,93 @@
           "active": true,
           "enabled": true,
           "numProperties": 7,
-          "isPropertyGroup": true
+          "isPropertyGroup": true,
+          "items": [
+           {
+            "name": "線分",
+            "matchName": "ADBE Vector Stroke Dash 1",
+            "propertyType": 6212,
+            "propertyIndex": 1,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 10
+           },
+           {
+            "name": "間隔",
+            "matchName": "ADBE Vector Stroke Gap 1",
+            "propertyType": 6212,
+            "propertyIndex": 2,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 10
+           },
+           {
+            "name": "線分 2",
+            "matchName": "ADBE Vector Stroke Dash 2",
+            "propertyType": 6212,
+            "propertyIndex": 3,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 10
+           },
+           {
+            "name": "間隔 2",
+            "matchName": "ADBE Vector Stroke Gap 2",
+            "propertyType": 6212,
+            "propertyIndex": 4,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 10
+           },
+           {
+            "name": "線分 3",
+            "matchName": "ADBE Vector Stroke Dash 3",
+            "propertyType": 6212,
+            "propertyIndex": 5,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 10
+           },
+           {
+            "name": "間隔 3",
+            "matchName": "ADBE Vector Stroke Gap 3",
+            "propertyType": 6212,
+            "propertyIndex": 6,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 10
+           },
+           {
+            "name": "オフセット",
+            "matchName": "ADBE Vector Stroke Offset",
+            "propertyType": 6212,
+            "propertyIndex": 7,
+            "propertyValueType": 6417,
+            "isModified": false,
+            "active": true,
+            "enabled": true,
+            "isPropertyGroup": false,
+            "value": 0
+           }
+          ]
          }
         ]
        }

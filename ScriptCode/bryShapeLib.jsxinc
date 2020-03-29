@@ -3,13 +3,14 @@
 
 
 FsShapeLib = {};
+FsShapeLib.err ="";
 
 (function (me) {
 
     var isModifiedMode = false;
 
     // ********************************************************************************
-    // Property��value��ǂݏo��
+    // Propertyを設定
     // ********************************************************************************
     var setValue = function (obj, p) {
         var ret = null;
@@ -25,18 +26,25 @@ FsShapeLib = {};
             case PropertyValueType.TwoD:
             case PropertyValueType.OneD:
             case PropertyValueType.COLOR:
-                p.setValue(obj.value);
+                try{
+					p.setValue(obj.value);
+				}catch(e){
+					FsShapeLib.err += e.toString(); +"\r\n";
+				}
                 break;
             case PropertyValueType.SHAPE:
-
-                if (obj.value.vertices.length > 0) {
-                    var myShape = new Shape();
-                    myShape.vertices = obj.value.vertices;
-                    myShape.inTangents = obj.value.inTangents;
-                    myShape.outTangents = obj.value.outTangents;
-                    myShape.closed = obj.value.closed;
-                    p.setValue(myShape);
-                }
+				try{
+					if (obj.value.vertices.length > 0) {
+						var myShape = new Shape();
+						myShape.vertices = obj.value.vertices;
+						myShape.inTangents = obj.value.inTangents;
+						myShape.outTangents = obj.value.outTangents;
+						myShape.closed = obj.value.closed;
+						p.setValue(myShape);
+					}
+				}catch(e){
+					FsShapeLib.err += e.toString(); +"\r\n";
+				}
                 break;
             //case PropertyValueType.CUSTOM_VALUE:	
             //case PropertyValueType.MARKER:
@@ -61,21 +69,29 @@ FsShapeLib = {};
             case PropertyValueType.TwoD:
             case PropertyValueType.OneD:
             case PropertyValueType.COLOR:
-                p.setValuesAtTimes(obj.times, obj.values);
+                try{
+					p.setValuesAtTimes(obj.times, obj.values);
+				}catch(e){
+					FsShapeLib.err += e.toString(); +"\r\n";
+				}
                 break;
             case PropertyValueType.SHAPE:
-                var vv = [];
-                for (var i = 0; i < obj.values.length; i++) {
-                    var myShape = new Shape();
-                    if (obj.values[i].vertices.length > 0) {
-                        myShape.vertices = obj.values[i].vertices;
-                        myShape.inTangents = obj.values[i].inTangents;
-                        myShape.outTangents = obj.values[i].outTangents;
-                        myShape.closed = obj.values[i].closed;
-                    }
-                    vv.push(myShape);
-                }
-                p.setValuesAtTimes(obj.times, vv);
+				try{
+					var vv = [];
+					for (var i = 0; i < obj.values.length; i++) {
+						var myShape = new Shape();
+						if (obj.values[i].vertices.length > 0) {
+							myShape.vertices = obj.values[i].vertices;
+							myShape.inTangents = obj.values[i].inTangents;
+							myShape.outTangents = obj.values[i].outTangents;
+							myShape.closed = obj.values[i].closed;
+						}
+						vv.push(myShape);
+					}
+					p.setValuesAtTimes(obj.times, vv);
+				}catch(e){
+					FsShapeLib.err += e.toString(); +"\r\n";
+				}
                 break;
             //case PropertyValueType.CUSTOM_VALUE:	
             //case PropertyValueType.MARKER:
@@ -92,19 +108,33 @@ FsShapeLib = {};
         if (p.matchName != obj.matchName) return false;
         if (obj.isModified != true) return true;
         if (p.name != obj.name) p.name = obj.name;
+        try{
         if (p.active != obj.active) p.active = obj.active;
+        }catch(e){
+        }
         if (p.enabled != obj.enabled) p.enabled = obj.enabled;
 
         if ("value" in obj) {
-            ret = setValue(obj, p);
+        	try{
+            	ret = setValue(obj, p);
+            }catch(e){
+				FsShapeLib.err += e.toString(); +"\r\n";
+			}
         } else if (("times" in obj) && ("values" in obj)) {
-            ret = setValues(obj, p);
-
+            try{
+            	ret = setValues(obj, p);
+            }catch(e){
+				FsShapeLib.err += e.toString(); +"\r\n";
+			}
         } else if ("items" in obj) {
             if (obj.items.length > 0) {
                 for (var i = 0; i < obj.items.length; i++) {
                     if (obj.items[i].isModified == true) {
-                        setObjectValue(obj.items[i], p.property(obj.items[i].propertyIndex));
+						try{
+							setObjectValue(obj.items[i], p.property(obj.items[i].propertyIndex));
+						}catch(e){
+							FsShapeLib.err += e.toString(); +"\r\n";
+						}
                     }
                 }
             }
@@ -112,7 +142,7 @@ FsShapeLib = {};
         return ret;
     }
     // ********************************************************************************
-    // �V�K�ɍ쐬
+    // 
     // ********************************************************************************
     var createObject = function (obj, pg) {
         var ret = false;
@@ -120,12 +150,16 @@ FsShapeLib = {};
         if (obj.matchName == "ADBE Vector Group") {
             createGroup(obj, pg);
         } else {
-            if (pg.canAddProperty(obj.matchName) == true) {
-                var p = pg.addProperty(obj.matchName);
-                if (p != null) {
-                    ret = setObjectValue(obj, p);
-                }
-            }
+			try{
+				if (pg.canAddProperty(obj.matchName) == true) {
+					var p = pg.addProperty(obj.matchName);
+					if (p != null) {
+						ret = setObjectValue(obj, p);
+					}
+				}
+			}catch(e){
+				FsShapeLib.err += e.toString(); +"\r\n";
+			}
         }
         return ret;
     }
@@ -135,7 +169,11 @@ FsShapeLib = {};
         var ret = false;
         if (obj.length > 0) {
             for (var i = 0; i < obj.length; i++) {
-                createObject(obj[i], pg);
+            	try{
+                	createObject(obj[i], pg);
+                }catch(e){
+					FsShapeLib.err += e.toString(); +"\r\n";
+				}
             }
             ret = true;
         }
@@ -146,29 +184,33 @@ FsShapeLib = {};
     // ********************************************************************************
     var createGroup = function (obj, pg) {
         var ret = false;
-        if (pg.canAddProperty(obj.matchName) == true) {
-            var p = pg.addProperty(obj.matchName);
-            if (p.name != obj.name) p.name = obj.name;
-            if (p.active != obj.active) p.active = obj.active;
-            if (p.enabled != obj.enabled) p.enabled = obj.enabled;
-
-            if ("blendMode" in obj) {
-                setObjectValue(obj.blendMode, p.property(1));
-            }
-            if ("transform" in obj) {
-                setObjectValue(obj.transform, p.property(3));
-            }
-
-            if ("content" in obj) {
-                setContent(obj.content.items, p.property(2));
-            }
-
-        }
+        try{
+	        if (pg.canAddProperty(obj.matchName) == true) {
+	            var p = pg.addProperty(obj.matchName);
+	            if (p.name != obj.name) p.name = obj.name;
+	            if (p.active != obj.active) p.active = obj.active;
+	            if (p.enabled != obj.enabled) p.enabled = obj.enabled;
+	
+	            if ("blendMode" in obj) {
+	                setObjectValue(obj.blendMode, p.property(1));
+	            }
+	            if ("transform" in obj) {
+	                setObjectValue(obj.transform, p.property(3));
+	            }
+	
+	            if ("content" in obj) {
+	                setContent(obj.content.items, p.property(2));
+	            }
+	
+	        }
+	     }catch(e){
+			FsShapeLib.err += e.toString(); +"\r\n";
+		}
         return ret;
 
     }
     // ********************************************************************************
-    // Shape��C���|�[�g
+    // Shap
     //
     // ********************************************************************************
 
@@ -197,9 +239,7 @@ FsShapeLib = {};
         if (ac == null) return;
         var pg = getPropertyGroup(ac);
         if (pg == null) return;
-
-        //alert(pg.getTreeM().toString());
-        //return;
+		 FsShapeLib.err = "";
 
 
         var fPath = File.openDialog("Import Shape", "*.json");
@@ -247,6 +287,7 @@ FsShapeLib = {};
        
         var f = new File(jfile.fullName);
         if (f.exists == false) return;
+		 FsShapeLib.err = "";
 
         var str = ""
         try {
@@ -277,6 +318,9 @@ FsShapeLib = {};
         } else {
             alert("�f�[�^���s��");
             return;
+        }
+        if (FsShapeLib.err!=""){
+        	alert(FsShapeLib.err);
         }
     }
     // ��������������������������������������������������������������������������������
@@ -386,6 +430,12 @@ FsShapeLib = {};
     //�v���p�e�B�̏���ǂݏo��
     // ********************************************************************************
     var getObjectFromProperty = function (p) {
+
+        if (p.isPropertyGroup==true){
+        	ret = getObjectFromPropertyGroup(p);
+        	return ret;
+        }
+
         var ret = {};
         if (("name" in p) == false) return ret;
         if ((p.isModified == false) && (isModifiedMode == true)) {
@@ -429,7 +479,12 @@ FsShapeLib = {};
         ret.items = [];
         if (p.numProperties > 0) {
             for (var i = 1; i <= p.numProperties; i++) {
-                var v = getObjectFromProperty(p.property(i));
+            	var v = null
+            	if (p.property(i) instanceof Property){
+                	 v = getObjectFromProperty(p.property(i));
+                }else{
+                	v = getObjectFromPropertyGroup(p.property(i));
+                }
                 if (v != null) ret.items.push(v);
             }
         }
@@ -523,8 +578,8 @@ FsShapeLib = {};
         var v = null;
         if (p instanceof PropertyGroup) {
             switch (p.matchName) {
-                case "ADBE Root Vectors Group": //���[�g�R���e���c
-                    v = getObjectFromRoot(p);
+                case "ADBE Root Vectors Group": //
+					 v = getObjectFromRoot(p);
                     break;
                 case "ADBE Vectors Group": //�R���e���c
                     v = getObjectFromContent(p);
@@ -553,8 +608,7 @@ FsShapeLib = {};
         if (ac == null) return;
         var pg = getPropertyGroup(ac);
         if (pg == null) return;
-
-
+		 FsShapeLib.err = "";
         var shapeData = {};
         shapeData.ahead = "AEShapeIO";
         shapeData.aep = app.project.file.fsName;
