@@ -1,0 +1,983 @@
+{
+ "ahead": "AEShapeIO",
+ "aep": "C:\\Users\\bryfu\\Documents\\Visual Studio 2017\\Projects\\AE_Scripts\\ScriptCode\\ShapeAssist\\ShapeLib_cc2020.aep",
+ "compName": "01_Grid1",
+ "shape": {
+  "name": "grid",
+  "matchName": "ADBE Vector Group",
+  "propertyType": 6213,
+  "propertyIndex": 1,
+  "isModified": true,
+  "active": true,
+  "enabled": true,
+  "numProperties": 4,
+  "isPropertyGroup": true,
+  "npG": 4,
+  "blendMode": {
+   "name": "描画モード",
+   "matchName": "ADBE Vector Blend Mode",
+   "propertyType": 6212,
+   "propertyIndex": 1,
+   "propertyValueType": 6417,
+   "isModified": false,
+   "active": true,
+   "enabled": true,
+   "isPropertyGroup": false,
+   "value": 1
+  },
+  "content": {
+   "name": "コンテンツ",
+   "matchName": "ADBE Vectors Group",
+   "propertyType": 6214,
+   "propertyIndex": 2,
+   "isModified": true,
+   "active": true,
+   "enabled": true,
+   "numProperties": 6,
+   "isPropertyGroup": true,
+   "items": [
+    {
+     "name": "size",
+     "matchName": "ADBE Vector Shape - Rect",
+     "propertyType": 6213,
+     "propertyIndex": 1,
+     "isModified": true,
+     "active": false,
+     "enabled": false,
+     "numProperties": 4,
+     "isPropertyGroup": true,
+     "items": [
+      {
+       "name": "シェイプの方向",
+       "matchName": "ADBE Vector Shape Direction",
+       "propertyType": 6212,
+       "propertyIndex": 1,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 1
+      },
+      {
+       "name": "サイズ",
+       "matchName": "ADBE Vector Rect Size",
+       "propertyType": 6212,
+       "propertyIndex": 2,
+       "propertyValueType": 6416,
+       "isModified": true,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        1600,
+        900
+       ]
+      },
+      {
+       "name": "位置",
+       "matchName": "ADBE Vector Rect Position",
+       "propertyType": 6212,
+       "propertyIndex": 3,
+       "propertyValueType": 6415,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "角丸の半径",
+       "matchName": "ADBE Vector Rect Roundness",
+       "propertyType": 6212,
+       "propertyIndex": 4,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 0
+      }
+     ]
+    },
+    {
+     "name": "gridSize",
+     "matchName": "ADBE Vector Shape - Rect",
+     "propertyType": 6213,
+     "propertyIndex": 2,
+     "isModified": true,
+     "active": false,
+     "enabled": false,
+     "numProperties": 4,
+     "isPropertyGroup": true,
+     "items": [
+      {
+       "name": "シェイプの方向",
+       "matchName": "ADBE Vector Shape Direction",
+       "propertyType": 6212,
+       "propertyIndex": 1,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 1
+      },
+      {
+       "name": "サイズ",
+       "matchName": "ADBE Vector Rect Size",
+       "propertyType": 6212,
+       "propertyIndex": 2,
+       "propertyValueType": 6416,
+       "isModified": true,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        99,
+        93
+       ]
+      },
+      {
+       "name": "位置",
+       "matchName": "ADBE Vector Rect Position",
+       "propertyType": 6212,
+       "propertyIndex": 3,
+       "propertyValueType": 6415,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "角丸の半径",
+       "matchName": "ADBE Vector Rect Roundness",
+       "propertyType": 6212,
+       "propertyIndex": 4,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 0
+      }
+     ]
+    },
+    {
+     "name": "LineHeight",
+     "matchName": "ADBE Vector Shape - Rect",
+     "propertyType": 6213,
+     "propertyIndex": 3,
+     "isModified": true,
+     "active": false,
+     "enabled": false,
+     "numProperties": 4,
+     "isPropertyGroup": true,
+     "items": [
+      {
+       "name": "シェイプの方向",
+       "matchName": "ADBE Vector Shape Direction",
+       "propertyType": 6212,
+       "propertyIndex": 1,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 1
+      },
+      {
+       "name": "サイズ",
+       "matchName": "ADBE Vector Rect Size",
+       "propertyType": 6212,
+       "propertyIndex": 2,
+       "propertyValueType": 6416,
+       "isModified": true,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        4,
+        4
+       ]
+      },
+      {
+       "name": "位置",
+       "matchName": "ADBE Vector Rect Position",
+       "propertyType": 6212,
+       "propertyIndex": 3,
+       "propertyValueType": 6415,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        0,
+        0
+       ]
+      },
+      {
+       "name": "角丸の半径",
+       "matchName": "ADBE Vector Rect Roundness",
+       "propertyType": 6212,
+       "propertyIndex": 4,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 0
+      }
+     ]
+    },
+    {
+     "name": "vur",
+     "matchName": "ADBE Vector Group",
+     "propertyType": 6213,
+     "propertyIndex": 4,
+     "isModified": true,
+     "active": true,
+     "enabled": true,
+     "numProperties": 4,
+     "isPropertyGroup": true,
+     "npG": 4,
+     "blendMode": {
+      "name": "描画モード",
+      "matchName": "ADBE Vector Blend Mode",
+      "propertyType": 6212,
+      "propertyIndex": 1,
+      "propertyValueType": 6417,
+      "isModified": false,
+      "active": true,
+      "enabled": true,
+      "isPropertyGroup": false,
+      "value": 1
+     },
+     "content": {
+      "name": "コンテンツ",
+      "matchName": "ADBE Vectors Group",
+      "propertyType": 6214,
+      "propertyIndex": 2,
+      "isModified": true,
+      "active": true,
+      "enabled": true,
+      "numProperties": 2,
+      "isPropertyGroup": true,
+      "items": [
+       {
+        "name": "長方形パス 1",
+        "matchName": "ADBE Vector Shape - Rect",
+        "propertyType": 6213,
+        "propertyIndex": 1,
+        "isModified": true,
+        "active": true,
+        "enabled": true,
+        "numProperties": 4,
+        "isPropertyGroup": true,
+        "items": [
+         {
+          "name": "シェイプの方向",
+          "matchName": "ADBE Vector Shape Direction",
+          "propertyType": 6212,
+          "propertyIndex": 1,
+          "propertyValueType": 6417,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": 1
+         },
+         {
+          "name": "サイズ",
+          "matchName": "ADBE Vector Rect Size",
+          "propertyType": 6212,
+          "propertyIndex": 2,
+          "propertyValueType": 6416,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "expression": "h =thisProperty.propertyGroup(4)(\"size\")(2)[1];\r\nw = thisProperty.propertyGroup(4)(\"LineHeight\")(2)[0];\r\n[w,h];\r\n",
+          "values": [
+           [
+            100,
+            100
+           ]
+          ],
+          "times": [
+           0
+          ]
+         },
+         {
+          "name": "位置",
+          "matchName": "ADBE Vector Rect Position",
+          "propertyType": 6212,
+          "propertyIndex": 3,
+          "propertyValueType": 6415,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": [
+           0,
+           0
+          ]
+         },
+         {
+          "name": "角丸の半径",
+          "matchName": "ADBE Vector Rect Roundness",
+          "propertyType": 6212,
+          "propertyIndex": 4,
+          "propertyValueType": 6417,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "リピーター 1",
+        "matchName": "ADBE Vector Filter - Repeater",
+        "propertyType": 6213,
+        "propertyIndex": 2,
+        "isModified": true,
+        "active": true,
+        "enabled": true,
+        "numProperties": 4,
+        "isPropertyGroup": true,
+        "items": [
+         {
+          "name": "コピー数",
+          "matchName": "ADBE Vector Repeater Copies",
+          "propertyType": 6212,
+          "propertyIndex": 1,
+          "propertyValueType": 6417,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "expression": "w = thisProperty.propertyGroup(4)(\"size\")(2)[0];\r\nw2 = thisProperty.propertyGroup(4)(\"gridSize\")(2)[0];\r\ncnt = Math.round(w/w2);\r\n",
+          "value": 16
+         },
+         {
+          "name": "オフセット",
+          "matchName": "ADBE Vector Repeater Offset",
+          "propertyType": 6212,
+          "propertyIndex": 2,
+          "propertyValueType": 6417,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "expression": "Math.floor((thisProperty.propertyGroup(1)(1)-1)/-2);\r\n",
+          "value": -8
+         },
+         {
+          "name": "コンポジット",
+          "matchName": "ADBE Vector Repeater Order",
+          "propertyType": 6212,
+          "propertyIndex": 3,
+          "propertyValueType": 6417,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": 1
+         },
+         {
+          "name": "トランスフォーム",
+          "matchName": "ADBE Vector Repeater Transform",
+          "propertyType": 6213,
+          "propertyIndex": 4,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "numProperties": 6,
+          "isPropertyGroup": true
+         }
+        ]
+       }
+      ]
+     },
+     "transform": {
+      "name": "トランスフォーム",
+      "matchName": "ADBE Vector Transform Group",
+      "propertyType": 6213,
+      "propertyIndex": 3,
+      "isModified": false,
+      "active": true,
+      "enabled": true,
+      "numProperties": 7,
+      "isPropertyGroup": true,
+      "items": [
+       {
+        "name": "アンカーポイント",
+        "matchName": "ADBE Vector Anchor",
+        "propertyType": 6212,
+        "propertyIndex": 1,
+        "propertyValueType": 6415,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": [
+         0,
+         0
+        ]
+       },
+       {
+        "name": "位置",
+        "matchName": "ADBE Vector Position",
+        "propertyType": 6212,
+        "propertyIndex": 2,
+        "propertyValueType": 6415,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": [
+         0,
+         0
+        ]
+       },
+       {
+        "name": "スケール",
+        "matchName": "ADBE Vector Scale",
+        "propertyType": 6212,
+        "propertyIndex": 3,
+        "propertyValueType": 6416,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": [
+         100,
+         100
+        ]
+       },
+       {
+        "name": "歪曲",
+        "matchName": "ADBE Vector Skew",
+        "propertyType": 6212,
+        "propertyIndex": 4,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 0
+       },
+       {
+        "name": "歪曲軸",
+        "matchName": "ADBE Vector Skew Axis",
+        "propertyType": 6212,
+        "propertyIndex": 5,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 0
+       },
+       {
+        "name": "回転",
+        "matchName": "ADBE Vector Rotation",
+        "propertyType": 6212,
+        "propertyIndex": 6,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 0
+       },
+       {
+        "name": "不透明度",
+        "matchName": "ADBE Vector Group Opacity",
+        "propertyType": 6212,
+        "propertyIndex": 7,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 100
+       }
+      ]
+     }
+    },
+    {
+     "name": "hor",
+     "matchName": "ADBE Vector Group",
+     "propertyType": 6213,
+     "propertyIndex": 5,
+     "isModified": true,
+     "active": true,
+     "enabled": true,
+     "numProperties": 4,
+     "isPropertyGroup": true,
+     "npG": 4,
+     "blendMode": {
+      "name": "描画モード",
+      "matchName": "ADBE Vector Blend Mode",
+      "propertyType": 6212,
+      "propertyIndex": 1,
+      "propertyValueType": 6417,
+      "isModified": false,
+      "active": true,
+      "enabled": true,
+      "isPropertyGroup": false,
+      "value": 1
+     },
+     "content": {
+      "name": "コンテンツ",
+      "matchName": "ADBE Vectors Group",
+      "propertyType": 6214,
+      "propertyIndex": 2,
+      "isModified": true,
+      "active": true,
+      "enabled": true,
+      "numProperties": 2,
+      "isPropertyGroup": true,
+      "items": [
+       {
+        "name": "長方形パス 1",
+        "matchName": "ADBE Vector Shape - Rect",
+        "propertyType": 6213,
+        "propertyIndex": 1,
+        "isModified": true,
+        "active": true,
+        "enabled": true,
+        "numProperties": 4,
+        "isPropertyGroup": true,
+        "items": [
+         {
+          "name": "シェイプの方向",
+          "matchName": "ADBE Vector Shape Direction",
+          "propertyType": 6212,
+          "propertyIndex": 1,
+          "propertyValueType": 6417,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": 1
+         },
+         {
+          "name": "サイズ",
+          "matchName": "ADBE Vector Rect Size",
+          "propertyType": 6212,
+          "propertyIndex": 2,
+          "propertyValueType": 6416,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "expression": "w =thisProperty.propertyGroup(4)(\"size\")(2)[0];\r\nh = thisProperty.propertyGroup(4)(\"LineHeight\")(2)[1];\r\n[w,h];\r\n",
+          "values": [
+           [
+            100,
+            100
+           ]
+          ],
+          "times": [
+           0
+          ]
+         },
+         {
+          "name": "位置",
+          "matchName": "ADBE Vector Rect Position",
+          "propertyType": 6212,
+          "propertyIndex": 3,
+          "propertyValueType": 6415,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": [
+           0,
+           0
+          ]
+         },
+         {
+          "name": "角丸の半径",
+          "matchName": "ADBE Vector Rect Roundness",
+          "propertyType": 6212,
+          "propertyIndex": 4,
+          "propertyValueType": 6417,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": 0
+         }
+        ]
+       },
+       {
+        "name": "リピーター 1",
+        "matchName": "ADBE Vector Filter - Repeater",
+        "propertyType": 6213,
+        "propertyIndex": 2,
+        "isModified": true,
+        "active": true,
+        "enabled": true,
+        "numProperties": 4,
+        "isPropertyGroup": true,
+        "items": [
+         {
+          "name": "コピー数",
+          "matchName": "ADBE Vector Repeater Copies",
+          "propertyType": 6212,
+          "propertyIndex": 1,
+          "propertyValueType": 6417,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "expression": "h = thisProperty.propertyGroup(4)(\"size\")(2)[1];\r\nh2 = thisProperty.propertyGroup(4)(\"gridSize\")(2)[1];\r\ncnt = (h/h2);\r\n",
+          "value": 9.67741935483871
+         },
+         {
+          "name": "オフセット",
+          "matchName": "ADBE Vector Repeater Offset",
+          "propertyType": 6212,
+          "propertyIndex": 2,
+          "propertyValueType": 6417,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "expression": "Math.floor((thisProperty.propertyGroup(1)(1)-1)/-2);\r\n",
+          "value": -5
+         },
+         {
+          "name": "コンポジット",
+          "matchName": "ADBE Vector Repeater Order",
+          "propertyType": 6212,
+          "propertyIndex": 3,
+          "propertyValueType": 6417,
+          "isModified": false,
+          "active": true,
+          "enabled": true,
+          "isPropertyGroup": false,
+          "value": 1
+         },
+         {
+          "name": "トランスフォーム",
+          "matchName": "ADBE Vector Repeater Transform",
+          "propertyType": 6213,
+          "propertyIndex": 4,
+          "isModified": true,
+          "active": true,
+          "enabled": true,
+          "numProperties": 6,
+          "isPropertyGroup": true
+         }
+        ]
+       }
+      ]
+     },
+     "transform": {
+      "name": "トランスフォーム",
+      "matchName": "ADBE Vector Transform Group",
+      "propertyType": 6213,
+      "propertyIndex": 3,
+      "isModified": false,
+      "active": true,
+      "enabled": true,
+      "numProperties": 7,
+      "isPropertyGroup": true,
+      "items": [
+       {
+        "name": "アンカーポイント",
+        "matchName": "ADBE Vector Anchor",
+        "propertyType": 6212,
+        "propertyIndex": 1,
+        "propertyValueType": 6415,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": [
+         0,
+         0
+        ]
+       },
+       {
+        "name": "位置",
+        "matchName": "ADBE Vector Position",
+        "propertyType": 6212,
+        "propertyIndex": 2,
+        "propertyValueType": 6415,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": [
+         0,
+         0
+        ]
+       },
+       {
+        "name": "スケール",
+        "matchName": "ADBE Vector Scale",
+        "propertyType": 6212,
+        "propertyIndex": 3,
+        "propertyValueType": 6416,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": [
+         100,
+         100
+        ]
+       },
+       {
+        "name": "歪曲",
+        "matchName": "ADBE Vector Skew",
+        "propertyType": 6212,
+        "propertyIndex": 4,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 0
+       },
+       {
+        "name": "歪曲軸",
+        "matchName": "ADBE Vector Skew Axis",
+        "propertyType": 6212,
+        "propertyIndex": 5,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 0
+       },
+       {
+        "name": "回転",
+        "matchName": "ADBE Vector Rotation",
+        "propertyType": 6212,
+        "propertyIndex": 6,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 0
+       },
+       {
+        "name": "不透明度",
+        "matchName": "ADBE Vector Group Opacity",
+        "propertyType": 6212,
+        "propertyIndex": 7,
+        "propertyValueType": 6417,
+        "isModified": false,
+        "active": true,
+        "enabled": true,
+        "isPropertyGroup": false,
+        "value": 100
+       }
+      ]
+     }
+    },
+    {
+     "name": "塗り 1",
+     "matchName": "ADBE Vector Graphic - Fill",
+     "propertyType": 6213,
+     "propertyIndex": 6,
+     "isModified": true,
+     "active": true,
+     "enabled": true,
+     "numProperties": 5,
+     "isPropertyGroup": true,
+     "items": [
+      {
+       "name": "描画モード",
+       "matchName": "ADBE Vector Blend Mode",
+       "propertyType": 6212,
+       "propertyIndex": 1,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 1
+      },
+      {
+       "name": "コンポジット",
+       "matchName": "ADBE Vector Composite Order",
+       "propertyType": 6212,
+       "propertyIndex": 2,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 1
+      },
+      {
+       "name": "塗りの規則",
+       "matchName": "ADBE Vector Fill Rule",
+       "propertyType": 6212,
+       "propertyIndex": 3,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 1
+      },
+      {
+       "name": "カラー",
+       "matchName": "ADBE Vector Fill Color",
+       "propertyType": 6212,
+       "propertyIndex": 4,
+       "propertyValueType": 6418,
+       "isModified": true,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": [
+        1,
+        0.95686274766922,
+        0.95686274766922,
+        1
+       ]
+      },
+      {
+       "name": "不透明度",
+       "matchName": "ADBE Vector Fill Opacity",
+       "propertyType": 6212,
+       "propertyIndex": 5,
+       "propertyValueType": 6417,
+       "isModified": false,
+       "active": true,
+       "enabled": true,
+       "isPropertyGroup": false,
+       "value": 100
+      }
+     ]
+    }
+   ]
+  },
+  "transform": {
+   "name": "トランスフォーム",
+   "matchName": "ADBE Vector Transform Group",
+   "propertyType": 6213,
+   "propertyIndex": 3,
+   "isModified": false,
+   "active": true,
+   "enabled": true,
+   "numProperties": 7,
+   "isPropertyGroup": true,
+   "items": [
+    {
+     "name": "アンカーポイント",
+     "matchName": "ADBE Vector Anchor",
+     "propertyType": 6212,
+     "propertyIndex": 1,
+     "propertyValueType": 6415,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": [
+      0,
+      0
+     ]
+    },
+    {
+     "name": "位置",
+     "matchName": "ADBE Vector Position",
+     "propertyType": 6212,
+     "propertyIndex": 2,
+     "propertyValueType": 6415,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": [
+      0,
+      0
+     ]
+    },
+    {
+     "name": "スケール",
+     "matchName": "ADBE Vector Scale",
+     "propertyType": 6212,
+     "propertyIndex": 3,
+     "propertyValueType": 6416,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": [
+      100,
+      100
+     ]
+    },
+    {
+     "name": "歪曲",
+     "matchName": "ADBE Vector Skew",
+     "propertyType": 6212,
+     "propertyIndex": 4,
+     "propertyValueType": 6417,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": 0
+    },
+    {
+     "name": "歪曲軸",
+     "matchName": "ADBE Vector Skew Axis",
+     "propertyType": 6212,
+     "propertyIndex": 5,
+     "propertyValueType": 6417,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": 0
+    },
+    {
+     "name": "回転",
+     "matchName": "ADBE Vector Rotation",
+     "propertyType": 6212,
+     "propertyIndex": 6,
+     "propertyValueType": 6417,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": 0
+    },
+    {
+     "name": "不透明度",
+     "matchName": "ADBE Vector Group Opacity",
+     "propertyType": 6212,
+     "propertyIndex": 7,
+     "propertyValueType": 6417,
+     "isModified": false,
+     "active": true,
+     "enabled": true,
+     "isPropertyGroup": false,
+     "value": 100
+    }
+   ]
+  }
+ }
+}

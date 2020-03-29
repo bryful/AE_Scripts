@@ -1,0 +1,595 @@
+﻿#include "json2.jsxinc"
+#include "bryScriptLib.jsxinc"
+
+
+FsShapeLib = {};
+
+(function (me) {
+
+    var isModifiedMode = false;
+
+    // ********************************************************************************
+    // Property��value��ǂݏo��
+    // ********************************************************************************
+    var setValue = function (obj, p) {
+        var ret = null;
+
+        if (obj.isModified == false) return ret;
+
+        switch (obj.propertyValueType) {
+            case PropertyValueType.NO_VALUE:
+                break;
+            case PropertyValueType.ThreeD_SPATIAL:
+            case PropertyValueType.ThreeD:
+            case PropertyValueType.TwoD_SPATIAL:
+            case PropertyValueType.TwoD:
+            case PropertyValueType.OneD:
+            case PropertyValueType.COLOR:
+                p.setValue(obj.value);
+                break;
+            case PropertyValueType.SHAPE:
+
+                if (obj.value.vertices.length > 0) {
+                    var myShape = new Shape();
+                    myShape.vertices = obj.value.vertices;
+                    myShape.inTangents = obj.value.inTangents;
+                    myShape.outTangents = obj.value.outTangents;
+                    myShape.closed = obj.value.closed;
+                    p.setValue(myShape);
+                }
+                break;
+            //case PropertyValueType.CUSTOM_VALUE:	
+            //case PropertyValueType.MARKER:
+            //case PropertyValueType.LAYER_INDEX:
+            //case PropertyValueType.MASK_INDEX:
+            //case PropertyValueType.TEXT_DOCUMENT:
+        }
+        return ret;
+    }
+    // ********************************************************************************
+    var setValues = function (obj, p) {
+        var ret = null;
+
+        if (obj.isModified == false) return ret;
+
+        switch (obj.propertyValueType) {
+            case PropertyValueType.NO_VALUE:
+                break;
+            case PropertyValueType.ThreeD_SPATIAL:
+            case PropertyValueType.ThreeD:
+            case PropertyValueType.TwoD_SPATIAL:
+            case PropertyValueType.TwoD:
+            case PropertyValueType.OneD:
+            case PropertyValueType.COLOR:
+                p.setValuesAtTimes(obj.times, obj.values);
+                break;
+            case PropertyValueType.SHAPE:
+                var vv = [];
+                for (var i = 0; i < obj.values.length; i++) {
+                    var myShape = new Shape();
+                    if (obj.values[i].vertices.length > 0) {
+                        myShape.vertices = obj.values[i].vertices;
+                        myShape.inTangents = obj.values[i].inTangents;
+                        myShape.outTangents = obj.values[i].outTangents;
+                        myShape.closed = obj.values[i].closed;
+                    }
+                    vv.push(myShape);
+                }
+                p.setValuesAtTimes(obj.times, vv);
+                break;
+            //case PropertyValueType.CUSTOM_VALUE:	
+            //case PropertyValueType.MARKER:
+            //case PropertyValueType.LAYER_INDEX:
+            //case PropertyValueType.MASK_INDEX:
+            //case PropertyValueType.TEXT_DOCUMENT:
+        }
+        return ret;
+    }
+    // ********************************************************************************
+    // ********************************************************************************
+    var setObjectValue = function (obj, p) {
+        var ret = false;
+        if (p.matchName != obj.matchName) return false;
+        if (obj.isModified != true) return true;
+        if (p.name != obj.name) p.name = obj.name;
+        if (p.active != obj.active) p.active = obj.active;
+        if (p.enabled != obj.enabled) p.enabled = obj.enabled;
+
+        if ("value" in obj) {
+            ret = setValue(obj, p);
+        } else if (("times" in obj) && ("values" in obj)) {
+            ret = setValues(obj, p);
+
+        } else if ("items" in obj) {
+            if (obj.items.length > 0) {
+                for (var i = 0; i < obj.items.length; i++) {
+                    if (obj.items[i].isModified == true) {
+                        setObjectValue(obj.items[i], p.property(obj.items[i].propertyIndex));
+                    }
+                }
+            }
+        }
+        return ret;
+    }
+    // ********************************************************************************
+    // �V�K�ɍ쐬
+    // ********************************************************************************
+    var createObject = function (obj, pg) {
+        var ret = false;
+
+        if (obj.matchName == "ADBE Vector Group") {
+            createGroup(obj, pg);
+        } else {
+            if (pg.canAddProperty(obj.matchName) == true) {
+                var p = pg.addProperty(obj.matchName);
+                if (p != null) {
+                    ret = setObjectValue(obj, p);
+                }
+            }
+        }
+        return ret;
+    }
+    // ********************************************************************************
+    // ********************************************************************************
+    var setContent = function (obj, pg) {
+        var ret = false;
+        if (obj.length > 0) {
+            for (var i = 0; i < obj.length; i++) {
+                createObject(obj[i], pg);
+            }
+            ret = true;
+        }
+        return ret;
+    }
+
+    // ********************************************************************************
+    // ********************************************************************************
+    var createGroup = function (obj, pg) {
+        var ret = false;
+        if (pg.canAddProperty(obj.matchName) == true) {
+            var p = pg.addProperty(obj.matchName);
+            if (p.name != obj.name) p.name = obj.name;
+            if (p.active != obj.active) p.active = obj.active;
+            if (p.enabled != obj.enabled) p.enabled = obj.enabled;
+
+            if ("blendMode" in obj) {
+                setObjectValue(obj.blendMode, p.property(1));
+            }
+            if ("transform" in obj) {
+                setObjectValue(obj.transform, p.property(3));
+            }
+
+            if ("content" in obj) {
+                setContent(obj.content.items, p.property(2));
+            }
+
+        }
+        return ret;
+
+    }
+    // ********************************************************************************
+    // Shape��C���|�[�g
+    //
+    // ********************************************************************************
+
+    var setObjectStart = function (obj, pg) {
+        var ret = false;
+        switch (obj.matchName) {
+            case "ADBE Root Vectors Group": //���[�g�R���e���c
+                v = setContent(obj.content, pg);
+                break;
+            case "ADBE Vector Group": //�O���[�v
+                v = createGroup(obj, pg);
+                break;
+            default://�e�v�f
+                break;
+
+        }
+
+        return ret;
+    }
+    // ********************************************************************************
+    // Shape��C���|�[�g
+    //
+    // ********************************************************************************
+    var importShape = function () {
+        var ac = getActiveComp();
+        if (ac == null) return;
+        var pg = getPropertyGroup(ac);
+        if (pg == null) return;
+
+        //alert(pg.getTreeM().toString());
+        //return;
+
+
+        var fPath = File.openDialog("Import Shape", "*.json");
+        if (fPath == null) {
+            return;
+        }
+        var f = new File(fPath);
+        if (f.exists == false) return;
+        var str = ""
+        try {
+            f.encoding = "utf-8";
+            if (f.open("r")) {
+                str = f.read();
+            }
+        } catch (e) {
+            alert("read errer!\r\n" + e.toString());
+            return;
+        } finally {
+            f.close();
+        }
+        var obj = JSON.parse(str);
+
+        ahead = ""; //AEShapeIO
+        if ("ahead" in obj) { ahead = obj.ahead; }
+
+        if (ahead != "AEShapeIO") {
+            alert("Header���Ⴄ");
+            return;
+        }
+        var sp = null;
+        if ("shape" in obj) { sp = obj.shape; }
+        var ret = false;
+        if (sp != null) {
+            var ret = setObjectStart(sp, pg);
+        } else {
+            alert("�f�[�^���s��");
+            return;
+        }
+    }
+	 // ********************************************************************************
+    // Shape��C���|�[�g
+    //
+    // ********************************************************************************
+    var applyJson = function (jfile,pg) {
+       
+        var f = new File(jfile.fullName);
+        if (f.exists == false) return;
+
+        var str = ""
+        try {
+            f.encoding = "utf-8";
+            if (f.open("r")) {
+                str = f.read();
+            }
+        } catch (e) {
+            alert("read errer!\r\n" + e.toString());
+            return;
+        } finally {
+            f.close();
+        }
+        var obj = JSON.parse(str);
+
+        ahead = ""; //AEShapeIO
+        if ("ahead" in obj) { ahead = obj.ahead; }
+
+        if (ahead != "AEShapeIO") {
+            alert("Header���Ⴄ");
+            return;
+        }
+        var sp = null;
+        if ("shape" in obj) { sp = obj.shape; }
+        var ret = false;
+        if (sp != null) {
+            var ret = setObjectStart(sp, pg);
+        } else {
+            alert("�f�[�^���s��");
+            return;
+        }
+    }
+    // ��������������������������������������������������������������������������������
+    // ��������������������������������������������������������������������������������
+    // ��������������������������������������������������������������������������������
+    // ********************************************************************************
+    //AE�̃v���p�e�B���̍Œ�ʂ�ǂݍ���
+    // ********************************************************************************
+    var getObjectSub = function (p) {
+        var ret = {};
+        ret.name = p.name;
+        ret.matchName = p.matchName;
+        ret.propertyType = p.propertyType;
+        ret.propertyIndex = p.propertyIndex;
+        if ("propertyValueType" in p) ret.propertyValueType = p.propertyValueType;
+        if ("isModified" in p) ret.isModified = p.isModified;
+        if ("active" in p) ret.active = p.active;
+        if ("canSetEnabled" in p) ret.enabled = p.enabled;
+        if ("numProperties" in p) ret.numProperties = p.numProperties;
+        ret.isPropertyGroup = (p instanceof PropertyGroup);
+        return ret;
+    }
+    // **********************
+    function ShapeTo(sp) {
+        ret = {};
+        ret.closed = sp.closed;
+        ret.vertices = sp.vertices;
+        ret.inTangents = sp.inTangents;
+        ret.outTangents = sp.outTangents;
+        return ret;
+    }
+    // **********************
+    // ********************************************************************************
+    // Property��value��ǂݏo��
+    // ********************************************************************************
+    var getObjectFromPropertyValue = function (p) {
+
+        var ret = null;
+        var v = null;
+
+        if ((p.isModified == false) && (isModifiedMode == true)) return ret;
+        switch (p.propertyValueType) {
+            case PropertyValueType.NO_VALUE:
+                break;
+            case PropertyValueType.ThreeD_SPATIAL:
+            case PropertyValueType.ThreeD:
+            case PropertyValueType.TwoD_SPATIAL:
+            case PropertyValueType.TwoD:
+            case PropertyValueType.OneD:
+            case PropertyValueType.COLOR:
+                ret = p.value;
+                break;
+            case PropertyValueType.SHAPE:
+                ret = ShapeTo(p.value);
+                break;
+            //case PropertyValueType.CUSTOM_VALUE:	
+            //case PropertyValueType.MARKER:
+            //case PropertyValueType.LAYER_INDEX:
+            //case PropertyValueType.MASK_INDEX:
+            //case PropertyValueType.TEXT_DOCUMENT:
+        }
+        return ret;
+    }
+    var getObjectFromPropertyTimes = function (p) {
+        var ret = [];
+        for (var i = 1; i <= p.numKeys; i++) {
+            ret.push(p.keyTime(i));
+        }
+        return ret;
+    }
+    var getObjectFromPropertyValues = function (p) {
+
+        var ret = null;
+        var v = null;
+
+        if ((p.isModified == false) && (isModifiedMode == true)) return ret;
+        switch (p.propertyValueType) {
+            case PropertyValueType.NO_VALUE:
+                break;
+            case PropertyValueType.ThreeD_SPATIAL:
+            case PropertyValueType.ThreeD:
+            case PropertyValueType.TwoD_SPATIAL:
+            case PropertyValueType.TwoD:
+            case PropertyValueType.OneD:
+            case PropertyValueType.COLOR:
+                ret = [];
+                for (var i = 1; i <= p.numKeys; i++) {
+                    ret.push(p.keyValue(i));
+                }
+                break;
+            case PropertyValueType.SHAPE:
+                ret = [];
+                for (var i = 1; i <= p.numKeys; i++) {
+                    ret.push(ShapeTo(p.keyValue(i)));
+                }
+                break;
+            //case PropertyValueType.CUSTOM_VALUE:	
+            //case PropertyValueType.MARKER:
+            //case PropertyValueType.LAYER_INDEX:
+            //case PropertyValueType.MASK_INDEX:
+            //case PropertyValueType.TEXT_DOCUMENT:
+        }
+        return ret;
+    }
+
+    // ********************************************************************************
+    //�v���p�e�B�̏���ǂݏo��
+    // ********************************************************************************
+    var getObjectFromProperty = function (p) {
+        var ret = {};
+        if (("name" in p) == false) return ret;
+        if ((p.isModified == false) && (isModifiedMode == true)) {
+            return null;
+        }
+        ret = getObjectSub(p);
+        if (p.canSetExpression == true) {
+            if (p.expression != "") {
+                ret.expression = p.expression.replace("\\", "\\\\");
+                ret.expressionEnabled = p.expressionexpressionEnabled;
+            }
+        }
+        var numKeys = 0;
+        if ("numKeys" in p) {
+            numKeys = p.numKeys;
+        }
+        if ("value" in p) {
+            if (numKeys <= 0) {
+                var v = getObjectFromPropertyValue(p)
+                if (v != null) ret.value = v;
+            } else {
+                var v = getObjectFromPropertyValues(p)
+                if (v != null) ret.values = v;
+                var t = getObjectFromPropertyTimes(p)
+                if (t != null) ret.times = t;
+            }
+        }
+
+        return ret;
+    }
+
+    // ********************************************************************************
+    // �v���p�e�B�O���[�v�������ǂݏo��
+    // ********************************************************************************
+    var getObjectFromPropertyGroup = function (p) {
+        var ret = {};
+        if ((p.isModified == false) && (isModifiedMode == true)) {
+            return null;
+        }
+        ret = getObjectSub(p);
+        ret.items = [];
+        if (p.numProperties > 0) {
+            for (var i = 1; i <= p.numProperties; i++) {
+                var v = getObjectFromProperty(p.property(i));
+                if (v != null) ret.items.push(v);
+            }
+        }
+        return ret;
+
+    }
+    // ********************************************************************************
+    // ���[�g�R���e���c�������ǂݏo��
+    // ********************************************************************************
+    var getObjectFromRoot = function (p) {
+        var ret = {};
+        if ((p.isModified == false) && (isModifiedMode == true)) {
+            return null;
+        }
+        ret = getObjectSub(p);
+        if (p.numProperties > 0) {
+            ret.content = [];
+            for (var i = 1; i <= p.numProperties; i++) {
+                var v = getObject(p.property(i));
+                if (v != null) ret.content.push(v);
+            }
+        }
+        return ret;
+    }
+    // ********************************************************************************
+    // �O���[�v�������ǂݏo��
+    // ********************************************************************************
+    var getObjectFromGroup = function (p) {
+        var ret = {};
+        if ((p.isModified == false) && (isModifiedMode == true)) {
+            return null;
+        }
+        ret = getObjectSub(p);
+        ret.npG = p.numProperties;
+        var v = getObjectFromProperty(p.property(1));
+        if (v != null) ret.blendMode = v;
+
+        var v = getObjectFromContent(p.property(2));
+        if (v != null) ret.content = v;
+
+        var v = getObjectFromPropertyGroup(p.property(3));
+        if (v != null) ret.transform = v;
+
+        return ret;
+
+    }
+    // ********************************************************************************
+    //�R���e���c�������ǂݏo��
+    // ********************************************************************************
+    var getObjectFromContent = function (p) {
+        var ret = {};
+        if ((p.isModified == false) && (isModifiedMode == true)) {
+            return null;
+        }
+        ret = getObjectSub(p);
+        if (p.numProperties > 0) {
+            ret.items = [];
+            for (var i = 1; i <= p.numProperties; i++) {
+                var v = getObject(p.property(i));
+                if (v != null) ret.items.push(v);
+            }
+        }
+        return ret;
+
+    }
+    // ********************************************************************************
+    // �g�����X�t�H�[���������ǂݏo��
+    // ********************************************************************************
+    var getObjectFromTransform = function (p) {
+        var ret = {};
+        if ((p.isModified == false) && (isModifiedMode == true)) {
+            return null;
+        }
+        var pp = getObjectSub(p);
+        if (pp.numProperties > 0) {
+            pp.items = [];
+            for (var i = 1; i <= p.numProperties; i++) {
+                var v = getObjectFromProperty(p.property(i));
+                if (v != null) pp.items.push(v);
+            }
+        }
+        return ret;
+
+    }
+    // ********************************************************************************
+    // Shape��G�L�X�|�[�g
+    //
+    // ********************************************************************************
+    var getObject = function (p) {
+        var ret = null;
+        var v = null;
+        if (p instanceof PropertyGroup) {
+            switch (p.matchName) {
+                case "ADBE Root Vectors Group": //���[�g�R���e���c
+                    v = getObjectFromRoot(p);
+                    break;
+                case "ADBE Vectors Group": //�R���e���c
+                    v = getObjectFromContent(p);
+                    break;
+                case "ADBE Vector Group": //�O���[�v
+                    v = getObjectFromGroup(p);
+                    break;
+                default://�e�v�f
+                    v = getObjectFromPropertyGroup(p);
+                    break;
+
+            }
+        } else if (p instanceof Property) {
+            v = getObjectFromProperty(p)
+        }
+        if (v != null) ret = v;
+
+        return ret;
+    }
+    // ********************************************************************************
+    //Shape��G�L�X�|�[�g
+    //
+    // ********************************************************************************
+    var exportShape = function () {
+        var ac = getActiveComp();
+        if (ac == null) return;
+        var pg = getPropertyGroup(ac);
+        if (pg == null) return;
+
+
+        var shapeData = {};
+        shapeData.ahead = "AEShapeIO";
+        shapeData.aep = app.project.file.fsName;
+        shapeData.compName = ac.name;
+        shapeData.shape = getObject(pg);
+
+
+        //var js = toJSON(shapeData);
+        var js = JSON.stringify(shapeData, undefined, 1);
+
+		var  vv = pg.name +".json";
+		var ff = new File(vv);
+        //var fPath = File.saveDialog(vv , "*.json");
+        var fPath = ff.saveDlg("Export" , "*.json");
+        if (fPath == null) {
+            return;
+        }
+        var f = new File(fPath);
+        f.encoding = "utf-8";
+        if (f.open("w")) {
+            try {
+                f.write(js);
+            } finally {
+                f.close();
+            }
+        }
+        if (f.exists) {
+            alert("Save OK! \r\n" + f.fullName.getParent() + "\r\n" + g.name);
+        }
+    }
+    // ********************************************************************************
+    FsShapeLib.export = exportShape;
+    FsShapeLib.import = importShape;
+
+	FsShapeLib.applyJson = applyJson;
+  
+  
+})(this);

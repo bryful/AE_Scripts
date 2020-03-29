@@ -104,7 +104,7 @@
 	{
 		var ret = null;
 		var lyrs = cmp.selectedLayers;
-		if(lyrs.length!==1){
+		if(lyrs.length<1){
 			alert("レイヤを1個だけ選んでください");
 			return ret;
 		}
