@@ -4,6 +4,8 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 
 これは、Expressionで相対パス指定を作成するスクリプトです。
 
+#includepath "./;../"
+#include "bryScriptLib.jsxinc"
 
 
 */
@@ -14,62 +16,18 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	//ターゲット
 	var targetPath = [];
 	var basePath = [];
-	// ********************************************************************************
-	//prototype登録
-	String.prototype.trim = function(){
-		if (this=="" ) return ""
-		else return this.replace(/[\r\n]+$|^\s+|\s+$/g, "");
-	}
-	String.prototype.getParent = function(){
-		var r=this;var i=this.lastIndexOf("/");if(i>=0) r=this.substring(0,i);
-		return r;
-	}
-	//ファイル名のみ取り出す（拡張子付き）
-	String.prototype.getName = function(){
-		var r=this;var i=this.lastIndexOf("/");if(i>=0) r=this.substring(i+1);
-		return r;
-	}
-	//拡張子のみを取り出す。
-	String.prototype.getExt = function(){
-		var r="";var i=this.lastIndexOf(".");if (i>=0) r=this.substring(i);
-		return r;
-	}
-	//指定した書拡張子に変更（dotを必ず入れること）空文字を入れれば拡張子の消去。
-	String.prototype.changeExt=function(s){
-		var i=this.lastIndexOf(".");
-		if(i>=0){return this.substring(0,i)+s;}else{return this; }
-	}
-	//文字の置換。（全ての一致した部分を置換）
-	String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
 
-	FootageItem.prototype.nameTrue = function(){ var b=this.name;this.name=""; var ret=this.name;this.name=b;return ret;}
 	
 	//----------------------------------
-	var scriptName = File.decode($.fileName.getName().changeExt(""));	var aeclipPath = File.decode($.fileName.getParent()+"/aeclip.exe");
-	// ********************************************************************************
-	/*
-		アクティブなコンポジションを獲得
-	*/
-	// ********************************************************************************
-	var getActiveComp = function()
-	{
-		var ret = null;
-		ret = app.project.activeItem;
-		
-		if ( (ret instanceof CompItem)===false)
-		{
-			ret = null;
-			alert("コンポをアクティブにしてください！");
-			
-		}
-		return ret;
-	}
+	var scriptName = File.decode($.fileName.getName().changeExt(""));
+	var aeclipPath = File.decode($.fileName.getParent()+"/aeclip.exe");
+
 	// ********************************************************************************
 	var createShapeLayer = function()
 	{
 		var ret = false;
 		
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 
 		var  lyr = null;
@@ -210,7 +168,7 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	var getProperty = function()
 	{
 		var ret = null;
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 		
 		var sel = ac.selectedProperties;
@@ -340,7 +298,9 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 			}finally{
 				ff.close();
 			}
-		}		var fclip = new File(aeclipPath);		var cmd =  "\"" + fclip.fsName +"\"" + " /c \"" + ff.fsName + "\"";
+		}
+		var fclip = new File(aeclipPath);
+		var cmd =  "\"" + fclip.fsName +"\"" + " /c \"" + ff.fsName + "\"";
 		if (ff.exists==true){
 			try{
 				var er = system.callSystem(cmd);

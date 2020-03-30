@@ -217,13 +217,13 @@ FsShapeLib.err ="";
     var setObjectStart = function (obj, pg) {
         var ret = false;
         switch (obj.matchName) {
-            case "ADBE Root Vectors Group": //���[�g�R���e���c
+            case "ADBE Root Vectors Group": //???[?g?R???e???c
                 v = setContent(obj.content, pg);
                 break;
-            case "ADBE Vector Group": //�O���[�v
+            case "ADBE Vector Group": //?O???[?v
                 v = createGroup(obj, pg);
                 break;
-            default://�e�v�f
+            default://?e?v?f
                 break;
 
         }
@@ -231,13 +231,13 @@ FsShapeLib.err ="";
         return ret;
     }
     // ********************************************************************************
-    // Shape��C���|�[�g
+    // Shape??C???|?[?g
     //
     // ********************************************************************************
     var importShape = function () {
-        var ac = getActiveComp();
+        var ac = bry.getActiveComp();
         if (ac == null) return;
-        var pg = getPropertyGroup(ac);
+        var pg = bry.getPropertyGroup(ac);
         if (pg == null) return;
 		 FsShapeLib.err = "";
 
@@ -266,7 +266,7 @@ FsShapeLib.err ="";
         if ("ahead" in obj) { ahead = obj.ahead; }
 
         if (ahead != "AEShapeIO") {
-            alert("Header���Ⴄ");
+            alert("Header????");
             return;
         }
         var sp = null;
@@ -275,12 +275,12 @@ FsShapeLib.err ="";
         if (sp != null) {
             var ret = setObjectStart(sp, pg);
         } else {
-            alert("�f�[�^���s��");
+            alert("?f?[?^???s??");
             return;
         }
     }
 	 // ********************************************************************************
-    // Shape��C���|�[�g
+    // Shape??C???|?[?g
     //
     // ********************************************************************************
     var applyJson = function (jfile,pg) {
@@ -307,7 +307,7 @@ FsShapeLib.err ="";
         if ("ahead" in obj) { ahead = obj.ahead; }
 
         if (ahead != "AEShapeIO") {
-            alert("Header���Ⴄ");
+            alert("Header????");
             return;
         }
         var sp = null;
@@ -316,18 +316,18 @@ FsShapeLib.err ="";
         if (sp != null) {
             var ret = setObjectStart(sp, pg);
         } else {
-            alert("�f�[�^���s��");
+            alert("?f?[?^???s??");
             return;
         }
         if (FsShapeLib.err!=""){
         	alert(FsShapeLib.err);
         }
     }
-    // ��������������������������������������������������������������������������������
-    // ��������������������������������������������������������������������������������
-    // ��������������������������������������������������������������������������������
+    // ????????????????????????????????????????????????????????????????????????????????
+    // ????????????????????????????????????????????????????????????????????????????????
+    // ????????????????????????????????????????????????????????????????????????????????
     // ********************************************************************************
-    //AE�̃v���p�e�B���̍Œ�ʂ�ǂݍ���
+    //AE??v???p?e?B?????????????
     // ********************************************************************************
     var getObjectSub = function (p) {
         var ret = {};
@@ -354,7 +354,7 @@ FsShapeLib.err ="";
     }
     // **********************
     // ********************************************************************************
-    // Property��value��ǂݏo��
+    // Property??value????o??
     // ********************************************************************************
     var getObjectFromPropertyValue = function (p) {
 
@@ -427,7 +427,7 @@ FsShapeLib.err ="";
     }
 
     // ********************************************************************************
-    //�v���p�e�B�̏���ǂݏo��
+    //?v???p?e?B???????o??
     // ********************************************************************************
     var getObjectFromProperty = function (p) {
 
@@ -468,7 +468,7 @@ FsShapeLib.err ="";
     }
 
     // ********************************************************************************
-    // �v���p�e�B�O���[�v�������ǂݏo��
+    // ?v???p?e?B?O???[?v?????????o??
     // ********************************************************************************
     var getObjectFromPropertyGroup = function (p) {
         var ret = {};
@@ -492,7 +492,7 @@ FsShapeLib.err ="";
 
     }
     // ********************************************************************************
-    // ���[�g�R���e���c�������ǂݏo��
+    // ???[?g?R???e???c?????????o??
     // ********************************************************************************
     var getObjectFromRoot = function (p) {
         var ret = {};
@@ -510,7 +510,7 @@ FsShapeLib.err ="";
         return ret;
     }
     // ********************************************************************************
-    // �O���[�v�������ǂݏo��
+    // ?O???[?v?????????o??
     // ********************************************************************************
     var getObjectFromGroup = function (p) {
         var ret = {};
@@ -532,7 +532,7 @@ FsShapeLib.err ="";
 
     }
     // ********************************************************************************
-    //�R���e���c�������ǂݏo��
+    //?R???e???c?????????o??
     // ********************************************************************************
     var getObjectFromContent = function (p) {
         var ret = {};
@@ -551,7 +551,7 @@ FsShapeLib.err ="";
 
     }
     // ********************************************************************************
-    // �g�����X�t�H�[���������ǂݏo��
+    // ?g?????X?t?H?[???????????o??
     // ********************************************************************************
     var getObjectFromTransform = function (p) {
         var ret = {};
@@ -570,7 +570,7 @@ FsShapeLib.err ="";
 
     }
     // ********************************************************************************
-    // Shape��G�L�X�|�[�g
+    // Shape??G?L?X?|?[?g
     //
     // ********************************************************************************
     var getObject = function (p) {
@@ -581,13 +581,13 @@ FsShapeLib.err ="";
                 case "ADBE Root Vectors Group": //
 					 v = getObjectFromRoot(p);
                     break;
-                case "ADBE Vectors Group": //�R���e���c
+                case "ADBE Vectors Group": //?R???e???c
                     v = getObjectFromContent(p);
                     break;
-                case "ADBE Vector Group": //�O���[�v
+                case "ADBE Vector Group": //?O???[?v
                     v = getObjectFromGroup(p);
                     break;
-                default://�e�v�f
+                default://?e?v?f
                     v = getObjectFromPropertyGroup(p);
                     break;
 
@@ -600,13 +600,13 @@ FsShapeLib.err ="";
         return ret;
     }
     // ********************************************************************************
-    //Shape��G�L�X�|�[�g
+    //Shape??G?L?X?|?[?g
     //
     // ********************************************************************************
     var exportShape = function () {
-        var ac = getActiveComp();
+        var ac = bry.getActiveComp();
         if (ac == null) return;
-        var pg = getPropertyGroup(ac);
+        var pg = bry.getPropertyGroup(ac);
         if (pg == null) return;
 		 FsShapeLib.err = "";
         var shapeData = {};
