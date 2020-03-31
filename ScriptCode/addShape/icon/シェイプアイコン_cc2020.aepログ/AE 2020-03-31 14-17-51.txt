@@ -1,0 +1,8 @@
+After Effects 警告: 取り消しのグループが一致しません。修正します。  2020/03/31 14:17:51 : コンポジションﾞAdd_fx_allﾞの開始
+
+  出力先 : C:\Users\did-furuhashi\Documents\Visual Studio 2017\Projects\AE_Scripts\ScriptCode\addShape\(addShape)\Add_fx_all_[#####].png    2020/03/31 14:17:51 : コンポジションﾞAdd_fx_allﾞの終了
+
+
+  合計経過時間 : 0 秒
+ログは2020/03/31、14:17:51に閉じられました。
+

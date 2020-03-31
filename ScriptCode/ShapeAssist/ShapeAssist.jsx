@@ -24,11 +24,11 @@
 	// ********************************************************************************
 	var applyFunc = function()
 	{
-        var ac = bry.getActiveComp();
+        var ac = BRY.getActiveComp();
         if (ac == null) return;
-        var lyr = bry.getActiveLayer(ac);
+        var lyr = BRY.getActiveLayer(ac);
         if (lyr == null) return;
-        var pg = bry.getPropertyGroup(lyr);
+        var pg = BRY.getPropertyGroup(lyr);
         if (pg == null) return;
         FsShapeLib.applyJson(this.funcFile, pg);
 	}		
