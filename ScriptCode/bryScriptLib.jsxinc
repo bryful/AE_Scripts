@@ -86,8 +86,9 @@
 	String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
 
 
+//if ( typeof (BRY) !== "object"){//デバッグ時はコメントアウトする
 	BRY={};
-
+//}
 (function(me){
 	// ********************************************************************************
 	/*

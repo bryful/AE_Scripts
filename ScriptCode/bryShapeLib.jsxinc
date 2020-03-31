@@ -2,9 +2,10 @@
 #include "bryScriptLib.jsxinc"
 
 
-FsShapeLib = {};
-FsShapeLib.err ="";
-
+//if ( typeof (FsShapeLib) !== "object"){//デバッグ時はコメントアウトする
+    FsShapeLib = {};
+    FsShapeLib.err ="";
+//}
 (function (me) {
 
     var isModifiedMode = false;
