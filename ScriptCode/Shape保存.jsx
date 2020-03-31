@@ -3,6 +3,7 @@
 	//UIの配列
 	var cntrlTbl = [];
 
+	#includepath "./;../"
 	#include "json2.jsxinc"
 	#include "bryScriptLib.jsxinc"
 	#include "bryShapeLib.jsxinc"

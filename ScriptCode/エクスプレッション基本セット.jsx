@@ -6,7 +6,7 @@
 	var targetPath = [];
 	var basePath = [];
 
-	#include "json2.jsxinc"
+	#includepath "./;../"	#include "json2.jsxinc"
 	#include "bryScriptLib.jsxinc"
 
 
@@ -46,7 +46,7 @@
 	{
 		var ret = false;
 		
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 
 		var  lyr = null;
@@ -78,7 +78,7 @@
 	{
 		var ret = false;
 		
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 
 		var  lyr = null;
@@ -112,7 +112,7 @@
 	{
 		var ret = false;
 		
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 
 		var  lyr = null;
@@ -143,8 +143,7 @@
 	*/
 	// ********************************************************************************
 	var addExpCtrolAll = function()
-	{
-		function addSub(lyr,mn,na)
+	{		function addSub(lyr,mn,na)
 		{
 			var efg = lyr.property("ADBE Effect Parade");
 			var fx = null;
@@ -159,7 +158,7 @@
 		}
 		var ret = false;
 		
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 
 		var  lyr = null;
@@ -189,7 +188,7 @@
 	var addBaseShape = function()
 	{
 		
-		var ac = getActiveComp();
+		var ac = BRY.getActiveComp();
 		if (ac==null) return ret;
 		//var pg = getPropertyGroup(ac);
 		//if (pg==null) return ret;
@@ -216,8 +215,7 @@
 	*/
 	// ********************************************************************************
 	var expressionOn = function()
-	{
-		var p = getProperty();
+	{			var p = BRY.getProperty();
 		if (p==null) return;
 		
 		if (p.canSetExpression==true){

@@ -93,6 +93,8 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	ctrl_yy += 60;
 	var btnCopy = winObj.add("button", [ctrl_xx ,ctrl_yy,ctrl_xx + 470 ,ctrl_yy+25], "copy" );
 	ctrl_yy += 30;
+	var btnExp = winObj.add("button", [ctrl_xx ,ctrl_yy,ctrl_xx + 470 ,ctrl_yy+25], "to Exp" );
+	ctrl_yy += 30;
 
 	// ********************************************************************************
 
@@ -110,6 +112,7 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	cntrlTbl.push(btnCreateRelative);
 	cntrlTbl.push(edRelative);
 	cntrlTbl.push(btnCopy);
+	cntrlTbl.push(btnExp);
 
 	
 	// ********************************************************************************
@@ -314,6 +317,16 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	btnCopy.onClick = function()
 	{
 		toClipbord(edRelative.text);
+	}
+	//-------------------------------------------------------------------------
+	var toExp = function(str)
+	{		var p = getProperty();		if (p==null) return;		p.expression = p.expression + "\r\n" + str;
+
+	}
+	//-------------------------------------------------------------------------
+	btnExp.onClick = function()
+	{
+		toExp(edRelative.text);
 	}
 	//-------------------------------------------------------------------------
 	if ( ( me instanceof Panel) == false){

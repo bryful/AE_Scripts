@@ -3,7 +3,6 @@
 */
 	//prototype登録
 
-
 	Property.prototype.getTree =
 	PropertyBase.prototype.getTree = 
 	PropertyGroup.prototype.getTree = function()
@@ -113,7 +112,11 @@
 	var getActiveLayer = function(cmp)
 	{
 		var ret = null;
-		if ( (cmp ==null)||(cmp ==undefined)||( (cmp instanceof AVLayer)==false)) return ret;
+		if ( (cmp ==null)||(cmp ==undefined)||( (cmp instanceof CompItem)==false)) {
+			var ac = getActiveComp();
+			if (ac == null) return ret;
+			cmp = ac;
+		}
 		var lyrs = cmp.selectedLayers;
 		if(lyrs.length<1){
 			alert("レイヤを1個だけ選んでください");
@@ -128,9 +131,9 @@
 	{
 		var ret = null;
 		if ( (lyr ==null)||(lyr ==undefined)||( (lyr instanceof AVLayer)==false)){
-			var ac = getActiveLayer();
+			var ac = getActiveComp();
 			if (ac==null) return ret;
-			var a = getActiveLayer();
+			var a = getActiveLayer(ac);
 			if (a==null) return ret;
 			lyr = a;
 		}
@@ -160,16 +163,15 @@
 	{
 		var ret = null;
 		if ( (lyr ==null)||(lyr ==undefined)||( (lyr instanceof AVLayer)==false)){
-			var ac = getActiveLayer();
+			var ac = getActiveComp();
 			if (ac==null) return ret;
-			var a = getActiveLayer();
+			var a = getActiveLayer(ac);
 			if (a==null) return ret;
 			lyr = a;
 		}
 		var props = lyr.selectedProperties;
 		var pg = null;
 		if((props==null)||(props.length<=0)){
-			alert(lyr.name);
 			pg = lyr.property("ADBE Root Vectors Group");
         }else{
 			for ( var i=0; i<props.length; i++){
@@ -188,5 +190,36 @@
 		return ret;
 	}
 	BRY.getPropertyGroup = getPropertyGroup;
-	
+	// ********************************************************************************
+	var getProperty = function(lyr)
+	{
+		var ret = null;
+		if ( (lyr ==null)||(lyr ==undefined)||( (lyr instanceof AVLayer)==false)){
+			var ac = getActiveComp();
+			if (ac==null) return ret;
+			var a = getActiveLayer(ac);
+			if (a==null) return ret;
+			lyr = a;
+		}
+		var props = lyr.selectedProperties;
+		var pg = null;
+		if((props==null)||(props.length<=0)){
+			alert("プロパティを選んでください");
+			return ret;
+        }else{
+			for ( var i=0; i<props.length; i++){
+				if ( props[i] instanceof Property){
+					pg = props[i];
+					break;
+				}
+			}
+		}
+		if(pg==null){
+			alert("グループかコンテンツを選んでください");
+		}else{
+			ret = pg;
+		}
+		return ret;
+	}
+	BRY.getProperty = getProperty;
 })(this);
