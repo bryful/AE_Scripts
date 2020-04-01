@@ -121,6 +121,7 @@ namespace aeclip
                     if (Clipboard.ContainsText() == true)
                     {
                         string s = Clipboard.GetText();
+                        Console.OutputEncoding = new UTF8Encoding();
                         Console.WriteLine(s);
 
                     }

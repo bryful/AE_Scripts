@@ -25,16 +25,42 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ScriptCode", "ScriptCode", 
 		ScriptCode\スクリプト作成アシスタント.jsx = ScriptCode\スクリプト作成アシスタント.jsx
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "js_AE_RemapExceed", "js_AE_RemapExceed\js_AE_RemapExceed.csproj", "{2853CFA7-5850-4FEB-883D-27A80582DAD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|x64.ActiveCfg = Debug|x64
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|x64.Build.0 = Debug|x64
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|x86.ActiveCfg = Debug|x86
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Debug|x86.Build.0 = Debug|x86
 		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|x64.ActiveCfg = Release|x64
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|x64.Build.0 = Release|x64
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|x86.ActiveCfg = Release|x86
+		{7DC50DB8-0AD4-4DD2-8190-607CA6C98FC1}.Release|x86.Build.0 = Release|x86
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Debug|x64.ActiveCfg = Debug|x64
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Debug|x64.Build.0 = Debug|x64
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Debug|x86.ActiveCfg = Debug|x86
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Debug|x86.Build.0 = Debug|x86
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Release|x64.ActiveCfg = Release|x64
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Release|x64.Build.0 = Release|x64
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Release|x86.ActiveCfg = Release|x86
+		{2853CFA7-5850-4FEB-883D-27A80582DAD6}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

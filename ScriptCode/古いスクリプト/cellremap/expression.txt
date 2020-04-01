@@ -1,0 +1,33 @@
+﻿Adobe After Effects 8.0 Keyframe Data
+
+	Units Per Second	$FPS
+	Source Width	640
+	Source Height	480
+	Source Pixel Aspect Ratio	1
+	Comp Pixel Aspect Ratio	1
+
+Effects	$SLIDER制御 #1	$SLIDER #2
+	Frame
+$CELLS
+
+Time Remap
+	Frame	seconds
+	0	0
+
+Expression Data
+Math.floor(effect("$SLIDER制御")("$SLIDER")-1) * thisComp.frameDuration
+End of Expression Data
+
+Transform	Opacity
+	Frame	percent
+		100
+
+Expression Data
+if (effect("$SLIDER制御")("$SLIDER")>0){
+opacity;
+}else{
+0;
+}
+
+End of Expression Data
+End of Keyframe Data
