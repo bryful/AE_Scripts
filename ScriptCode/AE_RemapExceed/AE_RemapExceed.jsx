@@ -1,9 +1,17 @@
+// ***************************************************************************
+/*
+    AE_Remap Exceedをafter Effectsから制御するスクリプト
 
+*/
+// ***************************************************************************
+
+//JSON関係
 if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトする
 	FsJSON = {};
 }//デバッグ時はコメントアウトする
 
 (function(me){
+    //各種プロトタイプを設定
     String.prototype.trim = function(){
         if (this=="" ) return ""
         else return this.replace(/[\r\n]+$|^\s+|\s+$/g, "");
@@ -34,10 +42,17 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
 
     String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
 	
-    var cellItem = [  ];
-
+    
+    //グローバルな変数
 	var scriptName = File.decode($.fileName.getName().changeExt(""));
-	var aeclipPath = File.decode($.fileName.getParent()+"/aeclip.exe");
+	var aeremapPath = File.decode($.fileName.getParent()+"/CallAE_Remap.exe");
+	
+    //読み込む出るデータ
+    var cellData = null;
+    //セル指定用のラジオボタン配列
+    var rbtns = [];
+    //選ばれたラジオボタン
+    var selectedIndex = -1;
 	//------------------------
 	//-------------------------------------------------------------------------
     //json utils 
@@ -147,55 +162,91 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
             ret = lyrs;
         }
 		return ret;
-	}	//-------------------------------------------------------------------------
-	var fromClipboard = function()
+	}	
+    //-------------------------------------------------------------------------
+    //AEを起動させる
+	var execAE_Reamp = function()
 	{
-        var ret = "";
-		var fclip = new File(aeclipPath);
-        var temp = new File(Folder.temp.fullName +"/ae_temp.json");
-		var cmd =  "\"" + fclip.fsName +"\"";
-        cmd += " /o ";
-        cmd += "\"" + temp.fsName + "\""; 
-		if (fclip.exists==true){
+        var ret = false;
+		var aeremap = new File(aeremapPath);
+		var cmd =  "\"" + aeremap.fsName +"\"";
+		if (aeremap.exists==true){
 			try{
-				system.callSystem(cmd);
-                if (temp.exists) {
-                    temp.encoding = "utf-8";
-                    if (temp.open("r")){
-                        try{
-                        ret = temp.read();
-                        temp.remove();
-                        }catch(e){
-                            alert("readError!");
-                            return ret;
-                        }finally{
-                            temp.close();
-                        }
-                    }
-                }else{
-				alert("fromClipbord\r\n" + temp.fullName);
+                
+                var r = system.callSystem(cmd + " /exenow");
+                r = r.trim().toLowerCase();
+                if (r=="false") {
+                    system.callSystem(cmd + " /call");
+                    ret = true;
                 }
 
 			}catch(e){
-				alert("fromClipbord\r\n" + e.toString());
+				alert("execAE_Reamp\r\n" + e.toString());
+                ret = false;
 			}
 		}
         return ret;
     }
+    //-------------------------------------------------------------------------
+	var execAE_Export = function()
+	{
+        var ret = false;
+		var aeremap = new File(aeremapPath);
+		var cmd =  "\"" + aeremap.fsName +"\"";
+		if (aeremap.exists==true){
+			try{
+                var r = system.callSystem(cmd + " /exenow");
+                r = r.trim().toLowerCase();
+                if (r=="true") {
+                    var s = system.callSystem(cmd + " /export");
+                    s = s.trim();
+                    alert(s);
+                    ret = true;
+                }else{
+                    alert("AE_Remapが起動していません")
+                    ret = false;
+                }
+
+			}catch(e){
+				alert("execAE_Reamp\r\n" + e.toString());
+                ret = false;
+			}
+		}
+        return ret;
+    }
+    
  	//-------------------------------------------------------------------------
-    var cellData = null;
-    var rbtns = [];
-    var selectedIndex = -1;
  	//-------------------------------------------------------------------------
-	var winObj = ( me instanceof Panel) ? me : new Window("palette", "AE_RemapExceed", [ 0,  0,  240,  180]  ,{resizeable:true, maximizeButton:true, minimizeButton:true});
+	var winObj = ( me instanceof Panel) ? me : new Window("palette", "AE_RemapExceed", [ 0,  0,  250,  220]  ,{resizeable:true, maximizeButton:true, minimizeButton:true});
 	//-------------------------------------------------------------------------
-	var stCaption = winObj.add("statictext", [  10,   10,   10+ 220,   10+  20], "AE_Remap Exceed");
-	var btnGetClip = winObj.add("button", [  10,   40,   10+  60,   40+  25], "獲得" );
-	var btnClear = winObj.add("button", [  10,   70,   10+  60,   70+  25], "Clear");
-	var btnApply = winObj.add("button", [  10,   150,   10+  60,   150+  25], "適応" ); 
-	var edInfo = winObj.add("edittext", [  80,   40,   80+ 150,   40+  25], "", { readonly:true });
-	var stSelected = winObj.add("statictext", [  80,   70,   80+ 220,   70+  20], "");
-	var gp = winObj.add("panel", [  80,   95,   80+ 150,   95+ 100],"Cell" );
+	var px = 10;
+    var py = 10;
+    var btnW = 90;
+    var btnH = 25;
+    var stCaption = winObj.add("statictext", [  px, py, px+ 220, py+ 20], "AE_Remap Exceed");
+    py =40;
+	var btnExec_AERemap = winObj.add("button", [px,py,px+btnW, py+btnH], "AE_Remap起動" );
+    py+=30;
+	var btnGetClip = winObj.add("button", [px,py,px+btnW, py+btnH], "セル情報獲得" );
+    py+=30;
+	var btnSave = winObj.add("button", [px,py,px+btnW, py+btnH], "Compへ");
+    py+=30;
+	var btnSave = winObj.add("button", [px,py,px+btnW, py+btnH], "Compから");
+    py+=30;
+	var btnClear = winObj.add("button", [px,py,px+btnW, py+btnH], "Clear");
+    py+=60;
+	var btnApply = winObj.add("button", [px,py,px+btnW, py+btnH], "適応" ); 
+    py +=30;
+    px = 110;
+    py = 40;
+	var edInfo = winObj.add("edittext", [  px,   py,   px+ 150,   py+  25], "", { readonly:true });
+	py +=30;
+    var stSelected = winObj.add("statictext", [  px,   py,   px+ 220,   py+  20], "");
+	py +=25;
+	var gp = winObj.add("panel", [  px,   py,   px+ 150,   py+ 100],"Cells" );
+    //-------------------------------------------------------------------------
+    btnExec_AERemap.onClick = execAE_Reamp;
+    btnGetClip.onClick = execAE_Export;
 	//-------------------------------------------------------------------------
     var clearRbtns = function()
     {
@@ -243,6 +294,7 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
     }
 
     //-------------------------------------------------------------------------
+    /*
     var clickflg = false;
     btnGetClip.onClick = function(){
         if (clickflg==true) return;
@@ -268,7 +320,9 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
             clickflg = false;
         }
     };
+    */
 	//-------------------------------------------------------------------------
+    /*
     var applyCells = function()
     {
         var applySub = function(lyr,times,values,maxV)
@@ -360,6 +414,7 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
         app.endUndoGroup();
     }
     btnApply.onClick = applyCells;
+    */
 	//-------------------------------------------------------------------------
     var resizeLayout = function()
     {
@@ -373,7 +428,7 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
 
         var infob = edInfo.bounds;
         //横方向のみ
-        infob[0] = 80;
+        infob[0] = 110;
         infob[1] = 40;
         infob[2] =  winb.width -10;
         infob[3] = 40 + 25;
@@ -381,7 +436,7 @@ if ( typeof (FsJSON) !== "object"){//デバッグ時はコメントアウトす�
 
     
         var gpb = gp.bounds;
-        gpb[0] = 80;
+        gpb[0] = 110;
         gpb[1] = 95;
         gpb[2] = winb.width -10;
         gpb[3] = winb.height -10;
