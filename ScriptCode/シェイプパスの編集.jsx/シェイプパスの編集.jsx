@@ -57,29 +57,17 @@
 	var winObj = ( me instanceof Panel) ? me : new Window("palette", "パスの編集", [ 844,  333,  844+ 224,  333+ 353]  ,{resizeable:true});
 	//-------------------------------------------------------------------------
 	var btnGet = winObj.add("button", [  15,    7,   15+  72,    7+  24], "GET" );
-	btnGet.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 11);
 	var btnSet = winObj.add("button", [ 127,    7,  127+  72,    7+  24], "SET" );
-	btnSet.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 11);
 	var stBasePos = winObj.add("statictext", [  12,   37,   12+  87,   37+  14], "値の演算");
-	stBasePos.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 13);
 	var stBaseX = winObj.add("statictext", [  12,   57,   12+  24,   57+  14], "X:");
-	stBaseX.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 13);
 	var edAddX = winObj.add("edittext", [  42,   56,   42+ 119,   56+  21], "0");
-	edAddX.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 11);
 	var stBaseY = winObj.add("statictext", [  12,   84,   12+  24,   84+  14], "Y:");
-	stBaseY.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 13);
 	var edAddY = winObj.add("edittext", [  42,   81,   42+ 119,   81+  21], "0");
-	edAddY.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 11);
 	var btnCalc = winObj.add("button", [ 167,   54,  167+  45,   54+  23], "演算" );
-	btnCalc.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.REGULAR, 11);
 	var stPos = winObj.add("statictext", [   9,  114,    9+  87,  114+  14], "頂点の位置");
-	stPos.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 13);
 	var btnAdd = winObj.add("button", [ 102,  108,  102+  84,  108+  22], "頂点の追加" );
-	btnAdd.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.REGULAR, 11);
 	var edPos = winObj.add("edittext", [  12,  132,   12+ 202,  132+ 186], "", { multiline:true, scrollable:true });
-	edPos.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.BOLD, 13);
 	var btnDeleteCarve = winObj.add("button", [  12,  322,   12+  83,  322+  22], "カーブの削除" );
-	btnDeleteCarve.graphics.font = ScriptUI.newFont("Tahoma",ScriptUI.FontStyle.REGULAR, 11);
 
 	//-------------------------------------------------------------------------	
 	btnSet.enabled = false;
