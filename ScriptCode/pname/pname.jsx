@@ -1,4 +1,7 @@
-﻿(function(me){
+﻿
+#includepath "./;../"
+#include "json2.jsxinc"
+(function(me){
 	Property.prototype.getTree =
 	PropertyBase.prototype.getTree = 
 	PropertyGroup.prototype.getTree = function()
@@ -311,11 +314,16 @@
 		var pg = getPropertyGroup();
 		var obj = getPG(pg);
 		var ff = File.saveDialog("Filename...","*.json");
-		if (ff.open("w"))
-		{
-			ff.write(obj.toSource());
+		try{
+			if (ff.open("w"))
+			{
+				ff.write(JSON.stringify(obj));
+			}
+		}catch(e){
+			alert(e.toString());
+		}finally{
+			ff.close();
 		}
-		ff.close();
 
 	}
 	btnApply.onClick = function()
@@ -325,12 +333,22 @@
 		var ff = File.openDialog("Select","*.json");
 		if (ff == null) return;
 		var js ="";
-		if (ff.open("r"))
-		{
-			js = ff.read();
+		try{
+			if (ff.open("r"))
+			{
+				js = ff.read();
+			}
+		}catch(e){
+			alert("a:" + e.toString());
+		}finally{
+			ff.close();
 		}
-		ff.close();
-		var obj = eval(js);
+		var obj = null;
+		try{
+			obj = JSON.parse(js);
+		}catch(e){
+			alert("b:" + e.toString());
+		}
 		setPG(pg,obj);
 
 	}
