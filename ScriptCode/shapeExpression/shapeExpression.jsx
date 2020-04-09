@@ -23,55 +23,10 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	var aeclipPath = File.decode($.fileName.getParent()+"/aeclip.exe");
 
 	// ********************************************************************************
-	var createShapeLayer = function()
-	{
-		var ret = false;
-		
-		var ac = BRY.getActiveComp();
-		if (ac==null) return ret;
-
-		var  lyr = null;
-		
-		if (ac.selectedLayers.length>0)
-		{
-			lyr = ac.selectedLayers[0];
-		}
-
-		
-		app.beginUndoGroup("createShapeLayer");
-		var sl = ac.layers.addShape();
-		if (sl === null ){
-			alert("errer!");
-			return ret;
-		}
-		if (lyr !== null)
-		{
-			sl.moveBefore(lyr);
-		}
-		app.endUndoGroup();
-	}
-
-		// ********************************************************************************
-	/*
-	*/
+	var winObj = ( me instanceof Panel) ? me : new Window("palette", "ShapeExpression", [ 0,  0,  490,  480]  ,{resizeable:true, maximizeButton:true, minimizeButton:true});
 	// ********************************************************************************
-	var expressionOn = function()
-	{
-		var p = getProperty();
-		if (p==null) return;
-		
-		if (p.canSetExpression==true){
-			if (p.expression =="")
-			{
-				p.expression = "value";
-			}
-		}
-	}
-	// ********************************************************************************
-	var winObj = ( me instanceof Panel) ? me : new Window("palette", "ShapeExpression", [ 0,  0,  500,  480]  ,{resizeable:true, maximizeButton:true, minimizeButton:true});
-	// ********************************************************************************
-	var ctrl_xx = 15;
-	var ctrl_yy = 15;
+	var ctrl_xx = 10;
+	var ctrl_yy = 10;
 	var stCaption = winObj.add("statictext",     [ctrl_xx, ctrl_yy, ctrl_xx + 519,   ctrl_yy +  25], "Expressionを相対パスで指定するスクリプト");
 	ctrl_yy += 30;
 	var btnGetTargetProperty = winObj.add("button", [ctrl_xx,ctrl_yy,ctrl_xx+ 470,ctrl_yy+25], "get TargetProperty" );
@@ -82,14 +37,10 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	ctrl_yy += 25;
 	var edBaseProperty = winObj.add("edittext", [ctrl_xx,ctrl_yy,ctrl_xx+ 470,ctrl_yy+50], "", { readonly:true, multiline:true, scrollable:true });
 	ctrl_yy += 60;
-	//var btnCreateRelative = winObj.add("button", [ctrl_xx,ctrl_yy,ctrl_xx+ 470,ctrl_yy+25], "create Relative Path" );
 	var stRelative = winObj.add("statictext", [ctrl_xx,ctrl_yy,ctrl_xx+ 470,ctrl_yy+25], "Result - Relative Path" );
-	
 	ctrl_yy += 25;
 	var edRelative = winObj.add("edittext", [ctrl_xx,ctrl_yy,ctrl_xx+ 470,ctrl_yy+50], "", { readonly:true, multiline:true, scrollable:true });
 	ctrl_yy += 60;
-	var btnCopy = winObj.add("button", [ctrl_xx ,ctrl_yy,ctrl_xx + 470 ,ctrl_yy+25], "copy" );
-	ctrl_yy += 30;
 	var btnToExp = winObj.add("button", [ctrl_xx ,ctrl_yy,ctrl_xx + 470 ,ctrl_yy+25], "to Expression" );
 	ctrl_yy += 30;
 
@@ -105,14 +56,15 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 
 	cntrlTbl.push(stRelative);
 	cntrlTbl.push(edRelative);
-	cntrlTbl.push(btnCopy);
 	cntrlTbl.push(btnToExp);
 
 	
+		var isFx  = false;
 	// ********************************************************************************
 	var getPropertyPath = function(prop)
 	{
 		var ary = [];
+		isFx  = false;
 		// ************************************
 		var pstr = function(pr)
 		{
@@ -126,19 +78,24 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 				ary.unshift("comp(\"" + cmp.name+ "\")");
 				ret = false;
 			}else if ( (pr instanceof PropertyBase)||(pr instanceof PropertyGroup)){
-			 if ( 
-			 	(pr.propertyType ===  PropertyType.INDEXED_GROUP) //"
-				||(pr.matchName === "ADBE Transform Group")
-				||(pr.matchName === "ADBE Effect Parade") 
-				||(pr.matchName === "ADBE Camera Options Group") 
-				||(pr.matchName === "ADBE Light Options Group") 
-				||(pr.matchName === "ADBE Mask Parade")
-				||(pr.matchName === "ADBE Material Options Group")
-				||(pr.matchName === "ADBE Root Vectors Group")
-				||(pr.matchName === "ADBE Vector Transform Group")
-				||(pr.matchName === "ADBE Vector Repeater Transform")
-				||(pr.matchName === "ADBE Vector Wiggler Transform")
-			){
+				if (pr.matchName === "ADBE Effect Parade") {
+					ary.unshift(".effect");
+					isFx  = true;
+
+				}else if (pr.matchName === "ADBE Transform Group") {
+					ary.unshift(".transform");
+					return ret;
+				} else if ( 
+					(pr.propertyType ===  PropertyType.INDEXED_GROUP) 
+					||(pr.matchName === "ADBE Camera Options Group") 
+					||(pr.matchName === "ADBE Light Options Group") 
+					||(pr.matchName === "ADBE Mask Parade")
+					||(pr.matchName === "ADBE Material Options Group")
+					||(pr.matchName === "ADBE Root Vectors Group")
+					||(pr.matchName === "ADBE Vector Transform Group")
+					||(pr.matchName === "ADBE Vector Repeater Transform")
+					||(pr.matchName === "ADBE Vector Wiggler Transform")
+					){
 					ary.unshift("(" + pr.propertyIndex + ")");
 				}else {
 					ary.unshift("(\"" + pr.name + "\")");
@@ -200,7 +157,7 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 			ret = p2.name;
 			p2 = p2.parentProperty;
 			if (p2.matchName =="ADBE Vectors Group"){
-			p2 = p2.parentProperty;
+				p2 = p2.parentProperty;
 			}
 			if(p2!=null){
 				ret = p2.name +":" + ret;
@@ -214,11 +171,14 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 		targetPath = [];
 		var p = getProperty();
 		if (p==null) return ret;
-		
+		isFx = false;
+		targetKind = false;
+		targetIndex = -1;
 		targetPath = getPropertyPath(p);
+		targetKind = isFx;
 		var v = getCaption(p);
 		targetCaption = v;
-		edTargetPropery.text = targetPath.join("") + " /*" + v + "*/";
+		edTargetPropery.text = targetPath.join("") + "; /*" + v + "*/";
 		if (edBaseProperty.text!=""){
 			createRelative();
 		}else{
@@ -234,7 +194,7 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 		
 		basePath = getPropertyPath(p);
 		var v = getCaption(p);
-		edBaseProperty.text = basePath.join("") + " /*" + v + "*/";
+		edBaseProperty.text = basePath.join("") + "; /*" + v + "*/";
 		if (edTargetPropery.text!=""){
 			createRelative();
 		}else{
@@ -245,16 +205,17 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	// ********************************************************************************
 	var createRelative = function()
 	{
+		var ret = [];
+
 		if ( (targetPath==null)||(targetPath.length<=0)||(basePath==null)||(basePath.length<=0))
 		{
 			alert("選択してください");
 			return;
 		}
-		
 		var cnt = targetPath.length;
 		if (cnt>basePath.length) cnt = basePath.length;
 		
-		var c = 0;
+		var c = -1;
 		for (var i=0; i<cnt; i++)
 		{
 			if (targetPath[i] !== basePath[i]) {
@@ -263,29 +224,37 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 				c++;
 			}
 		}
-		var rel = [];
-		
-		if ( (c==targetPath.length)&&(c==basePath.length))
+		if (c==-1) {
+			//違うコンポにある
+			edRelative.text = targetPath.join("") + " /*" + targetCaption + "*/";
+			return;
+		}else if ( (c==targetPath.length)&&(c==basePath.length)){
+			//同じ
+			edRelative.text = "value";
+		}
+		var cc = -1;
+		for ( var i=0; i<targetPath.length;i++ )
 		{
-			rel.push("value");
-		}else if (c <=0) {
-			rel = targetPath;
-		}else if (c<=2) {
-			rel.push("thisComp");
-			for ( var i=1; i<=targetPath; i++)
+			if ((targetPath[i]==".effect")||(targetPath[i]==".transform"))
 			{
-				rel.push(targetPath[i]);
-			}
-		}else{
-			rel.push("thisProperty");
-			rel.push(".propertyGroup(" + (basePath.length - c ) + ")");
-			for ( var i=c; i<targetPath.length; i++)
-			{
-				rel.push(targetPath[i]); 
+				cc = i;
+				break;
 			}
 		}
+		if (cc>=0){
+			var tp = [];
+			for ( var i=cc; i<targetPath.length; i++) tp.push(targetPath[i]); 
+			edRelative.text = tp.join("").substr(1) + "; /*" + targetCaption + "*/";
+			return;
+		}
+
+		var tp = [];
+		for ( var i=c;i<targetPath.length;i++)tp.push(targetPath[i]);
+
+		var bp = [];
+		for ( var i=c;i<basePath.length;i++)bp.push(basePath[i]);
 		
-		edRelative.text = rel.join("") + " /*" + targetCaption + "*/";
+		edRelative.text = "thisProperty.propertyGroup(" + (bp.length) + ")" + tp.join("") + "; /*" + targetCaption + "*/";
 		
 	}
 	// ********************************************************************************
@@ -296,7 +265,7 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 		var p = getProperty();
 		if (p==null) return;
 
-		p.expression = p.expression +"\r\n" + edRelative.text;
+		p.expression = edRelative.text;
 	}
 	// ********************************************************************************
 	btnGetTargetProperty.onClick = getTargetPath;
@@ -321,36 +290,8 @@ thisProperty.popertYGroup(*)を使って相対パス指定をさせたい時が�
 	}
 	resizeWin();
 	winObj.onResize = resizeWin;
-	//-------------------------------------------------------------------------
-	var toClipbord = function(str)
-	{
-		var ob = Folder.temp.fullName;
-		var pa =  ob + "/tmp.txt";
-		var ff = new File(pa);
-		ff.encoding = "utf-8";
-		if (ff.open("w")){
-			try{
-				ff.write(str);
-			}finally{
-				ff.close();
-			}
-		}
-		var fclip = new File(aeclipPath);
-		var cmd =  "\"" + fclip.fsName +"\"" + " /c \"" + ff.fsName + "\"";
-		if (ff.exists==true){
-			try{
-				var er = system.callSystem(cmd);
-			}catch(e){
-				alert("ca" + e.toString());
-			}
-		}
 
-	}
 	//-------------------------------------------------------------------------
-	btnCopy.onClick = function()
-	{
-		toClipbord(edRelative.text);
-	}
 	//-------------------------------------------------------------------------
 	if ( ( me instanceof Panel) == false){
 		winObj.center(); 
