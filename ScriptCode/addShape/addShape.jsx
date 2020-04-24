@@ -263,7 +263,7 @@
 		}
 	}
 	openImage();
-	var w = 25 + 10;
+	var w = 25 * 2 + 10;
 	var h = imageFiles.length * 25 + 10;
 	// ********************************************************************************
 	var winObj = ( me instanceof Panel) ? me : new Window("palette", "ShapeExpression", [ 0,  0,  w,  h]  ,{resizeable:false, maximizeButton:false, minimizeButton:false});
@@ -277,8 +277,15 @@
 		var x = 5;
 		var y = 5;
 		
+		var h = Math.round(imageFiles.length/2);
 		for (var i=0; i<imageFiles.length; i++)
 		{
+			if (i==h)
+			{
+				x = 5+25;
+				y = 5+25;
+
+			}
 			imageCtrls.push(winObj.add("iconbutton", [  x,   y,   x +  25,   y +  25] , imageFiles[i]));
 			imageCtrls[i].mname = matchNames[i];
 			y += 25;
@@ -311,12 +318,12 @@
 		var h = 0;
 		switch(layoutMode){
 			case 0:
-				w = sz + 10;
-				h = imageFiles.length * sz + 10;
+				w = sz*2 + 10;
+				h = Math.round(imageFiles.length * sz/2) + 10;
 				break;
 			case 1:
-				h = sz + 10;
-				w = imageFiles.length * sz + 10;
+				h = sz*2 + 10;
+				w = Math.round(imageFiles.length * sz/2) + 10;
 				break;
 		}
 		var b = winObj.bounds;
@@ -325,9 +332,24 @@
 
 		var x = 5;
 		var y = 5;
+		var h = Math.round(imageFiles.length/2);
 		for (var i=0; i<imageFiles.length; i++)
 		{
 			var b = imageCtrls[i].bounds;
+			
+			if (i==h)
+			{
+				if (layoutMode==0){
+				x = 5+25;
+				y = 5;
+				}else{
+					x = 5;
+					y = 5+25;
+	
+				}
+
+			}
+
 
 			b[0] = x;
 			b[1] = y;
@@ -344,8 +366,8 @@
 	}
     layoutMode = 0;
     if (prefLoad()) {
-        layoutSet();
     }
+    layoutSet();
 	// ********************************************************************************
     winObj.onClose = function () {
         prefSave();
