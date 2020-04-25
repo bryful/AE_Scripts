@@ -11,6 +11,7 @@
 	//ターゲット
 	
 	var layoutMode = 0;
+	var layoutRow = 1;
 	//----------------------------------
 	var scriptName = File.decode($.fileName.getName().changeExt(""));
 	var aeclipPath = File.decode($.fileName.getParent()+"/aeclip.exe");
@@ -18,6 +19,7 @@
 	var prefPath = new Folder ( File.decode($.fileName.getParent() + "/" +$.fileName.getName().changeExt(".pref")));
 	var matchNames = [
 		"layout",//00
+		"layout2",//00
 		"new Layer",//01
 		"ADBE Vector Group",//02
 		"ADBE Vector Shape - Rect",//03
@@ -38,10 +40,12 @@
 		"ADBE Vector Filter - Roughen",//18
 		"ADBE Vector Filter - Wiggler",//19
 		"ADBE Vector Filter - Zigzag",//20
-		"Ctrl effect All"//21
+		"Ctrl effect All",//21
+		"Triangle"//22
 	];
 	var iconPaths = [
 		"Add00Layoutset.png",//00
+		"Add00LayoutRow.png",//00
 		"Add01ShapeLayer.png",//01
 		"AddGroup.png",//02
 		"AddRect.png",//03
@@ -62,10 +66,9 @@
 		"AddRoughen.png",//18
 		"AddWjggle.png",//19
 		"AddZigzag.png",//20
-		"Add_fx_all.png"//21
+		"Add_fx_all.png",//21
+		"AddTriangle.png"//22
 		];
-		var iconStart = 2;
-		var iconEnd = 20;
 		
 
 	// ********************************************************************************
@@ -73,6 +76,7 @@
 	{
 		var pref = {};
 		pref.layoutMode = layoutMode;
+		pref.layoutRow = layoutRow;
 		var js = pref.toSource();
 		var f = new File(prefPath);
 		
@@ -106,6 +110,13 @@
                     ret = true;
                 }
             }
+            if ("layoutRow" in pref) {
+                var a = pref.layoutRow;
+                if (layoutRow != a) {
+                    layoutRow = a;
+                    ret = true;
+                }
+			}
         }
         return ret;
     }
@@ -175,7 +186,7 @@
 			tmp.enabled = false;
 			tmp.property(2).setValue([1440,810]);
 			tmp.property(2).expression = "[effect(\"width\")(1),effect(\"height\")(1)]";
-			var tmp = addSub(g0,"ADBE Vector Filter - RC","open");
+			var tmp = addSub(g0,"ADBE Vector Filter - Offset","open");
 			tmp.enabled = false;
 			tmp.property(1).setValue(100);
 			tmp.property(1).expression = "effect(\"open\")(1)";
@@ -237,7 +248,38 @@
 			{
 				app.beginUndoGroup("add " + mn);
 				var pp  = pg.addProperty(mn);
-				pp.selected = true;
+				//pp.selected = true;
+				app.endUndoGroup();
+			}else{
+				alert("er" + pg.name);
+			}
+		}catch(e){
+			alert(e.toString());
+		}
+	}
+	// ********************************************************************************
+	var addTriangle = function()
+	{
+		var ac = BRY.getActiveComp();
+		if (ac==null) return;
+		var lyr = BRY.getActiveLayer(ac);
+		var p = BRY.getPropertyBase(lyr);
+		if (p==null) return;
+
+		var pg = p.findContent();
+		if(pg.matchName =="ADBE Vector Group"){
+			pg = pg.property(2);
+		}
+
+		try{
+			var mn = "ADBE Vector Shape - Star";
+			if (pg.canAddProperty(mn) == true)
+			{
+				app.beginUndoGroup("add " + mn);
+				var pp  = pg.addProperty(mn);
+				pp(2).setValue(2);
+				pp(3).setValue(3);
+				//pp.selected = true;
 				app.endUndoGroup();
 			}else{
 				alert("er" + pg.name);
@@ -263,7 +305,7 @@
 		}
 	}
 	openImage();
-	var w = 25 * 2 + 10;
+	var w = 25 * 3 + 10;
 	var h = imageFiles.length * 25 + 10;
 	// ********************************************************************************
 	var winObj = ( me instanceof Panel) ? me : new Window("palette", "ShapeExpression", [ 0,  0,  w,  h]  ,{resizeable:false, maximizeButton:false, minimizeButton:false});
@@ -276,7 +318,8 @@
 	if (imageFiles.length>0){
 		var x = 5;
 		var y = 5;
-		
+		var idx= 0;
+
 		var h = Math.round(imageFiles.length/2);
 		for (var i=0; i<imageFiles.length; i++)
 		{
@@ -290,22 +333,43 @@
 			imageCtrls[i].mname = matchNames[i];
 			y += 25;
 		}
-		for (var i=iconStart; i<=iconEnd; i++)
-		{
-			imageCtrls[i].onClick = function(){
-				addShapes(this.mname);
-			}
-		};
-		imageCtrls[0].onClick= function()
+		idx =0;
+		imageCtrls[idx].onClick= function()
 		{
 			layoutMode = (layoutMode +1) % 2;
 			layoutSet();
 			prefSave();
 		}
-		imageCtrls[1].onClick= createShapeLayer;
-		imageCtrls[21].onClick= function(){
+		idx++;
+		imageCtrls[idx].onClick= function()
+		{
+			if (layoutRow >=2){
+				layoutRow = 1;
+			}else{
+				layoutRow = 2;
+			}
+			layoutSet();
+		}
+		idx++;
+		imageCtrls[idx].onClick= createShapeLayer;
+		idx++;
+		
+		var st = idx;
+		var lt = idx + 19;
+		for (var i=st; i<lt; i++)
+		{
+			imageCtrls[i].onClick = function(){
+				addShapes(this.mname);
+			};
+			idx++;
+		};
+		imageCtrls[idx].onClick= function(){
 			makeTemplate();
 			addExpCtrolAll();
+		}
+		idx++;
+		imageCtrls[idx].onClick= function(){
+			addTriangle();
 		}
 	}
 	
@@ -316,14 +380,21 @@
 		var sz = 25;
 		var w = 0
 		var h = 0;
+		var row = 1;
+		if (layoutRow<=1){
+			row = 1;
+		}else{
+			row= 2;
+		}
+
 		switch(layoutMode){
 			case 0:
-				w = sz*2 + 10;
-				h = Math.round(imageFiles.length * sz/2) + 10;
+				w = sz*row + 10;
+				h = Math.round(imageFiles.length * sz/row) + 10;
 				break;
 			case 1:
-				h = sz*2 + 10;
-				w = Math.round(imageFiles.length * sz/2) + 10;
+				h = sz*row + 10;
+				w = Math.round(imageFiles.length * sz/row) + 10;
 				break;
 		}
 		var b = winObj.bounds;
@@ -332,7 +403,8 @@
 
 		var x = 5;
 		var y = 5;
-		var h = Math.round(imageFiles.length/2);
+		var h = Math.floor(imageFiles.length/row);
+		h += (imageFiles.length % 2);
 		for (var i=0; i<imageFiles.length; i++)
 		{
 			var b = imageCtrls[i].bounds;
@@ -340,8 +412,8 @@
 			if (i==h)
 			{
 				if (layoutMode==0){
-				x = 5+25;
-				y = 5;
+					x = 5+25;
+					y = 5;
 				}else{
 					x = 5;
 					y = 5+25;
