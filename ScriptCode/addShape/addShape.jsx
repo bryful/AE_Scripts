@@ -17,6 +17,7 @@
 	var aeclipPath = File.decode($.fileName.getParent()+"/aeclip.exe");
 	var targetFolder = new Folder ( File.decode($.fileName.getParent() + "/(" +$.fileName.getName().changeExt("")+ ")"));
 	var prefPath = new Folder ( File.decode($.fileName.getParent() + "/" +$.fileName.getName().changeExt(".pref")));
+// #region matchNames
 	var matchNames = [
 		"layout",//00
 		"layout2",//00
@@ -43,6 +44,7 @@
 		"Ctrl effect All",//21
 		"Triangle"//22
 	];
+// #endregion
 	var iconPaths = [
 		"Add00Layoutset.png",//00
 		"Add00LayoutRow.png",//00
@@ -67,7 +69,8 @@
 		"AddWjggle.png",//19
 		"AddZigzag.png",//20
 		"Add_fx_all.png",//21
-		"AddTriangle.png"//22
+		"AddTriangle.png",//22
+		"AddThreePath.png"//22
 		];
 		
 
@@ -174,7 +177,7 @@
 		}
 		if ( lyr.matchName !="ADBE Vector Layer") return;
 		app.beginUndoGroup("makeTemplate");
-	try{
+		try{
 			var ct = lyr.property("ADBE Root Vectors Group");
 			var g0 = addSub(ct,"ADBE Vector Group","Foo");
 			if (g0 == null) {
@@ -232,61 +235,153 @@
 	// ********************************************************************************
 	var addShapes = function(mn)
 	{
-		var ac = BRY.getActiveComp();
-		if (ac==null) return;
-		var lyr = BRY.getActiveLayer(ac);
-		var p = BRY.getPropertyBase(lyr);
-		if (p==null) return;
-
-		var pg = p.findContent();
-		if(pg.matchName =="ADBE Vector Group"){
-			pg = pg.property(2);
+		var ret = null;
+		var stat = BRY.getShapeLayerStatus();
+		if(stat.content==null) {
+			alert("select error");
+			return null;
 		}
-
+		var tt =  stat.propertyGroup;
+		var idx = 0;
+		if(tt!=null) {
+			idx = stat.propertyGroup.propertyIndex+1;
+		}
 		try{
+			var pg = stat.content;
+			if(pg.matchName =="ADBE Vector Group"){
+				pg = pg.property(2);
+			}	 
 			if (pg.canAddProperty(mn) == true)
 			{
 				app.beginUndoGroup("add " + mn);
 				var pp  = pg.addProperty(mn);
-				//pp.selected = true;
+				var ppIdx = pp.propertyIndex;
+				if((idx>0)&&(idx<ppIdx)){
+					pp.moveTo(idx);
+					pp = pg.property(idx);
+				}
+				pp.selected = true; 
+				ret = pp;
 				app.endUndoGroup();
 			}else{
-				alert("er" + pg.name);
+				alert("er a" + stat.content.name);
 			}
 		}catch(e){
 			alert(e.toString());
 		}
+		return ret;
 	}
 	// ********************************************************************************
 	var addTriangle = function()
 	{
-		var ac = BRY.getActiveComp();
-		if (ac==null) return;
-		var lyr = BRY.getActiveLayer(ac);
-		var p = BRY.getPropertyBase(lyr);
-		if (p==null) return;
+		var pp =  addShapes("ADBE Vector Shape - Star");
+		if(pp==null) return;
+		app.beginUndoGroup("add T");
+		pp(2).setValue(2);
+		pp(3).setValue(3);
+		app.endUndoGroup();
+	}
+	var addThreePath = function()
+	{
+		var pp =  addShapes("ADBE Vector Shape - Group");
+		if(pp==null) return;
+		app.beginUndoGroup("add ThreePath");
+		var myShape = new Shape();
+		myShape.vertices = [[0,-100], [-100,-100], [-100,0]]; 
+		myShape.closed = false;
+		pp(2).setValue(myShape);
 
-		var pg = p.findContent();
-		if(pg.matchName =="ADBE Vector Group"){
-			pg = pg.property(2);
-		}
 
-		try{
-			var mn = "ADBE Vector Shape - Star";
-			if (pg.canAddProperty(mn) == true)
-			{
-				app.beginUndoGroup("add " + mn);
-				var pp  = pg.addProperty(mn);
-				pp(2).setValue(2);
-				pp(3).setValue(3);
-				//pp.selected = true;
-				app.endUndoGroup();
-			}else{
-				alert("er" + pg.name);
+		app.endUndoGroup();
+	}
+	var addLineGS =function(cnt,idx)
+	{
+		var addP = function(ct,mn,name)
+		{	
+			var ret = null;
+			var pg = ct;
+			if(pg.matchName =="ADBE Vector Group"){
+				pg = pg.property(2);
 			}
-		}catch(e){
-			alert(e.toString());
+			if(pg.canAddProperty(mn)==true)
+			{
+				ret = pg.addProperty(mn);
+				if((name!=null)&&(name!="")){
+					ret.name = name;
+				}
+			}
+			return ret;
+
 		}
+		var ret = null;
+		if ((cnt.matchName=="ADBE Root Vectors Group")||(cnt.matchName=="ADBE Vector Group")){
+			
+		}else{
+			return ret;
+		}
+		ret = addP(cnt,"ADBE Vector Group","line");
+		var pos = addP(ret,"ADBE Vector Graphic - G-Stroke","pos");
+		pos.enabled = false;
+		pos(4).setValue([-100,-100]);
+		pos(5).setValue([100,100]);
+		pos(10).setValue(6);
+		var line = addP(ret,"ADBE Vector Group","line");
+		line(3)(2).expression =
+		"p0 = thisProperty.propertyGroup(4)(2)(\"pos\")(4).value;\r\n"+
+		"p1 = thisProperty.propertyGroup(4)(2)(\"pos\")(5).value;\r\n"+
+		"(p0+p1)/2;\r\n";
+		line(3)(6).expression =
+		"p0 = thisProperty.propertyGroup(4)(2)(\"pos\")(4).value;\r\n"+
+		"p1 = thisProperty.propertyGroup(4)(2)(\"pos\")(5).value;\r\n"+
+		"if(p0[0]==p1[0]){\r\n"+
+		"0;\r\n"+
+		"}else if (p0[1]==p1[1]){\r\n"+
+		"90;\r\n"+
+		"}else{\r\n"+
+		"r = Math.atan(Math.abs(p1[0]-p0[0])/Math.abs(p1[1]-p0[1]))*180/Math.PI;\r\n"+
+		"if (p0[1]<p1[1]) r*=-1;\r\n"+
+		"if (p0[0]>p1[0]) r*=-1;\r\n"+
+		"r;\r\n"+
+		"}\r\n";
+
+		var lineC = addP(line,"ADBE Vector Shape - Rect","lineC");
+		lineC(2).expression = 
+		 "p0 = thisProperty.propertyGroup(5)(2)(\"pos\")(4).value;\r\n"+
+		"p1 = thisProperty.propertyGroup(5)(2)(\"pos\")(5).value;\r\n"+
+		"w = thisProperty.propertyGroup(5)(2)(\"pos\")(10).value;\r\n"+
+		"h = Math.sqrt(Math.pow(p1[0]-p0[0],2) + Math.pow(p1[1]-p0[1],2));\r\n"+
+		"[w,h];\r\n";
+
+	
+		var fill = addP(ret,"ADBE Vector Graphic - Fill","");
+
+		if(idx>0){
+			var pg = ret.propertyParent;
+			var retIdx = ret.propertyIndex;
+			if((idx>0)&&(idx<retIdx)){
+				ret.moveTo(idx);
+				ret = pg.property(idx);
+			}
+		}
+		ret.selected = true;
+		return ret;
+
+	}
+	var addLineG =function()
+	{
+		var ret = null;
+		var stat = BRY.getShapeLayerStatus();
+		if(stat.content==null) {
+			alert("select error");
+			return null;
+		}
+		var tt =  stat.propertyGroup;
+		var idx = 0;
+		if(tt!=null) {
+			idx = stat.propertyGroup.propertyIndex+1;
+		}
+		ret = addLineGS(stat.content,idx); 
+		return ret;		
 	}
 	// ********************************************************************************
 	var imageFiles = [];
@@ -370,6 +465,11 @@
 		idx++;
 		imageCtrls[idx].onClick= function(){
 			addTriangle();
+		}
+		idx++;
+		imageCtrls[idx].onClick= function(){
+			//addThreePath();
+			addLineG();
 		}
 	}
 	
