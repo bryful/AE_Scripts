@@ -1,48 +1,48 @@
-# 1��1�� AE�X�N���v�g  
+# 1日1個 AEスクリプト  
 
 |  TH  |  TH  |
 | ---- | ---- |
-|vectorRectResize.zip|	�V�F�C�v�̒����`�p�X�����R�Ƀ��T�C�Y����X�N���v�g|
-|expressionKiller.zip|	�G�N�X�v���b�V�������L�[�t���[���ɕϊ�����X�N���v�g�B|
-|CompScripts.zip|	�R���|�W�V�����̃T�C�Y�E�b����ݒ肷��X�N���v�g�B�ăA�b�v|
-|clearXmpHistory.jsx|	XMP���^�f�[�^����History����������X�N���v�g|
-|preComposeTrimng_AE65.jsx|	preComposeTrimng.jsx��AE6.5�œ����悤�ɕύX�������́B����m�F�͂܂��ł��B|
-|fontErr.zip|	�̂̃v���W�F�N�g���J������t�H���g(HeiseiKakuGoStd)���Ȃ��ƃG���[���o�����ɑΏ��������|
-|replaceCornerPin.zip|	After Effects �W���̃R�[�i�s����CC Power Pin�𑊌ݕϊ�������X�N���v�g�B�ʒu�w���Power Pin���y������16Bit�ɑΉ����Ă��Ȃ�����A������g���B|
-|layerControl.zip|	���C���Ǘ��X�N���v�g�B���}�b�v���g���ă��C����2�R�}�ł��E3�R�}�ł��ɂ��鍀�ڂ�ǉ��B�|�X�^���[�[�V�������Ԃł͕s�s������Ƃ��Ɏg���B1�R�}�ł���CG�f�ނ�2�R�}�ł��ɂ��ăZ���ƍ��킹�邽�߂ɍ쐬�B|
-|footageControl.zip|	�t�b�e�[�W�Ǘ��X�N���v�g�B��T�C�Y�̃R���|�������ɕύX����i���܂��Ɉʒu�A���J�[�𐮐����j���ڂ�ǉ��B|
-|findMissingFiles.zip|	�����N�؂ꂵ���t�b�e�[�W���t�H���_����T���ďC������X�N���v�g�B�̍������������C���������́B|
-|adjustKeyFrame2.zip|	�����ɂ���Ă��܂����L�[�t���[�����t���[���ɍ��킹��AE�X�N���v�g|
-|ScriptAssist3.zip|	�X�N���v�g�쐬�A�V�X�^���g�B�X�N���v�g�쐬�ɕK�v�ȏ��𒼐�After Effects���璲�ׂ�X�N���v�g|
-|PackedFilesInXMP.zip|	XMP���^�f�[�^�փt�@�C����ۑ�.jsx|
-|Poem.zip|	xmp���^�f�[�^�ɃI���W�i���̏�����������ŕۑ�����e�X�g�X�N���v�g�ł��B|
-|scriptMenu.zip|	Scripts�t�H���_�ɂ��邷�ׂẴX�N���v�g�ƃv���Z�b�g�����X�g�A�b�v���Ď��s�ł��郉���`���[|
-|makeShootStage.zip|	beanjam����̎B�e��G�N�X�v���b�V�������쐬����X�N���v�g|
-|layer_footage_rename.zip|	���C����t�b�e�[�W�i�R���|�E�t�H���_�j�̖��O��u������X�N���v�g|
-|pluginChk.zip|	�w�肳�ꂽEffects�v���O�C���ȊO���`�F�b�N���ă��X�g�A�b�v����X�N���v�g�Baep�[�i���Ɏg���B|
-|bgRender_WinMac.zip|	�o�b�N�O�����h�Ń����_�����O.jsx�̃o�[�W�����A�b�v�BWindows/Mac�Ή� Windows7/CS6�œ���m�F�BMac�͑��������܂��B|
-|simpleMenu.zip|	�ȒP�ȃX�N���v�g�����`���[�B�X�N���v�g��������Ȃ��ăv���Z�b�g(ffx)���o�^�ł���悤�Ɋg���B|
-|changeSmooth.zip|	�X���[�W���O�\�t�g(PSOFT/OLM/LoiLo)�����ς���X�N���v�g�BLoiLo���ǉ��@�̂̎B�ς݂̂��߂ɋ@�\�ǉ�|
-|brys_Scripts.zip|	2012/01/24���_�Ŗl�̍��PC�ɓ����Ă�X�N���v�g�Ō��J�ł�����̑S�Ă܂Ƃ߂����B|
-|aeRQsetting.zip|	�����_�[�L���[�֓o�^.jsx�E�����_�[�L���[��ݒ�.jsx|
-|importFileLib.zip|	�悭�g���t�@�C����o�^���Ă����āA�ꔭ�Œu�������E�C���|�[�g����X�N���v�g|
-|footageReplace.zip|	png�̘A�Ԃ݂����Ɂu�t�b�e�[�W�̒u�������v�����܂������Ȃ����̂��߂̃t�b�e�[�W�̒u�������X�N���v�g�B���C���t����psd�Ƃ��͂܂����Ή�|�B
-|toPlaceHolder.zip|	�K��̃p�X�ɂ���t�b�e�[�W���v���[�X�z���_�ɕς���X�N���v�g�B���̃p�X�̓R�����g�ɋL�������Ă�̂ōēo�^�\�B�u�t�@�C���̎��W�v�ŃT�[�o�[�ɂ���f�[�^�����W�������Ȃ����Ɏg���B|
-|footageCheck.zip|	�v���W�F�N�g�t�H���_�ɂȂ��t�b�e�[�W��\������X�N���v�g�B�@�\�����낢�둝�����B(�t�@�C���̒u�����E�v���W�F�N�g�t�H���_�ւ̃R�s�[)|
-|layerArrange.zip|	���C���[�𕡐����Ă����ς����ׂ�X�N���v�g|
-|cellNumbersChk.zip|	�Z���ԍ����m�F.jsx�ƃ��}�b�v�ҏW.jsx|
-|ae_expReplace.zip|	�G�N�X�v���b�V���������̒u��.jsx|
-|aep_shapeScripts.zip|	�G�N�X�v���b�V��������.jsx/�V�F�C�v�p�X�̕ҏW.jsx/�p�X����.jsx/�}�X�N���V�F�C�v�p�X��.jsx/�����p�X�̍쐬.jsx|
-|contourMap_cs4.zip|	�������n�}�̍쐬�T���v��|
-|font_utils01.zip|	�t�H���g�ꊇ�ύX.jsx/�t�H���g����.jsx|
-|prototypeUno.zip|	prototypeUno.jsx �v���g�^�C�v���g�������C�u����|
-|AE_Dialogs_due_v100.zip|	AE_Dialogs_due�@Visual Studio�̃t�H�[���f�U�C�i���g���ăX�N���v�g�p�̃_�C�A���O�R�[�h���쐬|
-|forgetSlider.zip|	CS5�́u�X���C�_�[�v��΍􂷂�X�N���v�g|
-|AE_tools.zip|	�����X�N���v�g�W|
-|cellTrimings.zip|	���C�����g���~���O|
-|AE_Lib_bryful.zip|	��{���C�u����|
-|timeJump.zip|	�R���|�̃J�����g�^�C����ύX����p�l���BScriptUI Panels�p|
-|timeBank.zip|	�R���|�̃J�����g�^�C����push/pop����p�l���BScriptUI Panels�p|
+|[vectorRectResize.zip](vectorRectResize.zip)|	シェイプの長方形パスを自由にリサイズするスクリプト|
+|[expressionKiller.zip](expressionKiller.zip)|	エクスプレッションをキーフレームに変換するスクリプト。|
+|[CompScripts.zip](CompScripts.zip)|	コンポジションのサイズ・秒数を設定するスクリプト。再アップ|
+|[clearXmpHistory.jsx](clearXmpHistory.jsx)|	XMPメタデータ内のHistoryを消去するスクリプト|
+|preComposeTrimng_AE65.jsx|	preComposeTrimng.jsxをAE6.5で動くように変更したもの。動作確認はまだです。|
+|fontErr.zip|	昔のプロジェクトを開いたらフォント(HeiseiKakuGoStd)がないとエラーが出た時に対処するもの|
+|replaceCornerPin.zip|	After Effects 標準のコーナピンとCC Power Pinを相互変換させるスクリプト。位置指定はPower Pinが楽だけど16Bitに対応していないから、これを使う。|
+|layerControl.zip|	レイヤ管理スクリプト。リマップを使ってレイヤを2コマ打ち・3コマ打ちにする項目を追加。ポスタリゼーション時間では不都合あるときに使う。1コマ打ちのCG素材を2コマ打ちにしてセルと合わせるために作成。|
+|footageControl.zip|	フッテージ管理スクリプト。奇数サイズのコンポを偶数に変更する（おまけに位置アンカーを整数化）項目を追加。|
+|findMissingFiles.zip|	リンク切れしたフッテージをフォルダから探して修正するスクリプト。昔作ったやつを少し修正したもの。|
+|adjustKeyFrame2.zip|	微妙にずれてしまったキーフレームをフレームに合わせるAEスクリプト|
+|ScriptAssist3.zip|	スクリプト作成アシスタント。スクリプト作成に必要な情報を直接After Effectsから調べるスクリプト|
+|PackedFilesInXMP.zip|	XMPメタデータへファイルを保存.jsx|
+|Poem.zip|	xmpメタデータにオリジナルの情報を書き込んで保存するテストスクリプトです。|
+|scriptMenu.zip|	Scriptsフォルダにあるすべてのスクリプトとプリセットをリストアップして実行できるランチャー|
+|makeShootStage.zip|	beanjamさんの撮影台エクスプレッションを作成するスクリプト|
+|layer_footage_rename.zip|	レイヤやフッテージ（コンポ・フォルダ）の名前を置換するスクリプト|
+|pluginChk.zip|	指定されたEffectsプラグイン以外をチェックしてリストアップするスクリプト。aep納品時に使う。|
+|bgRender_WinMac.zip|	バックグランドでレンダリング.jsxのバージョンアップ。Windows/Mac対応 Windows7/CS6で動作確認。Macは多分動きます。|
+|simpleMenu.zip|	簡単なスクリプトランチャー。スクリプトだけじゃなくてプリセット(ffx)も登録できるように拡張。|
+|changeSmooth.zip|	スムージングソフト(PSOFT/OLM/LoiLo)を入れ変えるスクリプト。LoiLoも追加　昔の撮済みのために機能追加|
+|brys_Scripts.zip|	2012/01/24時点で僕の作業PCに入ってるスクリプトで公開できるもの全てまとめた物。|
+|aeRQsetting.zip|	レンダーキューへ登録.jsx・レンダーキューを設定.jsx|
+|importFileLib.zip|	よく使うファイルを登録しておいて、一発で置き換え・インポートするスクリプト|
+|footageReplace.zip|	pngの連番みたいに「フッテージの置き換え」がうまくいかない時のためのフッテージの置き換えスクリプト。レイヤ付きのpsdとかはまだ未対応|。
+|toPlaceHolder.zip|	規定のパスにあるフッテージをプレースホルダに変えるスクリプト。元のパスはコメントに記憶させてるので再登録可能。「ファイルの収集」でサーバーにあるデータを収集したくない時に使う。|
+|footageCheck.zip|	プロジェクトフォルダにないフッテージを表示するスクリプト。機能がいろいろ増えた。(ファイルの置換え・プロジェクトフォルダへのコピー)|
+|layerArrange.zip|	レイヤーを複製していっぱい並べるスクリプト|
+|cellNumbersChk.zip|	セル番号を確認.jsxとリマップ編集.jsx|
+|ae_expReplace.zip|	エクスプレッション文字の置換.jsx|
+|aep_shapeScripts.zip|	エクスプレッション制御.jsx/シェイプパスの編集.jsx/パス制御.jsx/マスクをシェイプパスへ.jsx/直線パスの作成.jsx|
+|contourMap_cs4.zip|	等高線地図の作成サンプル|
+|font_utils01.zip|	フォント一括変更.jsx/フォント操作.jsx|
+|prototypeUno.zip|	prototypeUno.jsx プロトタイプを使ったライブラリ|
+|AE_Dialogs_due_v100.zip|	AE_Dialogs_due　Visual Studioのフォームデザイナを使ってスクリプト用のダイアログコードを作成|
+|forgetSlider.zip|	CS5の「スライダー」を対策するスクリプト|
+|AE_tools.zip|	小物スクリプト集|
+|cellTrimings.zip|	レイヤをトリミング|
+|AE_Lib_bryful.zip|	基本ライブラリ|
+|timeJump.zip|	コンポのカレントタイムを変更するパネル。ScriptUI Panels用|
+|timeBank.zip|	コンポのカレントタイムをpush/popするパネル。ScriptUI Panels用|
 
 bry-ful(Hiroshi Furuhashi)  
 twitter:[bryful](https://twitter.com/bryful)  
