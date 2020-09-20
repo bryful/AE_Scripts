@@ -1,7 +1,8 @@
-﻿
-#includepath "./;../"
-#include "json2.jsxinc"
-(function(me){
+﻿/*
+	BRY
+*/
+	//prototype登録
+
 	Property.prototype.getTree =
 	PropertyBase.prototype.getTree = 
 	PropertyGroup.prototype.getTree = function()
@@ -84,10 +85,12 @@
 	
 	String.prototype.replaceAll=function(s,d){ return this.split(s).join(d);}
 
-	//----------------------------------
-	var scriptName = File.decode($.fileName.getName().changeExt(""));
-	var targetFolder = new Folder ( $.fileName.getParent() + "/(" +$.fileName.getName().changeExt("")+ ")");
-		// ********************************************************************************
+
+//if ( typeof (BRY) !== "object"){//デバッグ時はコメントアウトする
+	BRY={};
+//}
+(function(me){
+	// ********************************************************************************
 	/*
 		アクティブなコンポジションを獲得
 	*/
@@ -219,170 +222,5 @@
 		}
 		return ret;
 	}
-	// ********************************************************************************
-	var getP = function(p)
-	{
-		var ret = {};
-		if (p instanceof PropertyGroup) {
-			return getPG(p);
-		}
-		if ( (p instanceof Property) == false) return ret;
-		try{
-			ret.isProperty= true;
-			ret.name = p.name;
-			ret.matchName = p.matchName;
-			ret.propertyIndex = p.propertyIndex;
-			ret.expression = p.expression;
-			ret.expressionEnabled = p.expressionEnabled;
-		}catch(e){
-			alert(e.toString());
-		}
-		return ret;
-	}
-	var getPG = function(pg)
-	{
-		var ret = {};
-		try{
-			if (pg instanceof Property) {
-				return getP(pg);
-			}
-			if ((pg instanceof PropertyGroup)==false) return ret;
-			ret.isProperty= false;
-			ret.name = pg.name;
-			ret.matchName = pg.matchName;
-			ret.propertyIndex = pg.propertyIndex;
-			ret.enabled = pg.enabled;
-			ret.property = [];
-
-			ret.numProperties = pg.numProperties;
-			for (var i=1; i<=pg.numProperties;i++)
-			{
-				var p = pg.property(i);
-				if (p instanceof PropertyGroup) {
-					ret.property.push(getPG(p));
-				}else{
-					var pp = getP(p);
-					ret.property.push(pp);
-				}
-			}
-		}catch(e){
-			alert(e.toString());
-			return ret;
-		}
-		return ret;
-	}
-	var setPG = function(pg, obj)
-	{
-		if (pg.matchName != obj.matchName) return;
-		if (obj.isProperty==true) {
-			if (obj.expression!="")
-			{
-				try{
-					pg.expression = obj.expression;
-					pg.expressionEnabled = obj.expressionEnabled;
-				}catch(e){
-
-				}
-				
-			}
-			return;
-		}
-		try{
-			pg.name = obj.name;
-		}catch(e){
-		}
-		if (obj.numProperties>0)
-		{
-			for ( var i=0; i<obj.numProperties; i++){
-				var p = obj.property[i];
-				setPG(pg.property(p.propertyIndex),p);
-			}
-		}
-	}
-	// ********************************************************************************
-	/*
-		ウィンドウの作成
-	*/
-	// ********************************************************************************
-	var winObj = ( me instanceof Panel) ? me : new Window("palette", scriptName, [ 0,  0, 345,  360]  ,{resizeable:true, maximizeButton:true, minimizeButton:true});
-	var btnExport = winObj.add("button", [  5,   5,   5 +  40,   5 + 25 ] , "Export");
-	var btnApply = winObj.add("button", [  5,  35,   5 +  40,  35 + 25 ] , "Apply");
-	
-	// ********************************************************************************
-	btnExport.onClick = function()
-	{
-		var pg = getPropertyGroup();
-		var obj = getPG(pg);
-		var ff = File.saveDialog("Filename...","*.json");
-		try{
-			if (ff.open("w"))
-			{
-				ff.write(JSON.stringify(obj));
-			}
-		}catch(e){
-			alert(e.toString());
-		}finally{
-			ff.close();
-		}
-
-	}
-	btnApply.onClick = function()
-	{
-		var pg = getPropertyGroup();
-		if(pg==null) return;
-		var ff = File.openDialog("Select","*.json");
-		if (ff == null) return;
-		var js ="";
-		try{
-			if (ff.open("r"))
-			{
-				js = ff.read();
-			}
-		}catch(e){
-			alert("a:" + e.toString());
-		}finally{
-			ff.close();
-		}
-		var obj = null;
-		try{
-			obj = JSON.parse(js);
-		}catch(e){
-			alert("b:" + e.toString());
-		}
-		setPG(pg,obj);
-
-	}
-	// ********************************************************************************
-	/*
-		画像アイコンボタンを再配置
-	*/
-	// ********************************************************************************
-	var resizeWin = function()
-	{
-		var b = winObj.bounds;
-		var w = b[2] - b[0];
-		var h = b[3] - b[1];
-		
-		var b2 = btnExport.bounds;
-		b2[0] = 5;
-		b2[2] = b2[0] + w -10;
-		btnExport.bounds = b2;
-
-		var b3 = btnApply.bounds;
-		b3[0] = 5;
-		b3[2] = b3[0] + w -10;
-		btnApply.bounds = b3;
-	}
-	resizeWin();
-	winObj.onResize = resizeWin;
-	// ********************************************************************************
-	/*
-		実行
-	*/
-	// ********************************************************************************
-	if ( ( me instanceof Panel) == false){
-		winObj.center(); 
-		winObj.show();
-	}
-	//-------------------------------------------------------------------------
+	BRY.getProperty = getProperty;
 })(this);
