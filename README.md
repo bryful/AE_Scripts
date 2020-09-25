@@ -8,7 +8,7 @@ After Effects用に書いたスクリプトコードをGitに保存したくて�
 
 
 # Dependency
-Visual studio 2017 C#  
+Visual studio 2019 C#  
 After Effects CS6以降  
 
 
@@ -18,7 +18,7 @@ This software is released under the MIT License, see LICENSE
 
 # Authors
 
-bry-ful(Hiroshi Furuhashi) http://bryful.yuzu.bz/  
+bry-ful(Hiroshi Furuhashi)   
 twitter:[bryful](https://twitter.com/bryful)  
 bryful@gmail.com  
 

@@ -7,15 +7,16 @@
 
 	最終的にはAfter Effects用のprototype.jsを目指すライブラリになりました。
 
-	2011/11/28
+	cc2020で動くようにしました。
+
+	2020/09/25
 */
 (function (){
 	//一応無名関数内で設定を行う
 	//-------------------------------------------------------------------------
 	//ロード確認用の変数
-	Application.prototype.uno = {
-		version:"1.00"
-	}
+	Application.prototype.uno.version = "2.00";
+	Application.prototype.uno.madeby = "bryful";
 	//-------------------------------------------------------------------------
 	//ファイル名の処理
 	//-------------------------------------------------------------------------
@@ -61,7 +62,7 @@
 	//改行付きの文字列操作
 	//-------------------------------------------------------------------------
 	//文字列を改行ごとに配列に変換
-	String.prototype.toLines =function(){
+	String.prototype.lineToArray =function(){
 		var r=this.replaceAll("\r\n","\n"); return r.split("\n");
 	}
 	//配列を改行区切りの文字列に変換
@@ -254,30 +255,6 @@
 	//-------------------------------------------------------------------------
 	//Application objectの拡張
 	//-------------------------------------------------------------------------
-	//
-	Application.prototype.versionNumber = function(){
-		this.version.match(/(\d).(\d)(.(\d))?x(.*)/);
-		var n=0;
-		if (RegExp.$4!="")
-			n=RegExp.$4*1;
-		return RegExp.$1*100+RegExp.$2*10+n;
-	}
-	//AfterEffectsのバージョンを文字列で獲得
-	Application.prototype.majorVersion = function(){
-		var v = Math.floor(this.versionNumber()/10);
-		switch(v){
-			case 60:return "6";
-			case 65:return "6.5";
-			case 70:return "7";
-			case 80:return "CS3";
-			case 90:return "CS4";
-			case 100:return "CS5";
-			case 105:return "CS5.5";
-			case 110:return "CS6";
-			default:return ""
-		}
-	}
-	//pushD/popDで使用する変数
 	Application.prototype.__pushD__ = [];
 	//現在のカレントディレクトリを保存
 	Application.prototype.pushD =function(){
@@ -392,7 +369,7 @@
 	}
 	//コンポの大きさを入力するダイアログの表示。完璧に255文字超えてるな
 	Application.prototype.compSizeDialog = function(cmp){
-		var w = 1280; var h = 720;
+		var w = 1440; var h = 810;
 		if ( cmp instanceof CompItem){
 			w = cmp.width; h = cmp.height;
 		}
