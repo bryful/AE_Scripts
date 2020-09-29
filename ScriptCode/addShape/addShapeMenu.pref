@@ -1,0 +1,7 @@
+({direction:true, twoRow:false, isAEItems:(function(){
+ 		return ( 
+ 			(this instanceof CompItem)
+ 			||(this instanceof FootageItem)
+ 			||(this instanceof FolderItem)
+ 		);
+ 	})})
