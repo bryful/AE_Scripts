@@ -1,0 +1,339 @@
+      // 文字列の前後の空白を削除
+    String.prototype.trim = function(){
+		if (this=="" ) return ""
+		else return this.replace(/[\r\n]+$|^\s+|\s+$/g, "");
+	}
+    //親フォルダを切り出す
+	String.prototype.getParent = function(){
+		var r=this;var i=this.lastIndexOf("/");if(i>=0) r=this.substring(0,i);
+		return r;
+	}
+	//指定した書拡張子に変更（dotを必ず入れること）空文字を入れれば拡張子の消去。
+	String.prototype.changeExt=function(s){
+		var i=this.lastIndexOf(".");
+		if(i>=0){return this.substring(0,i)+s;}else{return this + s; }
+	}
+	//ファイル名のみ取り出す（拡張子付き）
+	String.prototype.getName = function(){
+		var r=this;var i=this.lastIndexOf("/");if(i>=0) r=this.substring(i+1);
+		return r;
+	}
+	//拡張子のみを取り出す。
+	String.prototype.getExt = function(){
+		var r="";var i=this.lastIndexOf(".");if (i>=0) r=this.substring(i);
+		return r;
+	}
+	File.prototype.getExt = function() {return this.name.getExt();}
+	//拡張子なしのファイル名を取り出す。
+	String.prototype.getNameWithoutExt = function(){
+		return this.getName().changeExt('');
+	}
+	File.prototype.getNameWithoutExt = function() {
+		return this.name.changeExt('');
+	}
+    
+    MaskPropertyGroup.prototype.getPathArray =
+    PropertyBase.prototype.getPathArray =
+    PropertyGroup.prototype.getPathArray =
+    Property.prototype.getPathArray = function()
+    {
+    	var ret = [];
+        var pp = this;
+        while ( pp != null){
+            ret.push(pp);
+            pp = pp.parentProperty;	//このメソッドがキモ
+            if(pp==null) break;
+        }
+        if ( ret.length>1) ret = ret.reverse();
+        return ret;
+    }
+    MaskPropertyGroup.prototype.isNamed =
+    PropertyGroup.prototype.isNamed = function()
+    {
+        var ret = false;
+        var bak = this.name;
+        try{
+            var s = "_---_-_";
+            this.name = s;
+            ret = (this.name == s);
+            if(ret==true){ this.name = bak;}
+        }catch(e){
+            ret = false;
+        }      
+        return ret;
+    }
+    Property.prototype.isNamed = function()
+    {
+        return false;
+    }
+    MaskPropertyGroup.prototype.getPathString =
+    PropertyBase.prototype.getPathString =
+    PropertyGroup.prototype.getPathString =
+    Property.prototype.getPathString = function()
+    {
+        var ret = "";
+        var ary = this.getPathArray();
+        if(ary.length>0) {
+            ret += "layer(\"" + ary[0].name + "\")";
+            for (var i=1;i<ary.length;i++){
+                var pp = ary[i];
+                try{
+                    if(pp.isNamed()==true)
+                    {
+                        ret += ".property(\"" + pp.name + "\")";
+                    }else{
+                        ret += ".property(\"" + pp.matchName + "\")";
+                    }
+                }catch(e){
+                }
+            }
+        }
+        return ret;
+    }
+   
+    MaskPropertyGroup.prototype.getPathStrIndex =
+    PropertyBase.prototype.getPathStrIndex =
+    PropertyGroup.prototype.getPathStrIndex =
+    Property.prototype.getPathStrIndex = function()
+    {
+        var ret = "";
+        var ary = this.getPathArray();
+        if(ary.length>0) {
+            ret += "layer(\"" + ary[0].name + "\")";
+            for (var i=1;i<ary.length;i++){
+                var pp = ary[i];
+                try{
+                    if(pp.isNamed()==true){
+                        ret += "(\"" + pp.name + "\")";
+                    }else{
+                        ret += "(" + pp.propertyIndex + ")";
+                    }
+                }catch(e){
+                }
+            }
+        }
+        return ret;
+    }
+    
+    PropertyGroup.prototype.info =function()
+    {
+        var lst = [
+            "matchName",
+            "name",
+           "propertyIndex",
+            "propertyDepth",
+            "numProperties",
+            ];
+        function toS(prop,p)
+        {
+            var s = "";
+            try{
+                if (prop[p] != undefined)
+                {
+                    s = p + ":" + prop[p].toString(); 
+                }
+            }catch(e){
+                s = p + "/" + e.toString();
+            }
+            return s;
+        }
+        var ret = "";
+        //type
+        ret += "type: PropertyGroup\r\n";
+        for (var i=0;i<lst.length;i++)
+        {
+            ret += toS(this,lst[i]) +"\r\n";
+        }
+        if(this.numProperties>0)
+        {
+            for (var i=1; i<=this.numProperties;i++)
+            {
+                var p = this.property(i);
+                ret += "  Property(" + i + "):" + p.name + "[" + p.matchName +"]\r\n"
+                //
+            }
+        }
+        return ret;
+    }
+    PropertyGroup.prototype.infoDetail =function()
+    {
+        var lst = [
+            "matchName",
+            "name",
+           "propertyIndex",
+            "propertyDepth",
+            "numProperties",
+            "active",
+            "canSetEnabled",
+            "elided",
+            "enabled",
+            "isEffect",
+            "isMask",
+            "isModified",
+            "parentProperty",
+            "propertyType",
+            "selected"
+            ];
+        function toS(prop,p)
+        {
+            var s = "";
+            try{
+                if (prop[p] != undefined)
+                {
+                    s = p + ":" + prop[p].toString(); 
+                }
+            }catch(e){
+                s = p + "/" + e.toString();
+            }
+            return s;
+        }
+        var ret = "";
+        //type
+        ret += "type: PropertyGroup\r\n";
+        for (var i=0;i<lst.length;i++)
+        {
+            ret += toS(this,lst[i]) +"\r\n";
+        }
+        return ret;
+    }
+       Property.prototype.info = function()
+    {
+        var lst = [
+            "matchName",
+            "name",
+            "propertyIndex",
+            "propertyDepth",
+            "value",
+            "expression"
+            ];
+        function toS(prop,p)
+        {
+            var s = "";
+            try{
+                if (prop[p] != undefined)
+                {
+                    s = p + ":" + prop[p].toString(); 
+                }
+            }catch(e){
+                s = p + "/" + e.toString();
+            }
+            return s;
+        }
+        var ret = "";
+        //type
+        ret += "type: Property\r\n";
+        for (var i=0;i<lst.length;i++)
+        {
+            ret += toS(this,lst[i]) +"\r\n";
+        }
+        return ret;
+    }
+    Property.prototype.infoDetail = function()
+    {
+        var lst = [
+            "matchName",
+            "name",
+            "propertyIndex",
+            "propertyDepth",
+            "value",
+            "expression",
+            "active",
+            "canSetEnabled",
+            "elided",
+            "enabled",
+            "isEffect",
+            "isMask",
+            "isModified",
+            "parentProperty",
+            "propertyType",
+            "selected",
+            "canSetExpression",
+            "canVaryOverTime",
+            "dimensionsSeparated",
+            "expressionEnabled",
+            "expressionError",
+            "hasMax",
+            "hasMin",
+            "isDropdownEffect",
+            "isSeparationFollower",
+            "isSeparationLeader",
+            "isSpatial",
+            "isTimeVarying",
+            "maxValue",
+            "minValue",
+            "numKeys",
+            "propertyValueType",
+            "selectedKeys",
+            "separationDimension",
+            "separationLeader",
+            "unitsText"];
+        function toS(prop,p)
+        {
+            var s = "";
+            try{
+                if (prop[p] != undefined)
+                {
+                    s = p + ":" + prop[p].toString(); 
+                }
+            }catch(e){
+                s = p + "/" + e.toString();
+            }
+            return s;
+        }
+        var ret = "";
+        //type
+        ret += "type: Property\r\n";
+        for (var i=0;i<lst.length;i++)
+        {
+            ret += toS(this,lst[i]) +"\r\n";
+        }
+        return ret;
+    }
+    Project.prototype.selectedProperties = function(){
+		var ret=[];
+		var p = this.getActiveComp();
+		if (p!=null){
+			if (p.selectedLayers.length==1){
+				ret = p.selectedLayers[0].selectedProperties;
+			}
+		}
+		return ret;
+	}
+    Project.prototype.selectedProperty = function(){
+		var ret=[];
+		var p = this.getActiveComp();
+		if (p!=null){
+			if (p.selectedLayers.length==1){
+				var pp = p.selectedLayers[0].selectedProperties;
+                if(pp.length>0)
+                {
+                    for (var i=0; i<pp.length; i++){
+                        if (pp[i] instanceof Property)
+                        {
+                            ret.push(pp[i]);
+                        }
+                    }
+                }
+			}
+		}
+		return ret;
+	}
+    Project.prototype.selectedPropertyGroup = function(){
+		var ret=[];
+		var p = this.getActiveComp();
+		if (p!=null){
+			if (p.selectedLayers.length==1){
+				var pp = p.selectedLayers[0].selectedProperties;
+                if(pp.length>0)
+                {
+                    for (var i=0; i<pp.length; i++){
+                        if (pp[i] instanceof PropertyGroup)
+                        {
+                            ret.push(pp[i]);
+                        }
+                    }
+                }
+			}
+		}
+		return ret;
+	}
