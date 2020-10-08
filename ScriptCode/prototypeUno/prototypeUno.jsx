@@ -15,6 +15,7 @@
 	//一応無名関数内で設定を行う
 	//-------------------------------------------------------------------------
 	//ロード確認用の変数
+	Application.prototype.uno = {};
 	Application.prototype.uno.version = "2.00";
 	Application.prototype.uno.madeby = "bryful";
 	//-------------------------------------------------------------------------
@@ -641,6 +642,46 @@
 		}
 		return ret;
 	}
+	//現在選択されているプロパティを配列で返す。
+	Project.prototype.selectedProperty = function(){
+		var ret=[];
+		var p = this.getActiveComp();
+		if (p!=null){
+			if (p.selectedLayers.length==1){
+				var pp = p.selectedLayers[0].selectedProperties;
+				if(pp.length>0){
+					for (var i=0; i<pp.length; i++)
+					{
+						if(pp[i] instanceof Property)
+						{
+							ret.push(pp[i]);
+						}
+					}
+				}
+			}
+		}
+		return ret;
+	}
+	//現在選択されているプロパティを配列で返す。
+	Project.prototype.selectedPropertyGroup = function(){
+		var ret=[];
+		var p = this.getActiveComp();
+		if (p!=null){
+			if (p.selectedLayers.length==1){
+				var pp = p.selectedLayers[0].selectedProperties;
+				if(pp.length>0){
+					for (var i=0; i<pp.length; i++)
+					{
+						if(pp[i] instanceof PropertyGroup)
+						{
+							ret.push(pp[i]);
+						}
+					}
+				}
+			}
+		}
+		return ret;
+	}
 	//現在選択されているレイヤを配列で返す。
 	Project.prototype.selectedLayers = function(){
 		var ret=[];
@@ -734,22 +775,6 @@
 			if ((b==null)||(typeof(b)!="boolean")) b = true;
 			for(var i=1; i<=this.numKeys; i++) this.setSelectedAtKey(i,b);
 		}
-	}
-	//-------------------------------------------------------------------------
-	//Window objectの拡張
-	//-------------------------------------------------------------------------
-	//ウィンドウの表示位置を右上に設定
-	Window.prototype.rightTop = function(){
-		var b = this.bounds;
-		var w = b[2]-b[0];
-		var h = b[3]-b[1];
-		var s = $.screens[0];
-		b[0] = s.right - w - 40;
-		b[1] = s.top + 40;
-		b[2] = b[0] + w;
-		b[3] = b[1] + h;
-		this.location = [b[0],b[1]];
-		this.bounds = b;
 	}
 	//-------------------------------------------------------------------------
 	//デバッグ用の出力コンソール
