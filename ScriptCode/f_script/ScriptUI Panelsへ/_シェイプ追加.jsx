@@ -12,8 +12,8 @@
 
 
 	// アイコンサイズ
-	var iconWidth = 25; 
-	var iconHeight = 25; 
+	var iconWidth = 25;
+	var iconHeight = 25;
 
 	var direction = true;
 	var twoRow = false;
@@ -64,11 +64,10 @@
 			}
 			pp = pp.parentProperty;
 		}while(pp!=null);
-			
-		return ret;	
+
+		return ret;
 	}
 	Property.prototype.findGroup =
-	PropertyBase.prototype.findGroup =
 	PropertyGroup.prototype.findGroup = function(){
 		var ret = null;
 		var pp =this;
@@ -79,7 +78,7 @@
 			}
 			pp = pp.parentProperty;
 		}while(pp!=null);
-		return ret;	
+		return ret;
 	}
 	 var getActiveComp = function()
 	{
@@ -115,7 +114,7 @@
 		ret.content = null;
 		ret.propertyGroup = null;
 		ret.index= 0;
-    
+
     	ret.layer= lyr;
 
 		var props = lyr.selectedProperties;
@@ -135,7 +134,7 @@
 			}
 			//プロパティが見つかったら、それが所属しているグループを返す
 			if(pp!=null) {
-				pg = pp.finfGroup();
+				pg = pp.findGroup();
 				if(pg.matchName == "ADBE Vector Group"){
 					content = pg.parentProperty.findContent();
 				}else{
@@ -174,7 +173,7 @@
 		{
 			ret.index = pg.propertyIndex;
 		}
-		
+
 		return ret;
 	}
     var addShapes = function(lyr,mn)
@@ -194,7 +193,7 @@
 			var pg = stat.content;
 			if(pg.matchName =="ADBE Vector Group"){
 				pg = pg.property(2);
-			}	 
+			}
 			if (pg.canAddProperty(mn) == true)
 			{
 				app.beginUndoGroup("add " + mn);
@@ -204,7 +203,7 @@
 					pp.moveTo(idx);
 					pp = pg.property(idx);
 				}
-				pp.selected = true; 
+				pp.selected = true;
 				ret = pp;
 				app.endUndoGroup();
 			}else{
@@ -225,7 +224,7 @@
 		pref.twoRow = twoRow;
 		var js = pref.toSource();
 		var f = new File(prefPath);
-		
+
 		try{
 			if (f.open("w")){
 				f.write(js);
@@ -269,13 +268,13 @@
 	if (prefLoad()) {
     }
 	var cmdItems = [];
-	
+
 	//-------------------------------------------------------------------------
 	//cmdItems配列に読み込むjsx/ffxの情報を構築する
 	var setupItems = function()
 	{
 		if( targetFolder.exists===false) return;
-		
+
 		var files = targetFolder.getFiles("*");
 		var cnt = files.length;
 		for (var i=0; i<cnt; i++)
@@ -361,7 +360,7 @@
 		//カレントを元に戻す
 		Folder.current = bak;
 
-	}	
+	}
 	//-------------------------------------------------------------------------
 	var layoutChange = function()
 	{
@@ -459,7 +458,7 @@
     }
 	//-------------------------------------------------------------------------
 	if ( ( me instanceof Panel) == false){
-		winObj.center(); 
+		winObj.center();
 		winObj.show();
 	}
 	//-------------------------------------------------------------------------
