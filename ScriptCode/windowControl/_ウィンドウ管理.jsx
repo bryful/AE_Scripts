@@ -162,10 +162,16 @@ winObj.onResize = resize;
 // **************************************************************************
 var rebuild = function()
 {
-  for ( var i= btnList.length-1 ;i>=0; i--)
+  if (winObj.children.length>0)
   {
-    btnList[i].remove();
-    btnList[i] = null;
+    for ( var i= winObj.children.length-1 ;i>=0; i--)
+    {
+      if (winObj.children[i] instanceof Button)
+      {
+      winObj.remove(i);
+      }
+    }
+
   }
   btnList = [];
   buildButton();
