@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AEAlert", "AEAlert\AEAlert.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dlg_Test3", "dlg_Test3\dlg_Test3.csproj", "{30CA1D93-051F-4B1A-A4EA-B252D6042D4D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "dlgFootageReplace", "dlgFootageReplace\dlgFootageReplace.csproj", "{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,18 @@ Global
 		{30CA1D93-051F-4B1A-A4EA-B252D6042D4D}.Release|x64.Build.0 = Release|Any CPU
 		{30CA1D93-051F-4B1A-A4EA-B252D6042D4D}.Release|x86.ActiveCfg = Release|Any CPU
 		{30CA1D93-051F-4B1A-A4EA-B252D6042D4D}.Release|x86.Build.0 = Release|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Debug|x64.Build.0 = Debug|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Debug|x86.Build.0 = Debug|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Release|x64.ActiveCfg = Release|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Release|x64.Build.0 = Release|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Release|x86.ActiveCfg = Release|Any CPU
+		{5E680C32-0BD1-4ABA-9763-3EB8953BDF4D}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
