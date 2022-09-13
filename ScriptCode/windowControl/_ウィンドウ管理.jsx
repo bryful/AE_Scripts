@@ -38,7 +38,7 @@ var scrollbar = winObj.add("scrollbar",[180,25,210,275],0,0,100);//,{stepdelta:5
 scrollbar.stepdelta = 100;
 scrollbar.jumpdelta = 70;
 btnReload.onClick= rebuild;
-alert(scrollbar.stepdelta+"\r\n"+scrollbar.jumpdelta);
+////alert(scrollbar.stepdelta+"\r\n"+scrollbar.jumpdelta);
 // **************************************************************************
 var  addButton = function(cmd,b)
 {
