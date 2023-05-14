@@ -35,6 +35,8 @@ winObj.spacing = [0,0,0,0];
 var btnReload = winObj.add("button",[0,0,30,275],"Re");
 var scrollbar = winObj.add("scrollbar",[180,25,210,275],0,0,100);//,{stepdelta:50,jumpdelta:40}
 
+btnReload.tflag = false;
+
 scrollbar.stepdelta = 100;
 scrollbar.jumpdelta = 70;
 btnReload.onClick= rebuild;
@@ -47,6 +49,7 @@ var  addButton = function(cmd,b)
 
   try{
     var btn = winObj.add("button",b,cmd);
+    btn.tflag = true;
     //btn.bounds=b;
     //btn.alignment =  ["fill", "top" ];
     //btn.justify = "left";
@@ -72,6 +75,16 @@ scrollbar.onChange = scrolSet;
 scrollbar.onChanging = scrolSet;
 
 // **************************************************************************
+var lstTo=function(fl)
+{
+  var ret = [];
+  for(var i=0;i<fl.length;i++)
+  {
+    ret.push(File.decode(fl[i].name)+"  ");
+  }
+  return ret;
+}
+// **************************************************************************
 var  buildButton = function()
 {
 
@@ -92,6 +105,7 @@ var  buildButton = function()
     var fl = sp.getFiles("*.jsx");
     if (fl.length>0)
     {
+      //alert(lstTo(fl));
       for (var i=0; i<fl.length;i++)
       {
         if (addButton(File.decode(fl[i].name),b)==true)
@@ -149,7 +163,7 @@ buildButton();
     }
 
   }catch(e){
-    alert(e.toString());
+    alert(e.toString()+"\r\nAA");
   }
 
 }
@@ -164,7 +178,10 @@ var rebuild = function()
     {
       if (winObj.children[i] instanceof Button)
       {
-      winObj.remove(i);
+        if((winObj.children[i].tflag!=undefined)&&(winObj.children[i].tflag==true))
+        {
+          winObj.remove(i);
+        }
       }
     }
 
@@ -173,6 +190,7 @@ var rebuild = function()
   buildButton();
   resize();
 }
+btnReload.onClick=rebuild;
 // **************************************************************************
 // **************************************************************************
 if(winObj instanceof Window ) {
